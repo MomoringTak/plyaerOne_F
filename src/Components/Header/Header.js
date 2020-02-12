@@ -23,18 +23,26 @@ export default withRouter(({ location: { pathname } }) => {
         </Item>
 
         {isSignedIn && (
-          <Item current={pathname === "/" + googleUser.profileObj.email + "/shelf"}>
-            <SLink to={"/" + googleUser.profileObj.email + "/shelf"}>UserShelf</SLink>
+          <Item current={pathname === `/${googleUser.profileObj.email}/shelf`}>
+            <SLink to={`/ ${googleUser.profileObj.email}/shelf`}>
+              UserShelf
+            </SLink>
           </Item>
         )}
         {isSignedIn && (
-          <Item current={pathname === "/" + googleUser.profileObj.email + "/profile"}>
-            <SLink to={"/" + googleUser.profileObj.email + "/profile"}>Profile</SLink>
+          <Item
+            current={pathname === `/${googleUser.profileObj.email}/profile`}
+          >
+            <SLink to={`/${googleUser.profileObj.email}/profile`}>
+              Profile
+            </SLink>
           </Item>
         )}
         {isSignedIn && (
-          <Item current={pathname === "/" + googleUser.profileObj.email + "/addbook"}>
-            <SLink to={"/" + googleUser.profileObj.email + "/addbook"}>+Book</SLink>
+          <Item
+            current={pathname === `/${googleUser.profileObj.email}/addbook`}
+          >
+            <SLink to={`/${googleUser.profileObj.email}/addbook`}>+Book</SLink>
           </Item>
         )}
         <LogInBtnCotainer isSignedIn>
