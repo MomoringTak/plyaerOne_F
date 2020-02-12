@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -8,7 +8,6 @@ import {
 
 import Home from "../Screens/Home";
 import Profile from "../Screens/Profile";
-import Book from "../Screens/Book";
 import BookDetail from "../Screens/BookDetail";
 import Booklist from "../Screens/Booklist";
 import Shelf from "../Screens/Shelf";
@@ -23,16 +22,15 @@ export default () => {
     <Router>
       <>
         <Header />
-
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/user:id/profile" exact component={Profile} />
-          <Route path="/user:id/editprofile" exact component={EditProfile} />
           <Route path="/search" component={Search} />
+          <Route path="/booklist:id" component={Booklist} />
+          <Route path="/user:id/shelf" component={Shelf} />
+          <Route path="/user:id/profile" component={Profile} />
+          <Route path="/user:id/editprofile" component={EditProfile} />
           <Route path="/user:id/addbook" component={AddBook} />
           <Route path="/book:id" component={BookDetail} />
-          <Route path="/booklist:id" exact component={Booklist} />
-          <Route path="/user:id/shelf" exact component={Shelf} />
 
           <Redirect from="*" to="/" />
         </Switch>

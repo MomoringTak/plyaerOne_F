@@ -2,14 +2,49 @@ import React, { useState, useContext } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import GoogleLoginButton from "../GoogleLoginButton";
-import { GoogleAuthProvider } from "../AuthG";
+import { useGoogleAuth } from "../AuthG";
 
-import useGoogleAuth from "../AuthG";
+export default withRouter(({ location: { pathname } }) => {
+  const { signIn, signOut, isSignedIn } = useGoogleAuth();
 
-import { LogContext } from "../CheckLog";
+  return (
+    <Header>
+      <List>
+        <Item current={pathname === "/"}>
+          <SLink to="/">Home</SLink>
+        </Item>
+        <Item current={pathname === "/search"}>
+          <SLink to="/search">Search</SLink>
+        </Item>
 
-import LogContextProvider from "../CheckLog";
+        {isSignedIn && (
+          <Item current={pathname === "/shelf"}>
+            <SLink to="/shelf">Shelf</SLink>
+          </Item>
+        )}
+        {isSignedIn && (
+          <Item current={pathname === "/profile"}>
+            <SLink to="/profile">Profile</SLink>
+          </Item>
+        )}
+        {isSignedIn && (
+          <Item current={pathname === "/addbook"}>
+            <SLink to="/addbook">+Book</SLink>
+          </Item>
+        )}
+        <LogInBtnCotainer isSignedIn>
+          <div>
+            {isSignedIn ? (
+              <button onClick={signOut}>Sign Out</button>
+            ) : (
+              <button onClick={signIn}>Sign in with Google</button>
+            )}
+          </div>
+        </LogInBtnCotainer>
+      </List>
+    </Header>
+  );
+});
 
 const Header = styled.header`
   color: black;
@@ -44,45 +79,10 @@ const SLink = styled(Link)`
   justify-content: center;
 `;
 
-const LogInBtn = styled.div`
+const LogInBtnCotainer = styled.div`
   position: absolute;
   right: 10px;
   top: 25%;
   display: flex;
   align-items: center;
 `;
-
-export default withRouter(({ location: { pathname } }) => {
-  const context = useContext(LogContext);
-  console.log(context);
-  return (
-    <Header>
-      <List>
-        <Item current={pathname === "/"}>
-          <SLink to="/">Home</SLink>
-        </Item>
-        <Item current={pathname === "/search"}>
-          <SLink to="/search">Search</SLink>
-        </Item>
-
-        <Item current={pathname === "/shelf"}>
-          <SLink to="/shelf">Shelf</SLink>
-        </Item>
-
-        <Item current={pathname === "/profile"}>
-          <SLink to="/profile">Profile</SLink>
-        </Item>
-
-        <Item current={pathname === "/addbook"}>
-          <SLink to="/addbook">+Book</SLink>
-        </Item>
-
-        <GoogleAuthProvider>
-          <LogInBtn>
-            <GoogleLoginButton />
-          </LogInBtn>
-        </GoogleAuthProvider>
-      </List>
-    </Header>
-  );
-});

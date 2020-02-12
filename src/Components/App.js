@@ -2,14 +2,14 @@ import React, { useState, useReducer, useContext } from "react";
 import Router from "./Router";
 import GlobalStyles from "./GlobalStyles";
 
-import LogContextProvider from "./CheckLog";
+import GoogleAuthProvider from "./AuthG";
 
 const App = () => {
   return (
-    <LogContextProvider>
+    <GoogleAuthProvider>
       <Router />
       <GlobalStyles />
-    </LogContextProvider>
+    </GoogleAuthProvider>
   );
 };
 
