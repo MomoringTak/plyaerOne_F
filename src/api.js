@@ -30,7 +30,8 @@ const getComment = id => api.get(`/book/${id}/comment`);
 // const updateComment = () => api.patch();
 // const deleteCommnet = id => api.delete();
 
-const getExpression = id => api.get(`/book/${id}/expression`);
+const getBookExpression = id => api.get(`/book/${id}/expression`);
+const getBookListExpression = id => api.get(`/booklist/${id}/expression`);
 
 export {
   getBook,
@@ -42,5 +43,6 @@ export {
   getBooklistDetail,
   getProfile,
   getRecentBook,
-  getExpression
+  getBookExpression,
+  getBookListExpression
 };
