@@ -4,9 +4,11 @@ import styled from "styled-components";
 
 import { useGoogleAuth } from "../AuthG";
 
-export default withRouter(({ location: { pathname } }) => {
-  const { signIn, signOut, isSignedIn } = useGoogleAuth();
+import LoginBtn from "./LoginBtn";
 
+export default withRouter(({ location: { pathname } }) => {
+  const { signIn, signOut, isSignedIn, googleUser } = useGoogleAuth();
+  console.log(googleUser);
   return (
     <Header>
       <List>
@@ -35,7 +37,11 @@ export default withRouter(({ location: { pathname } }) => {
         <LogInBtnCotainer isSignedIn>
           <div>
             {isSignedIn ? (
-              <button onClick={signOut}>Sign Out</button>
+              <Container>
+                <Title>{googleUser.profileObj.name}</Title>
+                <Title>{googleUser.profileObj.email}</Title>
+                <button onClick={signOut}>Sign Out</button>
+              </Container>
             ) : (
               <button onClick={signIn}>Sign in with Google</button>
             )}
@@ -86,3 +92,6 @@ const LogInBtnCotainer = styled.div`
   display: flex;
   align-items: center;
 `;
+
+const Container = styled.div``;
+const Title = styled.h1``;
