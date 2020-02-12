@@ -18,20 +18,23 @@ export default withRouter(({ location: { pathname } }) => {
         <Item current={pathname === "/search"}>
           <SLink to="/search">Search</SLink>
         </Item>
+        <Item current={pathname === "/shelf"}>
+          <SLink to="/shelf">Shelf</SLink>
+        </Item>
 
         {isSignedIn && (
-          <Item current={pathname === "/shelf"}>
-            <SLink to="/shelf">Shelf</SLink>
+          <Item current={pathname === "/" + googleUser.profileObj.email + "/shelf"}>
+            <SLink to={"/" + googleUser.profileObj.email + "/shelf"}>UserShelf</SLink>
           </Item>
         )}
         {isSignedIn && (
-          <Item current={pathname === "/profile"}>
-            <SLink to="/profile">Profile</SLink>
+          <Item current={pathname === "/" + googleUser.profileObj.email + "/profile"}>
+            <SLink to={"/" + googleUser.profileObj.email + "/profile"}>Profile</SLink>
           </Item>
         )}
         {isSignedIn && (
-          <Item current={pathname === "/addbook"}>
-            <SLink to="/addbook">+Book</SLink>
+          <Item current={pathname === "/" + googleUser.profileObj.email + "/addbook"}>
+            <SLink to={"/" + googleUser.profileObj.email + "/addbook"}>+Book</SLink>
           </Item>
         )}
         <LogInBtnCotainer isSignedIn>
@@ -71,7 +74,7 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  width: 50px;
+  width: 80px;
   text-align: center;
   border-bottom: 5px solid ${props => (props.current ? "black" : "transparent")};
   transition: border-bottom 0.3s ease-in-out;
