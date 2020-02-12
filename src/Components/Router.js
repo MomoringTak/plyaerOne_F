@@ -11,6 +11,7 @@ import Profile from "../Screens/Profile";
 import BookDetail from "../Screens/BookDetail";
 import Booklist from "../Screens/Booklist";
 import Shelf from "../Screens/Shelf";
+import UserShelf from "../Screens/UserShelf";
 import Search from "../Screens/Search";
 import EditProfile from "../Screens/EditProfile";
 import AddBook from "../Screens/AddBook";
@@ -25,12 +26,13 @@ export default () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/search" component={Search} />
-          <Route path="/booklist:id" component={Booklist} />
-          <Route path="/user:id/shelf" component={Shelf} />
-          <Route path="/user:id/profile" component={Profile} />
-          <Route path="/user:id/editprofile" component={EditProfile} />
-          <Route path="/user:id/addbook" component={AddBook} />
-          <Route path="/book:id" component={BookDetail} />
+          <Route path="/shelf" component={Shelf} />
+          <Route path="/:userid/booklist/:id" component={Booklist} />
+          <Route path="/:userid/shelf" component={UserShelf} />
+          <Route path="/:userid/profile" component={Profile} />
+          <Route path="/:userid/editprofile" component={EditProfile} />
+          <Route path="/:userid/addbook" component={AddBook} />
+          <Route path="/book/:id" component={BookDetail} />
 
           <Redirect from="*" to="/" />
         </Switch>

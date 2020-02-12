@@ -11,7 +11,7 @@ const LoginBtn = (valid, user) => {
     <div>
       {valid ? (
         <Container>
-          {/* {user && <Title>{user.profileObj.name}</Title>} */}
+          {user && <Title>{user.profileObj.name}</Title>}
           <button onClick={signOut}>Sign Out!</button>
         </Container>
       ) : (

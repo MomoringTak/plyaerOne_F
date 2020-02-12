@@ -35,17 +35,15 @@ export default withRouter(({ location: { pathname } }) => {
           </Item>
         )}
         <LogInBtnCotainer isSignedIn>
-          <div>
-            {isSignedIn ? (
-              <Container>
-                <Title>{googleUser.profileObj.name}</Title>
-                <Title>{googleUser.profileObj.email}</Title>
-                <button onClick={signOut}>Sign Out</button>
-              </Container>
-            ) : (
-              <button onClick={signIn}>Sign in with Google</button>
-            )}
-          </div>
+          {isSignedIn ? (
+            <Container>
+              <Title>{googleUser.profileObj.name}</Title>
+              <Title>{googleUser.profileObj.email}</Title>
+              <button onClick={signOut}>Sign Out</button>
+            </Container>
+          ) : (
+            <button onClick={signIn}>Sign in with Google</button>
+          )}
         </LogInBtnCotainer>
       </List>
     </Header>
