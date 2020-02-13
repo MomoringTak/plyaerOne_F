@@ -7,6 +7,8 @@ const Container = styled.div`
   justify-content: center;
   font-size: 3rem;
   color: black;
+  margin-left: 200px;
+  height: 100vh;
 `;
 
 export default function Home() {

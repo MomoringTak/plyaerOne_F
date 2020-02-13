@@ -11,81 +11,82 @@ export default withRouter(({ location: { pathname } }) => {
   console.log(googleUser);
   return (
     <Header>
+      <Logo>
+        <SLink to="/">Nomathon</SLink>
+      </Logo>
+      <LogInBtnCotainer>
+        {isSignedIn ? (
+          <Container>
+            <button onClick={signOut}>Log Out</button>
+            <Title>{googleUser.profileObj.name}</Title>
+          </Container>
+        ) : (
+          <button onClick={signIn}>Sign in with Google</button>
+        )}
+      </LogInBtnCotainer>
       <List>
-        <Item current={pathname === "/"}>
+        <Item>
           <SLink to="/">Home</SLink>
         </Item>
-        <Item current={pathname === "/search"}>
-          <SLink to="/search">Search</SLink>
-        </Item>
-        <Item current={pathname === "/shelf"}>
+        <Item>
           <SLink to="/shelf">Shelf</SLink>
+        </Item>
+        <Item>
+          <SLink to="/search">Search</SLink>
         </Item>
 
         {isSignedIn && (
-          <Item current={pathname === `/${googleUser.profileObj.email}/shelf`}>
-            <SLink to={`/ ${googleUser.profileObj.email}/shelf`}>
-              UserShelf
-            </SLink>
-          </Item>
+          <>
+            <Item>
+              <SLink to={`/ ${googleUser.profileObj.email}/shelf`}>
+                UserShelf
+              </SLink>
+            </Item>
+
+            <Item>
+              <SLink to={`/${googleUser.profileObj.email}/addbook`}>
+                Add Book
+              </SLink>
+            </Item>
+            <Item>
+              <SLink to={`/${googleUser.profileObj.email}/profile`}>
+                Profile
+              </SLink>
+            </Item>
+          </>
         )}
-        {isSignedIn && (
-          <Item
-            current={pathname === `/${googleUser.profileObj.email}/profile`}
-          >
-            <SLink to={`/${googleUser.profileObj.email}/profile`}>
-              Profile
-            </SLink>
-          </Item>
-        )}
-        {isSignedIn && (
-          <Item
-            current={pathname === `/${googleUser.profileObj.email}/addbook`}
-          >
-            <SLink to={`/${googleUser.profileObj.email}/addbook`}>+Book</SLink>
-          </Item>
-        )}
-        <LogInBtnCotainer isSignedIn>
-          {isSignedIn ? (
-            <Container>
-              <Title>{googleUser.profileObj.name}</Title>
-              <Title>{googleUser.profileObj.email}</Title>
-              <button onClick={signOut}>Sign Out</button>
-            </Container>
-          ) : (
-            <button onClick={signIn}>Sign in with Google</button>
-          )}
-        </LogInBtnCotainer>
       </List>
     </Header>
   );
 });
 
 const Header = styled.header`
-  color: black;
+  color: #c3c3c3;
   position: fixed;
-  top: 0;
-  left: 25%;
-  width: 50%;
-  height: 50px;
+  width: 200px;
+  height: 100vh;
   display: flex;
+  flex-direction: column;
+
   justify-content: center;
   align-items: center;
-  padding: 0 10px;
-  background-color: white;
-  margin-top: 20px;
+  background-color: #323439;
   border-radius: 5px;
 `;
 
 const List = styled.ul`
   display: flex;
+  flex-direction: column;
 `;
 
 const Item = styled.li`
   width: 80px;
   text-align: center;
-  border-bottom: 5px solid ${props => (props.current ? "black" : "transparent")};
   transition: border-bottom 0.3s ease-in-out;
+
+  :hover {
+    color: white;
+  }
 `;
 const SLink = styled(Link)`
   height: 50px;
@@ -95,12 +96,26 @@ const SLink = styled(Link)`
 `;
 
 const LogInBtnCotainer = styled.div`
-  position: absolute;
-  right: 10px;
-  top: 25%;
   display: flex;
-  align-items: center;
+  margin-bottom: 20px;
+  border: 1px solid white;
+  border-radius: 3px;
+  padding: 10px;
+
+  :hover {
+    color: white;
+  }
 `;
 
 const Container = styled.div``;
-const Title = styled.h1``;
+const Title = styled.h1`
+  margin-top: 10px;
+  font-weight: 300;
+  font-size: 0.6rem;
+`;
+
+const Logo = styled.div`
+  position: absolute;
+  top: 20px;
+  font-size: 2rem;
+`;

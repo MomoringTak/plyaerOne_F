@@ -15,11 +15,19 @@ const globalStyles = createGlobalStyle`
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size:14px;
         background-color: #E1E6EA;
-        padding-top : 100px;
-        margin-left: auto;
-        margin-right: auto;
-        width: 80%;
         
+    }
+    button{
+        all:unset;
+        cursor:pointer
+    }
+    .Container{        
+        border: 2px solid red;
+        display: flex;
+        justify-content: center;
+        font-size: 3rem;
+        color: black;
+        margin-left: 200px;
     }
     
 `;

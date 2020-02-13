@@ -7,6 +7,7 @@ const Container = styled.div`
   justify-content: center;
   font-size: 3rem;
   color: black;
+  margin-left: 200px;
 `;
 
 export default function AddBook() {

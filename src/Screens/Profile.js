@@ -7,8 +7,10 @@ const Container = styled.div`
   justify-content: center;
   font-size: 3rem;
   color: black;
+  margin-left: 200px;
+  height: 100vh;
 `;
 
 export default function Proifle() {
-  return <h1>profile</h1>;
+  return <h1>Account</h1>;
 }
