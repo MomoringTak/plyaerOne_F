@@ -17,7 +17,9 @@ export default withRouter(({ location: { pathname } }) => {
       <LogInBtnCotainer>
         {isSignedIn ? (
           <Container>
-            <button onClick={signOut}>Log Out</button>
+            <button onClick={signOut}>
+              <SLink to={`/`}>Log Out</SLink>
+            </button>
             <Title>{googleUser.profileObj.name}</Title>
           </Container>
         ) : (
@@ -38,7 +40,7 @@ export default withRouter(({ location: { pathname } }) => {
         {isSignedIn && (
           <>
             <Item>
-              <SLink to={`/ ${googleUser.profileObj.email}/shelf`}>
+              <SLink to={`/${googleUser.profileObj.email}/shelf`}>
                 UserShelf
               </SLink>
             </Item>
@@ -71,7 +73,7 @@ const Header = styled.header`
   justify-content: center;
   align-items: center;
   background-color: #323439;
-  border-radius: 5px;
+  border-radius: 2px;
 `;
 
 const List = styled.ul`
@@ -89,7 +91,7 @@ const Item = styled.li`
   }
 `;
 const SLink = styled(Link)`
-  height: 50px;
+  margin-bottom: 30px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -108,8 +110,9 @@ const LogInBtnCotainer = styled.div`
 `;
 
 const Container = styled.div``;
+
 const Title = styled.h1`
-  margin-top: 10px;
+  margin-top: -20px;
   font-weight: 300;
   font-size: 0.6rem;
 `;
