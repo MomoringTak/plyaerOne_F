@@ -3,12 +3,29 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGoogleAuth } from "../AuthG";
+import { newUser } from "../../api";
 
 import LoginBtn from "./LoginBtn";
 
 export default withRouter(({ location: { pathname } }) => {
   const { signIn, signOut, isSignedIn, googleUser } = useGoogleAuth();
-  console.log(googleUser);
+  if (googleUser) {
+    // console.log(googleUser);
+    // console.log(googleUser.profileObj.googleId);
+  }
+
+  async function LogIn() {
+    try {
+      const userData = await signIn();
+      let rest = await newUser(userData.googleId);
+      console.log(rest);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log("Inserted DB");
+    }
+  }
+
   return (
     <Header>
       <Logo>
@@ -23,7 +40,7 @@ export default withRouter(({ location: { pathname } }) => {
             <Title>{googleUser.profileObj.name}</Title>
           </Container>
         ) : (
-          <button onClick={signIn}>Sign in with Google</button>
+          <button onClick={LogIn}>Sign in with Google</button>
         )}
       </LogInBtnCotainer>
       <List>

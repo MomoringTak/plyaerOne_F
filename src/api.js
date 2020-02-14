@@ -1,13 +1,14 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3000"
+  baseURL: "http://localhost:8008"
 });
 
 const getBook = () => api.get(`/book`);
 const getBookDetail = id => api.get(`/book/${id}`);
 const getRecentBook = () => api.get(`/book/recentbook`);
 
+const newUser = googleId => api.post(`/users`, { googleId: googleId });
 // const addBook = () => api.post(``);
 
 // For the user who added book has a authority to delete the book
@@ -44,5 +45,6 @@ export {
   getProfile,
   getRecentBook,
   getBookExpression,
-  getBookListExpression
+  getBookListExpression,
+  newUser
 };
