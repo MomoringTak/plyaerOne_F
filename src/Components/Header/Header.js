@@ -23,10 +23,6 @@ export default withRouter(({ location: { pathname } }) => {
         <Item>
           <SLink to="/shelf">Shelf</SLink>
         </Item>
-        <Item>
-          <SLink to="/search">Search</SLink>
-        </Item>
-
         {isSignedIn && (
           <>
             <Item>

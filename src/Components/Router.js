@@ -12,7 +12,6 @@ import BookDetail from "../Screens/BookDetail";
 import Booklist from "../Screens/Booklist";
 import Shelf from "../Screens/Shelf";
 import UserShelf from "../Screens/UserShelf";
-import Search from "../Screens/Search";
 import EditProfile from "../Screens/EditProfile";
 import AddBook from "../Screens/AddBook";
 
@@ -25,7 +24,6 @@ export default () => {
         <Header />
         <Switch>
           <Route path="/" exact component={Home} />
-          <Route path="/search" component={Search} />
           <Route path="/shelf" component={Shelf} />
           <Route path="/:userid/booklist/:id" component={Booklist} />
           <Route path="/:userid/shelf" component={UserShelf} />
