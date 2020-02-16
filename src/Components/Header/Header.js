@@ -3,46 +3,19 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGoogleAuth } from "../AuthG";
-import { newUser } from "../../api";
 
 import LoginBtn from "./LoginBtn";
 
 export default withRouter(({ location: { pathname } }) => {
-  const { signIn, signOut, isSignedIn, googleUser } = useGoogleAuth();
-  if (googleUser) {
-    // console.log(googleUser);
-    // console.log(googleUser.profileObj.googleId);
-  }
-
-  async function LogIn() {
-    try {
-      const userData = await signIn();
-      let rest = await newUser(userData.googleId);
-      console.log(rest);
-    } catch (e) {
-      console.log(e);
-    } finally {
-      console.log("Inserted DB");
-    }
-  }
+  const { isSignedIn, googleUser } = useGoogleAuth();
 
   return (
     <Header>
       <Logo>
-        <SLink to="/">Nomathon</SLink>
+        <SLink to="/">WTB</SLink>
       </Logo>
-      <LogInBtnCotainer>
-        {isSignedIn ? (
-          <Container>
-            <button onClick={signOut}>
-              <SLink to={`/`}>Log Out</SLink>
-            </button>
-            <Title>{googleUser.profileObj.name}</Title>
-          </Container>
-        ) : (
-          <button onClick={LogIn}>Sign in with Google</button>
-        )}
-      </LogInBtnCotainer>
+      <LoginBtn />
+
       <List>
         <Item>
           <SLink to="/">Home</SLink>
@@ -112,26 +85,6 @@ const SLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
-`;
-
-const LogInBtnCotainer = styled.div`
-  display: flex;
-  margin-bottom: 20px;
-  border: 1px solid white;
-  border-radius: 3px;
-  padding: 10px;
-
-  :hover {
-    color: white;
-  }
-`;
-
-const Container = styled.div``;
-
-const Title = styled.h1`
-  margin-top: -20px;
-  font-weight: 300;
-  font-size: 0.6rem;
 `;
 
 const Logo = styled.div`

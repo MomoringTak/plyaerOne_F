@@ -8,8 +8,13 @@ const getBook = () => api.get(`/book`);
 const getBookDetail = id => api.get(`/book/${id}`);
 const getRecentBook = () => api.get(`/book/recentbook`);
 
-const newUser = googleId => api.post(`/users`, { googleId: googleId });
+const newUser = userInfo => api.post(`/users`, userInfo);
 // const addBook = () => api.post(``);
+
+const getUser = googleId => api.get(`/userInfo/${googleId}`);
+
+const updateUser = (googleId, nickname) =>
+  api.patch(`/updateUser/${googleId}`, { nickname: nickname });
 
 // For the user who added book has a authority to delete the book
 // This delete feature isn't decided since haven't decided who can add book
@@ -46,5 +51,7 @@ export {
   getRecentBook,
   getBookExpression,
   getBookListExpression,
-  newUser
+  newUser,
+  getUser,
+  updateUser
 };
