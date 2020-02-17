@@ -2,40 +2,20 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const Poster = ({
-  id,
-  title,
-  imageUrl,
-  author,
-  description,
-  pudbdate,
-  isbn,
-  isBook = false,
-  selected,
+  book,
   selectBook
 }) => {
-
-  const [book, setBook] = useState({
-    key: id,
-    id: id,
-    title: title.replace(/(<([^>]+)>)/ig,""),
-    imageUrl: imageUrl,
-    author: author.replace(/(<([^>]+)>)/ig,""),
-    description: description.replace(/(<([^>]+)>)/ig,""),
-    pubdate: pudbdate,
-    isbn: isbn,
-    selected: selected,
-    isBook: true
-  });
+  const [selected, setSelected] = useState(false);
 
   const handleSelect = event => {
     selectBook(event);
-    //console.log(book.selected);
+    setSelected(book.selected);
   };
 
   return(
   <Container className={book.selected ? `selected` : null}>
     <ImageContainer>
-      <Image bgUrl={book.imageUrl ? `${book.imageUrl}` : null} onClick={handleSelect} />
+      <Image bgUrl={book.image ? `${book.image}` : null} onClick={handleSelect} />
     </ImageContainer>
     <Title>{book.title.length > 18 ? `${book.title.substring(0, 18)}...` : book.title}</Title>
   </Container>
