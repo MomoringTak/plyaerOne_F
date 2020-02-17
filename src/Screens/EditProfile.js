@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { useGoogleAuth } from "../Components/AuthG";
 
@@ -13,7 +13,15 @@ export default function EditProfile() {
   const [changed, setChanged] = useState(true);
 
   async function getUserInfo() {
-    const { data: user } = await userApi.getUser(googleUser.googleId);
+    const {
+      data: { user }
+    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
+      if (err.response) {
+        if (err.response.msg !== `success`) {
+          return <Redirect to="/" />;
+        }
+      }
+    });
     setUser(user);
   }
 
@@ -27,7 +35,13 @@ export default function EditProfile() {
     }
     if (name !== "") {
       setChanged(false);
-      userApi.updateUser(user.googleId, name);
+      userApi.updateUser(user.googleId, name).catch(function(err) {
+        if (err.response) {
+          if (err.response.msg !== `success`) {
+            return <Redirect to="/" />;
+          }
+        }
+      });
     }
   }
 

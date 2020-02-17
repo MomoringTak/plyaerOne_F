@@ -1,4 +1,4 @@
-import React, { useState, useReducer, useContext } from "react";
+import React from "react";
 import Router from "./Router";
 import GlobalStyles from "./GlobalStyles";
 

@@ -44,7 +44,8 @@ export default function Home() {
   };
 
   const selectBook = (selectedBook) => {
-    book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected = !book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected;
+    book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected 
+    = !book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected;
     setBook(book);
     console.log(book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0]);
   };
