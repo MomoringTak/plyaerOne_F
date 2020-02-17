@@ -9,21 +9,29 @@ const Book = ({
   description,
   pubdate,
   isbn,
-  isBook
+  isBook,
+  selected,
+  selectBook
 }) => {
   const [book, setBook] = useState({
     key: id,
     id: id,
-    title: title,
+    title: title.replace(/(<([^>]+)>)/ig,""),
     imageUrl: image,
-    author: author,
-    description: description,
+    author: author.replace(/(<([^>]+)>)/ig,""),
+    description: description.replace(/(<([^>]+)>)/ig,""),
     pubdate: pubdate,
     isbn: isbn,
+    selected: selected,
     isBook: true
   });
 
-  return <Poster key={book.id} {...book} />;
+  const handleSelect = event => {
+    selectBook(book);
+    console.log(book.selected);
+  };
+
+  return <Poster key={book.id} {...book} selectBook={handleSelect}/>;
 };
 
 export default Book;

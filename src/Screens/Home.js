@@ -10,12 +10,15 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
+  //const [addBookList] = useState([]);
 
   async function showBook() {
-    let display = 5;
+    let display = 10;
     try {
       const { data: bookResults } = await bookApi.getBook(term, display);
+      bookResults.map(item => (item.selected = false));
       setBook(bookResults);
+      console.log(bookResults);
     } catch (e) {
       console.log(e);
     } finally {
@@ -40,6 +43,12 @@ export default function Home() {
     console.log(term);
   };
 
+  const selectBook = (selectedBook) => {
+    book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected = !book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0].selected;
+    setBook(book);
+    console.log(book.filter(x => x.title.replace(/(<([^>]+)>)/ig,"") === selectedBook.title)[0]);
+  };
+
   return (
     <Container>
       <Card>
@@ -58,7 +67,7 @@ export default function Home() {
               {book && book.length > 0 && (
                 <Section title="Book Results">
                   {book.map(book => (
-                    <Book key={book.isbn} {...book} />
+                    <Book key={book.isbn} {...book} selectBook={selectBook} />
                   ))}
                 </Section>
               )}{" "}

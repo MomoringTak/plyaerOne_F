@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Poster = ({
@@ -9,15 +9,37 @@ const Poster = ({
   description,
   pudbdate,
   isbn,
-  isBook = false
-}) => (
-  <Container>
+  isBook = false,
+  selected,
+  selectBook
+}) => {
+
+  const [book, setBook] = useState({
+    key: id,
+    id: id,
+    title: title.replace(/(<([^>]+)>)/ig,""),
+    imageUrl: imageUrl,
+    author: author.replace(/(<([^>]+)>)/ig,""),
+    description: description.replace(/(<([^>]+)>)/ig,""),
+    pubdate: pudbdate,
+    isbn: isbn,
+    selected: selected,
+    isBook: true
+  });
+
+  const handleSelect = event => {
+    selectBook(event);
+    //console.log(book.selected);
+  };
+
+  return(
+  <Container className={book.selected ? `selected` : null}>
     <ImageContainer>
-      <Image bgUrl={imageUrl ? `${imageUrl}` : null} />
+      <Image bgUrl={book.imageUrl ? `${book.imageUrl}` : null} onClick={handleSelect} />
     </ImageContainer>
-    <Title>{title.length > 18 ? `${title.substring(0, 18)}...` : title}</Title>
+    <Title>{book.title.length > 18 ? `${book.title.substring(0, 18)}...` : book.title}</Title>
   </Container>
-);
+)};
 
 const Container = styled.div`
   font-size: 12px;
