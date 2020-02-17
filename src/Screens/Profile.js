@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGoogleAuth } from "../Components/AuthG";
@@ -12,7 +12,15 @@ export default function Profile() {
   const [update, setUpdate] = useState();
 
   async function getUserInfo() {
-    const { data: user } = await userApi.getUser(googleUser.googleId);
+    const {
+      data: { user }
+    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
+      if (err.response) {
+        if (err.response.msg !== `success`) {
+          return <Redirect to="/" />;
+        }
+      }
+    });
     setUser(user);
   }
 

@@ -10,4 +10,8 @@ const Container = styled.div`
   margin-top: 20px;
 `;
 
-export default () => <Container role="img" aria-label="Loading"></Container>;
+export default () => (
+  <Container role="img" aria-label="Loading">
+    <span>책을 불러오는 중.</span>
+  </Container>
+);

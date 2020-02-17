@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import { useGoogleAuth } from "../AuthG";
 
@@ -24,7 +24,13 @@ const LoginBtn = () => {
       };
 
       //CreateOrFind the user who logged In.
-      await userApi.newUser(userInfo);
+      await userApi.ssoGLogin(userInfo).catch(function(err) {
+        if (err.response) {
+          if (err.response.msg !== `success`) {
+            return <Redirect to="/" />;
+          }
+        }
+      });
     } catch (e) {
       console.log(e);
     } finally {
