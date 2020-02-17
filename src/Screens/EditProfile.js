@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { useGoogleAuth } from "../Components/AuthG";
 
-import { getUser, updateUser } from "../api";
+import { userApi } from "../api";
 
 export default function EditProfile() {
   const { googleUser } = useGoogleAuth();
@@ -13,7 +13,7 @@ export default function EditProfile() {
   const [changed, setChanged] = useState(true);
 
   async function getUserInfo() {
-    const { data: user } = await getUser(googleUser.googleId);
+    const { data: user } = await userApi.getUser(googleUser.googleId);
     setUser(user);
   }
 
@@ -27,7 +27,7 @@ export default function EditProfile() {
     }
     if (name !== "") {
       setChanged(false);
-      updateUser(user.googleId, name);
+      userApi.updateUser(user.googleId, name);
     }
   }
 

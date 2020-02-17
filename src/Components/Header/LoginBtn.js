@@ -1,23 +1,30 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { useGoogleAuth } from "../AuthG";
-import { newUser } from "../../api";
+
+import { userApi } from "../../api";
 
 const LoginBtn = () => {
   const { signIn, signOut, isSignedIn, googleUser } = useGoogleAuth();
+
+  //Method : Login Process.
   async function LogIn() {
     try {
+      //get the data of googleId, name, email from the one who logged in.
       const {
         profileObj: { googleId, name, email }
       } = await signIn();
+
       const userInfo = {
         googleId,
         name,
         email
       };
-      await newUser(userInfo);
+
+      //CreateOrFind the user who logged In.
+      await userApi.newUser(userInfo);
     } catch (e) {
       console.log(e);
     } finally {
@@ -32,7 +39,6 @@ const LoginBtn = () => {
           <button onClick={signOut}>
             <SLink to={`/`}>Log Out</SLink>
           </button>
-          <Title>{googleUser.profileObj.name}</Title>
         </Container>
       ) : (
         <button onClick={LogIn}>Sign in with Google</button>
@@ -44,7 +50,6 @@ const LoginBtn = () => {
 const Container = styled.div``;
 
 const SLink = styled(Link)`
-  margin-bottom: 30px;
   display: flex;
   align-items: center;
   justify-content: center;

@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGoogleAuth } from "../AuthG";
+import { userApi } from "../../api";
 
 import LoginBtn from "./LoginBtn";
 

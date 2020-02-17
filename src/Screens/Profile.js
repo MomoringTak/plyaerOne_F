@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useGoogleAuth } from "../Components/AuthG";
 
-import { getUser } from "../api";
+import { userApi } from "../api";
 
 export default function Profile() {
   const { googleUser } = useGoogleAuth();
@@ -12,9 +12,7 @@ export default function Profile() {
   const [update, setUpdate] = useState();
 
   async function getUserInfo() {
-    console.log(googleUser.googleId);
-    const { data: user } = await getUser(googleUser.googleId);
-    console.log(user);
+    const { data: user } = await userApi.getUser(googleUser.googleId);
     setUser(user);
   }
 
