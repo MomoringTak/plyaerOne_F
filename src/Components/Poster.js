@@ -13,8 +13,9 @@ const Poster = ({
   };
 
   return(
-  <Container className={book.selected ? `selected` : null}>
+  <Container>
     <ImageContainer>
+      {selected && ( <Check></Check> )}
       <Image bgUrl={book.image ? `${book.image}` : null} onClick={handleSelect} />
     </ImageContainer>
     <Title>{book.title.length > 18 ? `${book.title.substring(0, 18)}...` : book.title}</Title>
@@ -25,9 +26,19 @@ const Container = styled.div`
   font-size: 12px;
 `;
 
+const Check = styled.div`
+    position:absolute;
+    background:RGBA(255,255,255,0.3);
+    border:RED 3px solid;
+    border-radius:50%;
+    right:10px;
+    top:10px;
+    width:30px;
+    height:30px;
+`;
+
 const Image = styled.div`
   background-image: url(${props => props.bgUrl});
-
   height: 180px;
   background-size: cover;
   border-radius: 4px;
