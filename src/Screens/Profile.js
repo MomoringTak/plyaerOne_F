@@ -55,7 +55,6 @@ export default function Profile() {
 }
 
 const Container = styled.div`
-  border: 2px solid red;
   display: flex;
   justify-content: center;
   align-items: center;
