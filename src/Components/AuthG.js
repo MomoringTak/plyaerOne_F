@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import { useGoogleLogin } from "react-use-googlelogin";
 
 const clientID =

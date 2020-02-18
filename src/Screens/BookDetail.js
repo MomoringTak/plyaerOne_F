@@ -11,5 +11,9 @@ const Container = styled.div`
 `;
 
 export default function BookDetail() {
-  return <h1>Detail</h1>;
+  return (
+    <Container>
+      <h1>Detail</h1>
+    </Container>
+  );
 }

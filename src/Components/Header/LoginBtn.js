@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link, Redirect } from "react-router-dom";
 
@@ -7,7 +7,7 @@ import { useGoogleAuth } from "../AuthG";
 import { userApi } from "../../api";
 
 const LoginBtn = () => {
-  const { signIn, signOut, isSignedIn, googleUser } = useGoogleAuth();
+  const { signIn, signOut, isSignedIn } = useGoogleAuth();
 
   //Method : Login Process.
   async function LogIn() {
@@ -71,12 +71,6 @@ const LogInBtnCotainer = styled.div`
   :hover {
     color: white;
   }
-`;
-
-const Title = styled.h1`
-  margin-top: -20px;
-  font-weight: 300;
-  font-size: 0.6rem;
 `;
 
 export default LoginBtn;

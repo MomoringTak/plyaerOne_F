@@ -9,7 +9,6 @@ import { userApi } from "../api";
 export default function Profile() {
   const { googleUser } = useGoogleAuth();
   const [user, setUser] = useState([]);
-  const [update, setUpdate] = useState();
 
   async function getUserInfo() {
     const {
