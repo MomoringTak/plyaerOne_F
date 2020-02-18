@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { bookApi } from "../api";
 
@@ -11,7 +11,6 @@ export default function Home() {
   const [clickedBook, setClickedBook] = useState(0);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
-  //const [selectedBook, setSelectedBook] = useState([]);
 
   async function showBook() {
     let display = 10;
@@ -50,26 +49,19 @@ export default function Home() {
 
     //새로 검색 시 RESET
     setBook([]);
-    //setSelectedBook([]);
     setClickedBook(0);
   };
 
   const pickBook = () => {
-    //await setSelectedBook(book);
-    // const newbook = selectedBook.filter(item => item.selected === true);
     const newbook = book.filter(item => item.selected === true);
     console.log(newbook);
   };
 
-  const selectedBook = (bookItem) => {
+  const selectedBook = bookItem => {
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
     setBook(book);
-  }
-
-  useEffect(() => {
-    console.log("hi");
-  }, [clickedBook]);
+  };
 
   return (
     <Container>
@@ -99,10 +91,6 @@ export default function Home() {
                       key={bookItem.isbn}
                       bookItem={bookItem}
                       clickBook={selectedBook}
-
-                      // bookCollection={book}
-                      // setBookCollection={setBook}
-                      // count={setClickedBook}
                     />
                   ))}
                 </Section>
