@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Book = ({ bookItem, bookCollection, setBookCollection }) => {
+const Book = ({ bookItem, bookCollection, setBookCollection, count }) => {
   const [singleBook, setSingleBook] = useState(bookItem);
 
   const selectBook = e => {
     try {
       if (!singleBook.selected) {
         setSingleBook({ ...singleBook, selected: true });
+        count(prev => prev + 1);
       } else {
         setSingleBook({ ...singleBook, selected: false });
+        count(prev => prev - 1);
       }
     } catch (e) {
       console.log(e);
@@ -27,7 +29,7 @@ const Book = ({ bookItem, bookCollection, setBookCollection }) => {
   return (
     <Container>
       <ImageContainer>
-        {singleBook.selected && <Check></Check>}
+        {singleBook.selected && <Check>선택 됨</Check>}
         <Image
           bgUrl={bookItem.image ? `${bookItem.image}` : null}
           onClick={selectBook}
@@ -48,13 +50,12 @@ const Container = styled.div`
 
 const Check = styled.div`
   position: absolute;
-  background: RGBA(255, 255, 255, 0.3);
-  border: RED 3px solid;
-  border-radius: 50%;
-  right: 10px;
-  top: 10px;
-  width: 30px;
-  height: 30px;
+  background: rgba(44, 62, 80, 0.5);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Image = styled.div`

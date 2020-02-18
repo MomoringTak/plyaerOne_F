@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { bookApi } from "../api";
 
@@ -8,22 +8,26 @@ import Book from "../Components/Book";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
+  const [clickedBook, setClickedBook] = useState(0);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
+  const [selectedBook, setSelectedBook] = useState([]);
 
   async function showBook() {
     let display = 10;
     try {
       const { data: bookResults } = await bookApi.getBook(term, display);
 
-      bookResults.map(item => {
+      const newBook = bookResults.map(item => {
         item.selected = false;
         item.title = item.title.replace(/(<([^>]+)>)/gi, "");
         item.author = item.author.replace(/(<([^>]+)>)/gi, "");
         item.description = item.description.replace(/(<([^>]+)>)/gi, "");
+
+        return item;
       });
 
-      setBook(bookResults);
+      setBook(newBook);
     } catch (e) {
       console.log(e);
     }
@@ -43,7 +47,22 @@ export default function Home() {
       target: { value }
     } = e;
     setTerm(value);
+
+    //새로 검색 시 RESET
+    setBook([]);
+    setSelectedBook([]);
+    setClickedBook(0);
   };
+
+  const pickBook = async () => {
+    await setSelectedBook(book);
+    const newbook = selectedBook.filter(item => item.selected === true);
+    console.log(newbook);
+  };
+
+  useEffect(() => {
+    console.log("hi");
+  }, [clickedBook]);
 
   return (
     <Container>
@@ -60,6 +79,12 @@ export default function Home() {
             <Loader />
           ) : (
             <>
+              {clickedBook > 0 ? (
+                <>
+                  <BookNum>추가 할 책 갯수 : {clickedBook}</BookNum>
+                  <Add onClick={pickBook}>책 추가</Add>
+                </>
+              ) : null}
               {book && book.length > 0 && (
                 <Section title="Book Results">
                   {book.map(bookItem => (
@@ -68,6 +93,7 @@ export default function Home() {
                       bookItem={bookItem}
                       bookCollection={book}
                       setBookCollection={setBook}
+                      count={setClickedBook}
                     />
                   ))}
                 </Section>
@@ -84,7 +110,6 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
   color: black;
   margin-left: 200px;
   height: 100vh;
@@ -97,7 +122,9 @@ const Card = styled.div`
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
-const Template = styled.div``;
+const Template = styled.div`
+  position: relative;
+`;
 
 const Form = styled.form`
   margin-bottom: 50px;
@@ -112,4 +139,18 @@ const Input = styled.input`
   width: 80%;
   border-bottom: 0.5px solid black;
   text-align: center;
+`;
+
+const BookNum = styled.span`
+  font-size: 1rem;
+  left: 100px;
+`;
+
+const Add = styled.button`
+  width: 100px;
+  height: 50px;
+  border: 1px solid blue;
+  text-align: center;
+  font-size: 1rem;
+  margin-left: 50px;
 `;
