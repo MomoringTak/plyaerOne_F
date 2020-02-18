@@ -1,29 +1,33 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const Book = ({ bookItem, bookCollection, setBookCollection, count }) => {
+//const Book = ({ bookItem, bookCollection, setBookCollection, count }) => {
+const Book = ({ bookItem, clickBook }) => {
   const [singleBook, setSingleBook] = useState(bookItem);
 
   const selectBook = e => {
-    try {
-      if (!singleBook.selected) {
-        setSingleBook({ ...singleBook, selected: true });
-        count(prev => prev + 1);
-      } else {
-        setSingleBook({ ...singleBook, selected: false });
-        count(prev => prev - 1);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    
+    // try {
+    //   if (!singleBook.selected) {
+    //     setSingleBook({ ...singleBook, selected: true });
+    //     count(prev => prev + 1);
+    //   } else {
+    //     setSingleBook({ ...singleBook, selected: false });
+    //     count(prev => prev - 1);
+    //   }
+    // } catch (e) {
+    //   console.log(e);
+    // }
 
     //filter the array of object to find the object equals to the clicked book
-    bookCollection.filter(
-      x => x.title === singleBook.title
-    )[0].selected = !bookCollection.filter(x => x.title === singleBook.title)[0]
-      .selected;
+    // bookCollection.filter(
+    //   x => x.title === singleBook.title
+    // )[0].selected = !bookCollection.filter(x => x.title === singleBook.title)[0]
+    //   .selected;
 
-    setBookCollection(bookCollection);
+    // setBookCollection(bookCollection);
+
+    clickBook(bookItem);
   };
 
   return (
