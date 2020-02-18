@@ -14,6 +14,7 @@ import Shelf from "../Screens/Shelf";
 import UserShelf from "../Screens/UserShelf";
 import EditProfile from "../Screens/EditProfile";
 import AddBook from "../Screens/AddBook";
+import AddBookList from "../Screens/AddBookList";
 
 import Header from "./Header";
 
@@ -27,6 +28,7 @@ export default () => {
           <Route path="/shelf" component={Shelf} />
           <Route path="/:userid/booklist/:id" component={Booklist} />
           <Route path="/:userid/shelf" component={UserShelf} />
+          <Route path="/:userid/addbooklist" component={AddBookList} />
           <Route path="/:userid/profile" component={Profile} />
           <Route path="/:userid/editprofile" component={EditProfile} />
           <Route path="/:userid/addbook" component={AddBook} />
