@@ -15,6 +15,7 @@ import UserShelf from "../Screens/UserShelf";
 import EditProfile from "../Screens/EditProfile";
 import AddBook from "../Screens/AddBook";
 import AddBookList from "../Screens/AddBookList";
+import Login from "../Screens/Login";
 
 import Header from "./Header";
 
@@ -25,6 +26,7 @@ export default () => {
         <Header />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={Login} />
           <Route path="/shelf" component={Shelf} />
           <Route path="/:userid/booklist/:id" component={Booklist} />
           <Route path="/:userid/shelf" component={UserShelf} />

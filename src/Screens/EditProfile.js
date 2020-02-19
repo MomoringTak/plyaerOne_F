@@ -59,7 +59,7 @@ export default function EditProfile() {
   return (
     <Container>
       <Card>
-        <Head>
+        <Header>
           <Title>Edit Nickname</Title>
           <Spacer style={{ height: "100px" }} />
           <Section>
@@ -90,7 +90,7 @@ export default function EditProfile() {
               </button>
             )}
           </Section>
-        </Head>
+        </Header>
       </Card>
     </Container>
   );
@@ -113,7 +113,7 @@ const Card = styled.div`
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
-const Head = styled.div`
+const Header = styled.div`
   margin: 20px 20px;
 `;
 

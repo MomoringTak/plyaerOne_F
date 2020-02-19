@@ -43,6 +43,7 @@ const Container = styled.div`
   color: black;
   margin-left: 200px;
   height: 100vh;
+  position: relative;
 `;
 const SLink = styled(Link)`
   margin-top: 10px;

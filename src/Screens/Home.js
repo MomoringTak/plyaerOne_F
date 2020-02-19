@@ -41,20 +41,29 @@ export default function Home() {
     }
   };
 
+  //검색 및 추가 버튼 누를시 데이터 초기화
+  const reset = () => {
+    setBook([]);
+    setClickedBook(0);
+  };
+
   const updateTerm = e => {
     const {
       target: { value }
     } = e;
     setTerm(value);
 
-    //새로 검색 시 RESET
-    setBook([]);
-    setClickedBook(0);
+    reset();
   };
 
-  const pickBook = () => {
-    const newbook = book.filter(item => item.selected === true);
-    console.log(newbook);
+  const pickBook = async () => {
+    const newBook = book.filter(item => item.selected === true);
+    for (let item of newBook) {
+      item.selected = false;
+    }
+    await bookApi.addBook(newBook);
+    reset();
+    setTerm("책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요.");
   };
 
   const selectedBook = bookItem => {

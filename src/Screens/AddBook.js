@@ -1,19 +1,65 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-
-const Container = styled.div`
-  border: 2px solid red;
-  display: flex;
-  justify-content: center;
-  font-size: 3rem;
-  color: black;
-  margin-left: 200px;
-`;
+import { bookApi } from "../api";
+import Book from "../Components/Book";
+import Section from "../Components/Section";
 
 export default function AddBook() {
+  const [book, setBook] = useState([]);
+
+  const showBook = async () => {
+    try {
+      const {
+        data: { books }
+      } = await bookApi.getAllBook();
+      setBook(books);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const bookDetail = item => {
+    console.log(item);
+  };
+
+  useEffect(() => {
+    showBook();
+  }, []);
+
   return (
     <Container>
-      <h1>AddBook</h1>
+      <Card>
+        <Section>
+          {book ? (
+            book.map(bookItem => (
+              <Book
+                key={bookItem.isbn}
+                bookItem={bookItem}
+                clickBook={bookDetail}
+              />
+            ))
+          ) : (
+            <h1>No Books</h1>
+          )}
+        </Section>
+      </Card>
     </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+
+  margin-left: 200px;
+
+  font-size: 3rem;
+  color: black;
+`;
+
+const Card = styled.div`
+  width: 90%;
+  height: 90%;
+  background-color: white;
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
+`;
