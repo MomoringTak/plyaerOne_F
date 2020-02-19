@@ -4,6 +4,7 @@ import styled from "styled-components";
 const Book = ({ bookItem, clickBook }) => {
   const clickEvent = e => {
     clickBook(bookItem);
+    console.log("hello");
   };
 
   return (
@@ -56,6 +57,7 @@ const ImageContainer = styled.div`
 
   &:hover {
     ${Image} {
+      opacity: 0.8;
       box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
         2px 2px 5px 1px rgba(0, 0, 0, 1);
     }

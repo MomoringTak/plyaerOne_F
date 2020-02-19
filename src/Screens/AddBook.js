@@ -58,11 +58,11 @@ export default function AddBook() {
 
   const pickBook = async () => {
     const newBook = book.filter(item => item.selected === true);
-    // for (let item of newBook) {
-    //   item.selected = false;
-    // }
+    for (let item of newBook) {
+      item.selected = false;
+    }
     await bookApi.addBook(newBook);
-    // reset();
+    reset();
     setTerm("책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요.");
   };
 
