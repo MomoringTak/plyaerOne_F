@@ -4,7 +4,6 @@ import styled from "styled-components";
 const Book = ({ bookItem, clickBook }) => {
   const clickEvent = e => {
     clickBook(bookItem);
-    console.log("hello");
   };
 
   return (

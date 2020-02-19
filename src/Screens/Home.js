@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
+
 import { bookApi } from "../api";
 import Book from "../Components/Book";
 import Section from "../Components/Section";
 
 export default function Home() {
   const [book, setBook] = useState([]);
+  const [single, setSingle] = useState({});
+
+  //Redirecting via history neither Link or Redirect
+  const history = useHistory();
 
   const showBook = async () => {
     try {
       const {
         data: { books }
-      } = await bookApi.getAllBook();
+      } = await bookApi.getAllBook().catch(function(err) {
+        if (err.response) {
+          if (err.response.msg !== `success`) {
+            return <Redirect to="/" />;
+          }
+        }
+      });
       setBook(books);
     } catch (e) {
       console.log(e);
     }
   };
 
-  const bookDetail = item => {
-    console.log(item);
+  const bookDetail = async item => {
+    history.push(`/book/${item.isbn}`);
   };
 
   useEffect(() => {
