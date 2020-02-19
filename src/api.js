@@ -9,7 +9,8 @@ export const bookApi = {
   getBook: (title, display) => api.get(`/book/${title}/${display}`),
   addBook: book => api.post(`/book`, book),
   getAllBook: () => api.get(`/book/`),
-  getBookDetail: id => api.get(`/book/${id}`)
+  getBookDetail: id => api.get(`/book/${id}`),
+  serachBook: title => api.get(`/book/${title}`)
 };
 
 //User API
@@ -18,4 +19,8 @@ export const userApi = {
   getUser: googleId => api.get(`/user/${googleId}`),
   updateUser: (googleId, nickname) =>
     api.patch(`/user/${googleId}`, { nickname: nickname })
+};
+
+export const booklistApi = {
+  addBookList: booklist => api.post(`/booklist`, booklist)
 };

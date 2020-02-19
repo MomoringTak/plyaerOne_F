@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-import { bookApi } from "../api";
+import { bookApi, booklistApi } from "../api";
 
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
@@ -18,29 +18,21 @@ const AddBookList = () => {
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
 
-  async function showBook() {
-    let display = 10;
+  const showBook = async () => {
     try {
-      const { data: bookResults } = await bookApi.getBook(term, display);
-
-      const newBook = bookResults.map(item => {
-        item.selected = false;
-        item.title = item.title.replace(/(<([^>]+)>)/gi, "");
-        item.author = item.author.replace(/(<([^>]+)>)/gi, "");
-        item.description = item.description.replace(/(<([^>]+)>)/gi, "");
-
-        return item;
+      const {
+        data: { books: bookResult }
+      } = await bookApi.serachBook(term).catch(function(err) {
+        if (err.response) {
+          if (err.response.msg !== `success`) {
+            return <Redirect to="/" />;
+          }
+        }
       });
-
-      setBook(newBook);
+      setBook(bookResult);
     } catch (e) {
       console.log(e);
     }
-  }
-
-  const pickBook = () => {
-    const newbook = book.filter(item => item.selected === true);
-    console.log(newbook);
   };
 
   const selectedBook = bookItem => {
@@ -49,13 +41,26 @@ const AddBookList = () => {
     setBook(book);
   };
 
+  const pickBook = async () => {
+    const newBook = book.filter(item => item.selected === true);
+
+    const leftOne = ({ _id, ...rest }) => _id;
+
+    const BookId = newBook.map(item => leftOne(item));
+
+    const Final_Booklist = {
+      title: title,
+      items: BookId
+    };
+    await booklistApi.addBookList(Final_Booklist);
+  };
+
   const handleTitle = e => {
     if (e) {
       e.preventDefault();
     }
     if (title !== "") {
       setNext(false);
-      setBooklist({ ...booklist, title: title, items: [] });
     }
   };
 
@@ -73,6 +78,12 @@ const AddBookList = () => {
       target: { value }
     } = e;
     setTitle(value);
+  };
+
+  const updateTerm = e => {
+    const {
+      target: { value }
+    } = e;
     setTerm(value);
 
     setBook([]);
@@ -97,7 +108,7 @@ const AddBookList = () => {
             <AddBookForm
               onSubmit={handleSubmit}
               value={term}
-              onChange={updateTitle}
+              onChange={updateTerm}
             >
               <Search placeholder="추가할 책을 검색 해주세요." />
             </AddBookForm>
