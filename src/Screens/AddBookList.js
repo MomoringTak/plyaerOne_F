@@ -9,7 +9,6 @@ import Section from "../Components/Section";
 import Book from "../Components/Book";
 
 const AddBookList = () => {
-  const [booklist, setBooklist] = useState({});
   const [next, setNext] = useState(true);
   const [title, setTitle] = useState("");
 
@@ -22,7 +21,7 @@ const AddBookList = () => {
     try {
       const {
         data: { books: bookResult }
-      } = await bookApi.serachBook(term).catch(function(err) {
+      } = await booklistApi.serachBook(term).catch(function(err) {
         if (err.response) {
           if (err.response.msg !== `success`) {
             return <Redirect to="/" />;
@@ -52,6 +51,7 @@ const AddBookList = () => {
       title: title,
       items: BookId
     };
+
     await booklistApi.addBookList(Final_Booklist);
   };
 

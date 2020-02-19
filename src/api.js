@@ -9,8 +9,7 @@ export const bookApi = {
   getBook: (title, display) => api.get(`/book/${title}/${display}`),
   addBook: book => api.post(`/book`, book),
   getAllBook: () => api.get(`/book/`),
-  getBookDetail: id => api.get(`/book/${id}`),
-  serachBook: title => api.get(`/book/${title}`)
+  getBookDetail: id => api.get(`/book/${id}`)
 };
 
 //User API
@@ -22,5 +21,6 @@ export const userApi = {
 };
 
 export const booklistApi = {
+  serachBook: title => api.get(`/booklist/${title}`),
   addBookList: booklist => api.post(`/booklist`, booklist)
 };
