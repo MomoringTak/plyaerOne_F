@@ -50,9 +50,15 @@ const Image = styled.div`
 const ImageContainer = styled.div`
   margin-bottom: 5px;
   position: relative;
+
+  border: 1px solid black;
+  border-radius: 4px;
+
   &:hover {
     ${Image} {
-      opacity: 0.3;
+      opacity: 0.8;
+      box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+        2px 2px 5px 1px rgba(0, 0, 0, 1);
     }
   }
 `;

@@ -18,6 +18,9 @@ export default withRouter(({ location: { pathname } }) => {
 
       <List>
         <Item>
+          <SLink to="/login">Login</SLink>
+        </Item>
+        <Item>
           <SLink to="/">Home</SLink>
         </Item>
         <Item>

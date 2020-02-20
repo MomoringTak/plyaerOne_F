@@ -43,9 +43,7 @@ export default function Profile() {
             <Spacer />
             <h3>{user.email}</h3>
             <Spacer />
-            <span>NickName</span>
-            <Spacer />
-            <h3>Undefined</h3>
+
             <Spacer />
           </Section>
         </Head>
