@@ -49,7 +49,7 @@ const AddBookList = () => {
 
     const Final_Booklist = {
       title: title,
-      items: BookId
+      books: BookId
     };
 
     await booklistApi.addBookList(Final_Booklist);
