@@ -8,7 +8,8 @@ const api = axios.create({
 export const bookApi = {
   getBook: (title, display) => api.get(`/book/${title}/${display}`),
   getBookDetail: id => api.get(`/book/${id}`),
-  getRecentBook: () => api.get(`/book/recentbook`)
+  getRecentBook: () => api.get(`/book/recentbook`),
+  postNewBook: (books) => api.post(`/book`, books),
 };
 
 //User API

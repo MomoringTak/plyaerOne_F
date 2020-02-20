@@ -52,9 +52,12 @@ export default function Home() {
     setClickedBook(0);
   };
 
-  const pickBook = () => {
+  const pickBook = async () => {
     const newbook = book.filter(item => item.selected === true);
-    console.log(newbook);
+    //console.log(newbook);
+    const { data: bookResults } = await bookApi.postNewBook(newbook);
+    console.log("result");
+    console.log(bookResults);
   };
 
   const selectedBook = bookItem => {
