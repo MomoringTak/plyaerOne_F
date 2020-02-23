@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+
 import { Link, Route, Redirect } from "react-router-dom";
 import { useGoogleAuth } from "../Components/AuthG";
-import { userApi } from "../api";
+import { userApi, booklistApi } from "../api";
+
+import Table from "../Components/Table";
+import List from "../Components/List";
 
 export default function UserShelf() {
   const { googleUser } = useGoogleAuth();
   const [user, setUser] = useState([]);
-
+  const [booklist, setBooklist] = useState([]);
   async function getUserInfo() {
     const {
       data: { user }
@@ -21,17 +25,38 @@ export default function UserShelf() {
     setUser(user);
   }
 
+  const showBookList = async () => {
+    try {
+      const {
+        data: { booklist }
+      } = await booklistApi.getBookList(googleUser.googleId);
+      setBooklist(booklist);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getUserInfo();
+    showBookList();
   }, []);
 
   return (
     <Container>
-      <>
-        <SLink to={`/${user.email}/addbooklist`}>
-          <AddBook>Add BookList</AddBook>
-        </SLink>
-      </>
+      <Card>
+        <>
+          <SLink to={`/${user.email}/addbooklist`}>
+            <AddBook>Add BookList</AddBook>
+          </SLink>
+          <Table>
+            {booklist ? (
+              booklist.map(item => <List key={item} booklistId={item} />)
+            ) : (
+              <h1>Empty BookList</h1>
+            )}
+          </Table>
+        </>
+      </Card>
     </Container>
   );
 }
@@ -40,10 +65,11 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
   color: black;
+
   margin-left: 200px;
   height: 100vh;
-  position: relative;
 `;
 const SLink = styled(Link)`
   margin-top: 10px;
@@ -61,4 +87,12 @@ const AddBook = styled.button`
 
   top: 10px;
   left: 10px;
+`;
+
+const Card = styled.div`
+  width: 90%;
+  height: 90%;
+  background-color: white;
+  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
+  position: relative;
 `;

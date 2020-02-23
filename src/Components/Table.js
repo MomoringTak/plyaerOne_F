@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Section = ({ title, children }) => (
+const Table = ({ title, children }) => (
   <Container>
     <Title>{title}</Title>
     <Grid>{children}</Grid>
@@ -10,20 +10,23 @@ const Section = ({ title, children }) => (
 
 const Container = styled.div`
   :not(:last-child) {
+    margin-top: 100px;
     margin-bottom: 50px;
   }
 `;
 
 const Title = styled.span`
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 500;
 `;
 
 const Grid = styled.div`
-  margin-top: 25px;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 125px);
-  grid-gap: 25px;
+  margin-top: 100px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
-export default Section;
+export default Table;

@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
 import { bookApi, booklistApi } from "../api";
+import { useGoogleAuth } from "../Components/AuthG";
 
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
@@ -16,6 +17,10 @@ const AddBookList = () => {
   const [clickedBook, setClickedBook] = useState(0);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
+
+  const { googleUser } = useGoogleAuth();
+
+  const history = useHistory();
 
   const showBook = async () => {
     try {
@@ -49,10 +54,12 @@ const AddBookList = () => {
 
     const Final_Booklist = {
       title: title,
-      books: BookId
+      books: BookId,
+      userId: googleUser.googleId
     };
 
     await booklistApi.addBookList(Final_Booklist);
+    history.push(`/:id/shelf}`);
   };
 
   const handleTitle = e => {

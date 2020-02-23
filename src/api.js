@@ -22,5 +22,8 @@ export const userApi = {
 
 export const booklistApi = {
   serachBook: title => api.get(`/booklist/${title}`),
-  addBookList: booklist => api.post(`/booklist`, booklist)
+  addBookList: booklist => api.post(`/booklist`, booklist),
+  getBookList: googleId =>
+    api.get(`/booklist`, { params: { googleId: googleId } }),
+  getOneBookList: id => api.get(`/booklist/item/${id}`)
 };
