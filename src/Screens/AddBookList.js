@@ -59,7 +59,7 @@ const AddBookList = () => {
     };
 
     await booklistApi.addBookList(Final_Booklist);
-    history.push(`/:id/shelf}`);
+    history.push(`/${googleUser.profileObj.email}/shelf`);
   };
 
   const handleTitle = e => {

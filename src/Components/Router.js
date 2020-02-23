@@ -10,6 +10,7 @@ import Home from "../Screens/Home";
 import Profile from "../Screens/Profile";
 import BookDetail from "../Screens/BookDetail";
 import Booklist from "../Screens/Booklist";
+import BooklistDetail from "../Screens/BooklistDetail";
 import Shelf from "../Screens/Shelf";
 import UserShelf from "../Screens/UserShelf";
 import EditProfile from "../Screens/EditProfile";
@@ -30,6 +31,7 @@ export default () => {
           <Route path="/shelf" component={Shelf} />
           <Route path="/:userid/booklist/:id" component={Booklist} />
           <Route path="/:userid/shelf" component={UserShelf} />
+          <Route path="/booklist/:id" component={BooklistDetail} />
           <Route path="/:userid/addbooklist" component={AddBookList} />
           <Route path="/:userid/profile" component={Profile} />
           <Route path="/:userid/editprofile" component={EditProfile} />

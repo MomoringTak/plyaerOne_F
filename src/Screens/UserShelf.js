@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import { Link, Route, Redirect } from "react-router-dom";
+import { Link, Route, Redirect, useHistory } from "react-router-dom";
 import { useGoogleAuth } from "../Components/AuthG";
 import { userApi, booklistApi } from "../api";
 
@@ -9,6 +9,8 @@ import Table from "../Components/Table";
 import List from "../Components/List";
 
 export default function UserShelf() {
+  const history = useHistory();
+
   const { googleUser } = useGoogleAuth();
   const [user, setUser] = useState([]);
   const [booklist, setBooklist] = useState([]);
@@ -24,6 +26,11 @@ export default function UserShelf() {
     });
     setUser(user);
   }
+  const booklistDetail = async item => {
+    console.log(item);
+    console.log(history);
+    history.push(`/booklist/${item}`);
+  };
 
   const showBookList = async () => {
     try {
@@ -50,7 +57,13 @@ export default function UserShelf() {
           </SLink>
           <Table>
             {booklist ? (
-              booklist.map(item => <List key={item} booklistId={item} />)
+              booklist.map(item => (
+                <List
+                  key={item}
+                  booklistId={item}
+                  clickBooklist={booklistDetail}
+                />
+              ))
             ) : (
               <h1>Empty BookList</h1>
             )}
@@ -91,8 +104,9 @@ const AddBook = styled.button`
 
 const Card = styled.div`
   width: 90%;
-  height: 90%;
+  height: 100vh;
   background-color: white;
   box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
   position: relative;
+  overflow: auto;
 `;

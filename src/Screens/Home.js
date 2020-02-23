@@ -8,7 +8,6 @@ import Section from "../Components/Section";
 
 export default function Home() {
   const [book, setBook] = useState([]);
-  const [single, setSingle] = useState({});
 
   //Redirecting via history neither Link or Redirect
   const history = useHistory();

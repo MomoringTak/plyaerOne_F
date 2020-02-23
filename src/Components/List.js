@@ -3,15 +3,18 @@ import styled from "styled-components";
 
 import { booklistApi } from "../api";
 
-const List = ({ booklistId }) => {
+const List = ({ booklistId, clickBooklist }) => {
   const [blist, setBlist] = useState([]);
+
+  const clickEvent = e => {
+    clickBooklist(booklistId);
+  };
 
   const showBooklist = async () => {
     try {
       const {
         data: { result }
       } = await booklistApi.getOneBookList(booklistId);
-      console.log(result);
       setBlist(result);
     } catch (e) {
       console.log(e);
@@ -23,7 +26,7 @@ const List = ({ booklistId }) => {
   }, []);
 
   return (
-    <Container>
+    <Container onClick={clickEvent}>
       <Title>북리스트 : {blist.title}</Title>
     </Container>
   );
