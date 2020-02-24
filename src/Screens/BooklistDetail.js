@@ -39,42 +39,25 @@ const BooklistDetail = ({
 
   return (
     <Container>
-      <Card>
-        <>
-          <span>Title : {booklist.title}</span>
-          <Section>
-            {book ? (
-              book.map(bookItem => (
-                <Book
-                  key={bookItem.isbn}
-                  bookItem={bookItem}
-                  clickBook={bookDetail}
-                />
-              ))
-            ) : (
-              <h1>No Books</h1>
-            )}
-          </Section>
-        </>
-      </Card>
+      <span>Title : {booklist.title}</span>
+      <Section>
+        {book ? (
+          book.map(bookItem => (
+            <Book
+              key={bookItem.isbn}
+              bookItem={bookItem}
+              clickBook={bookDetail}
+            />
+          ))
+        ) : (
+          <h1>No Books</h1>
+        )}
+      </Section>
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 90%;
-  height: 90%;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
 export default BooklistDetail;

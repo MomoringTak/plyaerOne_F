@@ -74,63 +74,41 @@ export default function AddBook() {
 
   return (
     <Container>
-      <Card>
-        <Template>
-          <Form onSubmit={handleSubmit}>
-            <Input
-              placeholder="제목을 입력 해주세요"
-              value={term}
-              onChange={updateTerm}
-            />
-          </Form>
-          {loading ? (
-            <Loader />
-          ) : (
+      <Form onSubmit={handleSubmit}>
+        <Input
+          placeholder="제목을 입력 해주세요"
+          value={term}
+          onChange={updateTerm}
+        />
+      </Form>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          {clickedBook > 0 ? (
             <>
-              {clickedBook > 0 ? (
-                <>
-                  <BookNum>추가 할 책 갯수 : {clickedBook}</BookNum>
-                  <Add onClick={pickBook}>책 추가</Add>
-                </>
-              ) : null}
-              {book && book.length > 0 && (
-                <Section title="Book Results">
-                  {book.map(bookItem => (
-                    <Book
-                      key={bookItem.isbn}
-                      bookItem={bookItem}
-                      clickBook={selectedBook}
-                    />
-                  ))}
-                </Section>
-              )}{" "}
+              <BookNum>추가 할 책 갯수 : {clickedBook}</BookNum>
+              <Add onClick={pickBook}>책 추가</Add>
             </>
-          )}
-        </Template>
-      </Card>
+          ) : null}
+          {book && book.length > 0 && (
+            <Section title="Book Results">
+              {book.map(bookItem => (
+                <Book
+                  key={bookItem.isbn}
+                  bookItem={bookItem}
+                  clickBook={selectedBook}
+                />
+              ))}
+            </Section>
+          )}{" "}
+        </>
+      )}
     </Container>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 90%;
-  height: 90%;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
-  overflow: auto;
-`;
-
-const Template = styled.div`
-  position: relative;
 `;
 
 const Form = styled.form`

@@ -99,72 +99,57 @@ const AddBookList = () => {
 
   return (
     <Container>
-      <Card>
-        {next ? (
-          <Form onSubmit={handleTitle}>
-            <Template>
-              <Input
-                placeholder="생성 할 북리스트 이름을 작성해주세요."
-                value={title}
-                onChange={updateTitle}
-              />
-            </Template>
-          </Form>
-        ) : (
-          <>
-            <AddBookForm
-              onSubmit={handleSubmit}
-              value={term}
-              onChange={updateTerm}
-            >
-              <Search placeholder="추가할 책을 검색 해주세요." />
-            </AddBookForm>
-            {loading ? (
-              <Loader />
-            ) : (
-              <>
-                {clickedBook > 0 ? (
-                  <>
-                    <BookNum>
-                      북 리스트에 추가 할 책 갯수 : {clickedBook}
-                    </BookNum>
-                    <Add onClick={pickBook}>책 추가 선정 완료</Add>
-                  </>
-                ) : null}
-                {book && book.length > 0 && (
-                  <Section title="Book Results">
-                    {book.map(bookItem => (
-                      <Book
-                        key={bookItem.isbn}
-                        bookItem={bookItem}
-                        clickBook={selectedBook}
-                      />
-                    ))}
-                  </Section>
-                )}{" "}
-              </>
-            )}
-          </>
-        )}
-      </Card>
+      {next ? (
+        <Form onSubmit={handleTitle}>
+          <Template>
+            <Input
+              placeholder="생성 할 북리스트 이름을 작성해주세요."
+              value={title}
+              onChange={updateTitle}
+            />
+          </Template>
+        </Form>
+      ) : (
+        <>
+          <AddBookForm
+            onSubmit={handleSubmit}
+            value={term}
+            onChange={updateTerm}
+          >
+            <Search placeholder="추가할 책을 검색 해주세요." />
+          </AddBookForm>
+          {loading ? (
+            <Loader />
+          ) : (
+            <>
+              {clickedBook > 0 ? (
+                <>
+                  <BookNum>
+                    북 리스트에 추가 할 책 갯수 : {clickedBook}
+                  </BookNum>
+                  <Add onClick={pickBook}>책 추가 선정 완료</Add>
+                </>
+              ) : null}
+              {book && book.length > 0 && (
+                <Section title="Book Results">
+                  {book.map(bookItem => (
+                    <Book
+                      key={bookItem.isbn}
+                      bookItem={bookItem}
+                      clickBook={selectedBook}
+                    />
+                  ))}
+                </Section>
+              )}{" "}
+            </>
+          )}
+        </>
+      )}
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 90%;
-  height: 90%;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
 const Form = styled.form`
@@ -185,7 +170,6 @@ const AddBookForm = styled.form`
 const Template = styled.div`
   width: 90%;
   height: 90%;
-  border: 1px solid blue;
   display: flex;
   flex-direction: column;
   align-items: center;
