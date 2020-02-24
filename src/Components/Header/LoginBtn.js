@@ -67,6 +67,7 @@ const LogInBtnCotainer = styled.div`
   border-radius: 10px;
   padding: 0 20px;
   transition: 0.5s;
+  color:#FFF;
 
   :hover {
     color: #333;
