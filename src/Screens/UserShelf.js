@@ -27,8 +27,6 @@ export default function UserShelf() {
     setUser(user);
   }
   const booklistDetail = async item => {
-    console.log(item);
-    console.log(history);
     history.push(`/booklist/${item}`);
   };
 
@@ -46,7 +44,8 @@ export default function UserShelf() {
   useEffect(() => {
     getUserInfo();
     showBookList();
-  }, []);
+    return;
+  }, [booklist]);
 
   return (
     <Container>

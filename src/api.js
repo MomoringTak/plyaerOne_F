@@ -31,5 +31,6 @@ export const booklistApi = {
       params: {
         id: id
       }
-    })
+    }),
+  getBooks: id => api.get(`/booklist/detail/${id}`)
 };
