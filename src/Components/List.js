@@ -21,13 +21,25 @@ const List = ({ booklistId, clickBooklist }) => {
     }
   };
 
+  const deleteBL = async () => {
+    try {
+      console.log(blist);
+      await booklistApi.deleteBookList(blist._id);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     showBooklist();
   }, []);
 
   return (
-    <Container onClick={clickEvent}>
-      <Title>북리스트 : {blist.title}</Title>
+    <Container>
+      <>
+        <Title onClick={clickEvent}>북리스트 : {blist.title}</Title>
+        <DeleteBtn onClick={deleteBL}>삭제</DeleteBtn>
+      </>
     </Container>
   );
 };
@@ -43,8 +55,17 @@ const Container = styled.div`
   justify-content: center;
 
   margin-bottom: 30px;
+  position: relative;
 `;
 
 const Title = styled.span``;
 
+const DeleteBtn = styled.button`
+  position: absolute;
+  right: 10px;
+  top: 10px;
+
+  width: 50px;
+  height: 50px;
+`;
 export default List;
