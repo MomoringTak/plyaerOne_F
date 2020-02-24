@@ -26,33 +26,112 @@ export default function BookDetail({
   return (
     <Container>
       <Template>
-        <Item>책 제목 : {book.title}</Item>
-        <Item>책 저자 : {book.author}</Item>
-        <Item>출판사 : {book.publisher}</Item>
-        <Item>책 설명 : {book.description}</Item>
+        <LeftContainer>
+          <img className="bookImage" src={String(book.image).replace("type=m1&", "")} alt={book.title} ></img>
+        </LeftContainer>
+        <RightContainer>
+          <Item>
+            <h1>{book.title}</h1>by {book.author}
+          </Item>
+          <Divider></Divider>
+          <Item className="description">{book.description}</Item>
+          <Item className="author-wrap">
+            <img src="https://secure.gravatar.com/avatar/f56af396b817f5a028808653642862de?s=50&amp;d=mm&amp;r=g" alt={book.author}></img>
+            <span>{book.author}</span>
+          </Item>
+          <Item>{book.publisher}</Item>
+        </RightContainer>
+        <ContentContainer>
+          Contents
+        </ContentContainer>
       </Template>
     </Container>
   );
 }
 
 const Container = styled.div`
-  height: calc(100vh - 50px);
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  margin-left: 200px;
-
-  color: black;
+  margin: 90px auto 20px;
+  box-sizing:border-box;
 `;
 
 const Template = styled.div`
-  display: flex;
-  flex-direction: column;
+  position:relative;
+  margin:0 auto;
+  padding-top:30px;
+
+  @media only screen and (max-width: 1200px) {
+    height:500px;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    height: 500px;
+    width: 800px;
+  }
 `;
 
-const Item = styled.span`
+const LeftContainer = styled.div`
+  @media only screen and (max-width: 1200px) {
+    width:100%;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    width:250px;
+    float:left;
+  }
+
+  > img.bookImage{
+    width:100%;
+  }
+`;
+
+const RightContainer = styled.div`
+  @media only screen and (max-width: 1200px) {
+    width:100%;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    padding:0 30px;
+    width:calc(100% - 250px);
+    float:left;
+  }
+`;
+
+const Item = styled.div`
   margin-bottom: 10px;
+  color:#333;
+
+  &.description {
+    color:#555;
+    font-weight:300;
+    line-height:20px;
+    padding-right:30px;
+    margin-bottom:30px;
+  }
+
+  &.author-wrap {
+    display:flex;
+    > img {
+      width: 40px;
+      height: 40px;
+      border-radius:20px;
+      margin-right:15px;
+    }
+    > span {
+      width: calc(100% - 55px);
+      line-height:40px;
+    }
+  }
+`;
+
+const Divider = styled.div`
+  height:1px;
+  width:100%;
+  background:#CCC;
+  margin:15px 0;
+`;
+
+const ContentContainer = styled.div`
+  margin-top:30px;
+  width:100%;
+  float:left;
 `;

@@ -14,39 +14,41 @@ export default withRouter(({ location: { pathname } }) => {
       <Logo>
         <SLink to="/">WTB</SLink>
       </Logo>
-      <LoginBtn />
 
       <List>
         <Item>
-          <SLink to="/login">Login</SLink>
+          <SLink to="/login">LOGIN</SLink>
         </Item>
         <Item>
-          <SLink to="/">Home</SLink>
+          <SLink to="/">HOME</SLink>
         </Item>
         <Item>
-          <SLink to="/shelf">Shelf</SLink>
+          <SLink to="/shelf">SHELF</SLink>
         </Item>
         {isSignedIn && (
           <>
             <Item>
               <SLink to={`/${googleUser.profileObj.email}/shelf`}>
-                UserShelf
+                USER SHELF
               </SLink>
             </Item>
 
             <Item>
               <SLink to={`/${googleUser.profileObj.email}/addbook`}>
-                Add Book
+                ADD BOOKS
               </SLink>
             </Item>
             <Item>
               <SLink to={`/${googleUser.profileObj.email}/profile`}>
-                Profile
+                PROFILE
               </SLink>
             </Item>
           </>
         )}
       </List>
+
+      <LoginBtn />
+
     </Header>
   );
 });
@@ -54,40 +56,49 @@ export default withRouter(({ location: { pathname } }) => {
 const Header = styled.header`
   color: #c3c3c3;
   position: fixed;
-  width: 200px;
-  height: 100vh;
+  //width: 200px;
+  width:100%;
+  height:80px;
+  padding:20px;
   display: flex;
-  flex-direction: column;
 
-  justify-content: center;
-  align-items: center;
   background-color: #323439;
   border-radius: 2px;
+
+  top:0;
+
+  //height: 100vh;
+  //flex-direction: column;
+  //justify-content: center;
+  //align-items: center;
+
 `;
 
 const List = styled.ul`
   display: flex;
-  flex-direction: column;
+  //flex-direction: column;
 `;
 
 const Item = styled.li`
-  width: 80px;
-  text-align: center;
-  transition: border-bottom 0.3s ease-in-out;
+  text-align: left;
+  margin-right:20px;
+  line-height:40px;
+
+  transition: border-bottom 1s ease-in-out;
+
+  color:#BBB;
 
   :hover {
-    color: white;
+    color: #FFF;
   }
 `;
 const SLink = styled(Link)`
-  margin-bottom: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const Logo = styled.div`
-  position: absolute;
-  top: 20px;
   font-size: 2rem;
+  line-height: 40px;
+  margin-right:30px;
+  //position: absolute;
+  //top: 20px;
 `;

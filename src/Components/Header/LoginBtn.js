@@ -56,17 +56,14 @@ const LoginBtn = () => {
 const Container = styled.div``;
 
 const SLink = styled(Link)`
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const LogInBtnCotainer = styled.div`
-  display: flex;
-  margin-bottom: 20px;
+  margin-left:40px;
+  line-height:40px;
   border: 1px solid white;
-  border-radius: 3px;
-  padding: 10px;
+  border-radius: 10px;
+  padding: 0 20px;
 
   :hover {
     color: white;
