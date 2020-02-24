@@ -44,6 +44,7 @@ export default function UserShelf() {
   useEffect(() => {
     getUserInfo();
     showBookList();
+    return;
   }, [booklist]);
 
   return (
