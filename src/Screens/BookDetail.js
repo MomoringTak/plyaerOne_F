@@ -22,7 +22,6 @@ export default function BookDetail({
     showBook();
   }, []);
 
-  //디자인은 나중에 다른 기능 일단 추가 우선.
   return (
     <Container>
       <LeftContainer>
