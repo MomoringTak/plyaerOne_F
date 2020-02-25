@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 
 import { bookApi } from "../api";
+
+import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
 export default function BookDetail({
   location: { pathname },
@@ -10,6 +12,21 @@ export default function BookDetail({
   }
 }) {
   const [book, setBook] = useState({});
+  const [comment, dispatch] = useReducer(reducer, initialState);
+  const [commentText, setCommentText] = useState("");
+
+  const onSubmit = e => {
+    if (e) {
+      e.preventDefault();
+    }
+  };
+
+  const onChange = e => {
+    const {
+      target: { value }
+    } = e;
+    setCommentText(value);
+  };
 
   const showBook = async () => {
     const {
@@ -46,7 +63,27 @@ export default function BookDetail({
         </Item>
         <Item>{book.publisher}</Item>
       </RightContainer>
-      <ContentContainer>Contents</ContentContainer>
+      <ContentContainer>
+        <CommentCotainer>
+          <CommentForm>
+            <ComentTitle />
+            <Comment
+              placeholder="댓글 입력"
+              value={commentText}
+              onChange={onChange}
+            />
+            <CommentSubmit type="submit">등록</CommentSubmit>
+          </CommentForm>
+          <Dividers />
+          <CommentTitle>댓글</CommentTitle>
+          <Dividers />
+          <CommentList>
+            <li key={commentText.id}>
+              <span>{commentText.text}</span>
+            </li>
+          </CommentList>
+        </CommentCotainer>
+      </ContentContainer>
     </Container>
   );
 }
@@ -118,4 +155,67 @@ const ContentContainer = styled.div`
   margin-top: 30px;
   width: 100%;
   float: left;
+`;
+
+const CommentCotainer = styled.div`
+  width: 100%;
+  height: 300px;
+
+  margin-bottom: 30px;
+`;
+
+const CommentForm = styled.form`
+  width: 90%;
+  height: 200px;
+
+  margin: 20px auto 0 auto;
+
+  position: relative;
+`;
+
+const ComentTitle = styled.span`
+  display: block;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-left: 40px;
+
+  :before {
+    content: "댓글쓰기";
+  }
+`;
+
+const Comment = styled.textarea`
+  display: block;
+  width: 90%;
+  height: 100px;
+  margin: 10px auto 0 auto;
+`;
+
+const CommentSubmit = styled.button`
+  width: 50px;
+  height: 20px;
+
+  right: 5%;
+  bottom: 10%;
+  position: absolute;
+
+  text-align: center;
+`;
+
+const CommentList = styled.ul`
+  list-style: none;
+`;
+
+const CommentTitle = styled.span`
+  font-size: 1rem;
+  font-weight: 700;
+
+  margin-left: 5%;
+`;
+
+const Dividers = styled.div`
+  width: 100%;
+  border: 0.8px solid black;
+  margin-bottom: 5px;
+  margin-top: 5px;
 `;
