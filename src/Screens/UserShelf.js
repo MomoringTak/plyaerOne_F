@@ -14,21 +14,25 @@ export default function UserShelf() {
   const { googleUser } = useGoogleAuth();
   const [user, setUser] = useState([]);
   const [booklist, setBooklist] = useState([]);
-  async function getUserInfo() {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-      if (err.response) {
-        if (err.response.msg !== `success`) {
-          return <Redirect to="/" />;
-        }
-      }
-    });
-    setUser(user);
-  }
+
   const booklistDetail = async item => {
     history.push(`/booklist/${item}`);
   };
+
+  async function getUserInfo() {
+    if (null !== googleUser && user.length === 0) {
+      const {
+        data: { user }
+      } = await userApi.getUser(googleUser.googleId).catch(function(err) {
+        if (err.response) {
+          if (err.response.msg !== `success`) {
+            return <Redirect to="/" />;
+          }
+        }
+      });
+      setUser(user);
+    }
+  }
 
   const showBookList = async () => {
     try {
@@ -44,45 +48,32 @@ export default function UserShelf() {
   useEffect(() => {
     getUserInfo();
     showBookList();
-    return;
+  }, []);
+
+  useEffect(() => {
+    showBookList();
   }, [booklist]);
 
   return (
     <Container>
-      <Card>
-        <>
-          <SLink to={`/${user.email}/addbooklist`}>
-            <AddBook>Add BookList</AddBook>
-          </SLink>
-          <Table>
-            {booklist ? (
-              booklist.map(item => (
-                <List
-                  key={item}
-                  booklistId={item}
-                  clickBooklist={booklistDetail}
-                />
-              ))
-            ) : (
-              <h1>Empty BookList</h1>
-            )}
-          </Table>
-        </>
-      </Card>
+      <SLink to={`/${user.email}/addbooklist`}>
+        <AddBook>Add BookList</AddBook>
+      </SLink>
+      <Table>
+        {booklist ? (
+          booklist.map(item => (
+            <List key={item} booklistId={item} clickBooklist={booklistDetail} />
+          ))
+        ) : (
+          <h1>Empty BookList</h1>
+        )}
+      </Table>
     </Container>
   );
 }
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+const Container = styled.div``;
 
-  color: black;
-
-  margin-left: 200px;
-  height: 100vh;
-`;
 const SLink = styled(Link)`
   margin-top: 10px;
   color: #4a6ee0;
@@ -99,13 +90,4 @@ const AddBook = styled.button`
 
   top: 10px;
   left: 10px;
-`;
-
-const Card = styled.div`
-  width: 90%;
-  height: 100vh;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
-  position: relative;
-  overflow: auto;
 `;

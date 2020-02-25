@@ -58,59 +58,43 @@ export default function EditProfile() {
 
   return (
     <Container>
-      <Card>
-        <Header>
-          <Title>Edit Nickname</Title>
-          <Spacer style={{ height: "100px" }} />
-          <Section>
-            <Spacer />
-            {changed ? (
-              <>
-                <h3>Please Enter New nickname</h3>
-                <Form onSubmit={handleSubmit}>
-                  <Input
-                    placeholder={user.nickname}
-                    value={name}
-                    onChange={updateName}
-                  />
-                </Form>
-              </>
-            ) : (
-              <>
-                <h1>New Nickname : {name}</h1>
-                <SLink to={`/${user.email}/profile`}>
-                  Back to Profile Page
-                </SLink>
-              </>
-            )}
-            <Spacer />
-            {!changed && (
-              <button style={{ color: "#4a6ee0" }} onClick={updateAgain}>
-                Update Again?
-              </button>
-            )}
-          </Section>
-        </Header>
-      </Card>
+      <Header>
+        <Title>Edit Nickname</Title>
+        <Spacer style={{ height: "100px" }} />
+        <Section>
+          <Spacer />
+          {changed ? (
+            <>
+              <h3>Please Enter New nickname</h3>
+              <Form onSubmit={handleSubmit}>
+                <Input
+                  placeholder={user.nickname}
+                  value={name}
+                  onChange={updateName}
+                />
+              </Form>
+            </>
+          ) : (
+            <>
+              <h1>New Nickname : {name}</h1>
+              <SLink to={`/${user.email}/profile`}>
+                Back to Profile Page
+              </SLink>
+            </>
+          )}
+          <Spacer />
+          {!changed && (
+            <button style={{ color: "#4a6ee0" }} onClick={updateAgain}>
+              Update Again?
+            </button>
+          )}
+        </Section>
+      </Header>
     </Container>
   );
 }
 
 const Container = styled.div`
-  border: 2px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 500px;
-  height: 500px;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
 const Header = styled.div`

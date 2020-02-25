@@ -29,43 +29,28 @@ export default function Profile() {
 
   return (
     <Container>
-      <Card>
-        <Head>
-          <Title>Profile</Title>
-          <Spacer style={{ height: "100px" }} />
-          <Section>
-            <span>Name</span>
-            <Spacer />
-            <h3>{user.nickname}</h3>
-            <SLink to={`/${user.email}/editprofile`}>edit</SLink>
-            <Spacer />
-            <span>Email</span>
-            <Spacer />
-            <h3>{user.email}</h3>
-            <Spacer />
+      <Head>
+        <Title>Profile</Title>
+        <Spacer style={{ height: "100px" }} />
+        <Section>
+          <span>Name</span>
+          <Spacer />
+          <h3>{user.nickname}</h3>
+          <SLink to={`/${user.email}/editprofile`}>edit</SLink>
+          <Spacer />
+          <span>Email</span>
+          <Spacer />
+          <h3>{user.email}</h3>
+          <Spacer />
 
-            <Spacer />
-          </Section>
-        </Head>
-      </Card>
+          <Spacer />
+        </Section>
+      </Head>
     </Container>
   );
 }
 
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 500px;
-  height: 500px;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
 `;
 
 const Head = styled.div`

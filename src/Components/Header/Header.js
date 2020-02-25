@@ -16,9 +16,9 @@ export default withRouter(({ location: { pathname } }) => {
       </Logo>
 
       <List>
-        <Item>
+        {/* <Item>
           <SLink to="/login">LOGIN</SLink>
-        </Item>
+        </Item> */}
         <Item>
           <SLink to="/">HOME</SLink>
         </Item>
@@ -54,24 +54,18 @@ export default withRouter(({ location: { pathname } }) => {
 });
 
 const Header = styled.header`
-  color: #c3c3c3;
+  
   position: fixed;
-  //width: 200px;
   width:100%;
-  height:80px;
+  height:70px;
   padding:20px;
   display: flex;
 
-  background-color: #323439;
+  background-color: RGB(20,20,20);
+  //background-color: #323439;
   border-radius: 2px;
-
   top:0;
-
-  //height: 100vh;
-  //flex-direction: column;
-  //justify-content: center;
-  //align-items: center;
-
+  z-index:1;
 `;
 
 const List = styled.ul`
@@ -80,25 +74,44 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
+  font-size:12px;
   text-align: left;
-  margin-right:20px;
-  line-height:40px;
+  margin-right:24px;
+  line-height:30px;
+  border-bottom:RGB(20,20,20) solid 1px;
+  color:#E5E5E5;
+  font-weight:400;
 
-  transition: border-bottom 1s ease-in-out;
+  transition: 1s;
 
-  color:#BBB;
+  > a {
+    display:block;
+  }
 
   :hover {
-    color: #FFF;
+    color: #666;
+    border-bottom:#333 solid 1px;
   }
 `;
 const SLink = styled(Link)`
 `;
 
 const Logo = styled.div`
-  font-size: 2rem;
-  line-height: 40px;
+  width:120px;
   margin-right:30px;
-  //position: absolute;
-  //top: 20px;
+  line-height: 30px;
+  font-weight:600;
+  font-size: 2rem;
+  color:#E5E5E5;
+  text-align:center;
+
+  transition: 0.5s;
+
+  > a {
+    line-height: 30px;
+  }
+
+  :hover {
+    color:#AAA;
+  }
 `;

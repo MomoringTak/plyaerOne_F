@@ -43,11 +43,11 @@ const LoginBtn = () => {
       {isSignedIn ? (
         <Container>
           <button onClick={signOut}>
-            <SLink to={`/`}>Log Out</SLink>
+            <SLink to={`/`}>LOGOUT</SLink>
           </button>
         </Container>
       ) : (
-        <button onClick={LogIn}>Sign in with Google</button>
+        <button onClick={LogIn}>SIGN-IN WITH GOOGLE</button>
       )}
     </LogInBtnCotainer>
   );
@@ -59,14 +59,19 @@ const SLink = styled(Link)`
 `;
 
 const LogInBtnCotainer = styled.div`
-  margin-left:40px;
-  line-height:40px;
+  position:absolute;
+  right:0;
+  margin-right:40px;
+  line-height:30px;
   border: 1px solid white;
   border-radius: 10px;
   padding: 0 20px;
+  transition: 0.5s;
+  color:#FFF;
 
   :hover {
-    color: white;
+    color: #333;
+    background:#FFF;
   }
 `;
 
