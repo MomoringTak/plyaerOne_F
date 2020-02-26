@@ -26,10 +26,11 @@ export const booklistApi = {
   getBookList: googleId =>
     api.get(`/booklist`, { params: { googleId: googleId } }),
   getOneBookList: id => api.get(`/booklist/item/${id}`),
-  deleteBookList: id =>
+  deleteBookList: (id, googleId) =>
     api.delete(`/booklist`, {
       params: {
-        id: id
+        id: id,
+        googleId: googleId
       }
     }),
   getBooks: id => api.get(`/booklist/detail/${id}`)

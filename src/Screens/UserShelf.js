@@ -19,7 +19,19 @@ export default function UserShelf() {
     history.push(`/booklist/${item}`);
   };
 
-  const deleteBooklist = async () => {};
+  const deleteBL = async item => {
+    try {
+      const {
+        data: {
+          booklist: { booklists }
+        }
+      } = await booklistApi.deleteBookList(item, googleUser.googleId);
+
+      setBooklist(booklists);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   async function getUserInfo() {
     if (null !== googleUser && user.length === 0) {
@@ -41,7 +53,6 @@ export default function UserShelf() {
       const {
         data: { booklist }
       } = await booklistApi.getBookList(googleUser.googleId);
-      console.log(booklist);
       setBooklist(booklist.booklists);
     } catch (e) {
       console.log(e);
@@ -65,6 +76,7 @@ export default function UserShelf() {
               key={item._id}
               booklist={item}
               clickBooklist={booklistDetail}
+              deleteBL={deleteBL}
             />
           ))
         ) : (

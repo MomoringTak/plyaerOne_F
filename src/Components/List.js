@@ -3,24 +3,23 @@ import styled from "styled-components";
 
 import { booklistApi } from "../api";
 
-const List = ({ booklist, clickBooklist }) => {
+const List = ({ booklist, clickBooklist, deleteBL }) => {
   const clickEvent = e => {
     clickBooklist(booklist._id);
   };
 
-  const deleteBL = async () => {
-    try {
-      await booklistApi.deleteBookList(booklist._id);
-    } catch (e) {
-      console.log(e);
-    }
+  const clickDelete = e => {
+    deleteBL(booklist._id);
   };
+
+  console.log(booklist.userBL);
 
   return (
     <Container>
       <>
         <Title onClick={clickEvent}>북리스트 : {booklist.title}</Title>
-        <DeleteBtn onClick={deleteBL}>삭제</DeleteBtn>
+
+        <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
       </>
     </Container>
   );
