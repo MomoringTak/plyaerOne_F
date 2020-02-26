@@ -53,7 +53,11 @@ export default function UserShelf() {
       const {
         data: { booklist }
       } = await booklistApi.getBookList(googleUser.googleId);
-      setBooklist(booklist.booklists);
+      const NEW_BL = booklist.booklists.map(item => {
+        item.userBL = true;
+        return item;
+      });
+      setBooklist(NEW_BL);
     } catch (e) {
       console.log(e);
     }

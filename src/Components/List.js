@@ -16,11 +16,10 @@ const List = ({ booklist, clickBooklist, deleteBL }) => {
 
   return (
     <Container>
-      <>
-        <Title onClick={clickEvent}>북리스트 : {booklist.title}</Title>
-
+      <Title onClick={clickEvent}>북리스트 : {booklist.title}</Title>
+      {booklist.userBL ? (
         <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
-      </>
+      ) : null}
     </Container>
   );
 };
