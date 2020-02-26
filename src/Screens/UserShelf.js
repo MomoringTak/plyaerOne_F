@@ -19,6 +19,8 @@ export default function UserShelf() {
     history.push(`/booklist/${item}`);
   };
 
+  const deleteBooklist = async () => {};
+
   async function getUserInfo() {
     if (null !== googleUser && user.length === 0) {
       const {
@@ -39,7 +41,8 @@ export default function UserShelf() {
       const {
         data: { booklist }
       } = await booklistApi.getBookList(googleUser.googleId);
-      setBooklist(booklist);
+      console.log(booklist);
+      setBooklist(booklist.booklists);
     } catch (e) {
       console.log(e);
     }
@@ -50,10 +53,6 @@ export default function UserShelf() {
     showBookList();
   }, []);
 
-  useEffect(() => {
-    showBookList();
-  }, [booklist]);
-
   return (
     <Container>
       <SLink to={`/${user.email}/addbooklist`}>
@@ -62,7 +61,11 @@ export default function UserShelf() {
       <Table>
         {booklist ? (
           booklist.map(item => (
-            <List key={item} booklistId={item} clickBooklist={booklistDetail} />
+            <List
+              key={item._id}
+              booklist={item}
+              clickBooklist={booklistDetail}
+            />
           ))
         ) : (
           <h1>Empty BookList</h1>

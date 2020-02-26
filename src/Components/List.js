@@ -3,41 +3,23 @@ import styled from "styled-components";
 
 import { booklistApi } from "../api";
 
-const List = ({ booklistId, clickBooklist }) => {
-  const [blist, setBlist] = useState([]);
-
+const List = ({ booklist, clickBooklist }) => {
   const clickEvent = e => {
-    clickBooklist(booklistId);
-  };
-
-  const showBooklist = async () => {
-    try {
-      const {
-        data: { result }
-      } = await booklistApi.getOneBookList(booklistId);
-      setBlist(result);
-    } catch (e) {
-      console.log(e);
-    }
+    clickBooklist(booklist._id);
   };
 
   const deleteBL = async () => {
     try {
-      console.log(blist);
-      await booklistApi.deleteBookList(blist._id);
+      await booklistApi.deleteBookList(booklist._id);
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(() => {
-    showBooklist();
-  }, []);
-
   return (
     <Container>
       <>
-        <Title onClick={clickEvent}>북리스트 : {blist.title}</Title>
+        <Title onClick={clickEvent}>북리스트 : {booklist.title}</Title>
         <DeleteBtn onClick={deleteBL}>삭제</DeleteBtn>
       </>
     </Container>
