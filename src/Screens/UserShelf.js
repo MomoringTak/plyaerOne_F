@@ -62,7 +62,7 @@ export default function UserShelf() {
   useEffect(() => {
     getUserInfo();
     showBookList();
-  }, []);
+  }, [googleUser]);
 
   return (
     <Container>
