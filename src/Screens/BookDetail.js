@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
-
-import { bookApi } from "../api";
+import { useGoogleAuth } from "../Components/AuthG";
+import { bookApi, userApi, commentApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
@@ -11,14 +11,35 @@ export default function BookDetail({
     params: { id }
   }
 }) {
+  const { googleUser } = useGoogleAuth();
+
   const [book, setBook] = useState({});
   const [comment, dispatch] = useReducer(reducer, initialState);
   const [commentText, setCommentText] = useState("");
+  const [allComment, setAllComment] = useState([]);
+
+  const saveComment = async () => {
+    const {
+      data: { user }
+    } = await userApi.getUser(googleUser.googleId);
+
+    const COMMENT_DATA = {
+      user: user._id,
+      book: book._id,
+      description: commentText
+    };
+
+    await commentApi.commentBook(COMMENT_DATA);
+  };
 
   const onSubmit = e => {
     if (e) {
       e.preventDefault();
     }
+    saveComment();
+
+    dispatch({ type: ADD, payload: commentText });
+    setCommentText("");
   };
 
   const onChange = e => {
@@ -32,7 +53,12 @@ export default function BookDetail({
     const {
       data: { book: Results }
     } = await bookApi.getBookDetail(id);
+
+    const data = await commentApi.bookComment(Results._id);
+
+    console.log(data);
     setBook(Results);
+    // setAllComment(commentResult);
   };
 
   useEffect(() => {
@@ -65,7 +91,7 @@ export default function BookDetail({
       </RightContainer>
       <ContentContainer>
         <CommentCotainer>
-          <CommentForm>
+          <CommentForm onSubmit={onSubmit}>
             <ComentTitle />
             <Comment
               placeholder="댓글 입력"
@@ -78,9 +104,15 @@ export default function BookDetail({
           <CommentTitle>댓글</CommentTitle>
           <Dividers />
           <CommentList>
-            <li key={commentText.id}>
-              <span>{commentText.text}</span>
-            </li>
+            <h4>추가된 댓글들 </h4>
+            {comment.comments.map(item => (
+              <>
+                <li key={item.id}>
+                  <h5>{item.time}</h5>
+                  <span>{item.text}</span>
+                </li>
+              </>
+            ))}
           </CommentList>
         </CommentCotainer>
       </ContentContainer>
