@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 
 import { booklistApi } from "../api";
@@ -11,8 +11,6 @@ const List = ({ booklist, clickBooklist, deleteBL }) => {
   const clickDelete = e => {
     deleteBL(booklist._id);
   };
-
-  console.log(booklist.userBL);
 
   return (
     <Container>

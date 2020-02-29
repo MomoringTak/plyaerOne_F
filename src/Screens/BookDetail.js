@@ -5,6 +5,8 @@ import { bookApi, userApi, commentApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
+import Comment from "../Components/Comment";
+
 export default function BookDetail({
   location: { pathname },
   match: {
@@ -56,9 +58,17 @@ export default function BookDetail({
     const {
       data: { commentResult }
     } = await commentApi.bookComment(Results._id);
-
     setBook(Results);
     setAllComment(commentResult);
+  };
+
+  const deleteComments = async commentId => {
+    try {
+      console.log("fk");
+      await commentApi.deleteComment(commentId);
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   useEffect(() => {
@@ -93,7 +103,7 @@ export default function BookDetail({
         <CommentCotainer>
           <CommentForm onSubmit={onSubmit}>
             <ComentTitle />
-            <Comment
+            <CommentSection
               placeholder="댓글 입력"
               value={commentText}
               onChange={onChange}
@@ -105,12 +115,12 @@ export default function BookDetail({
           <Dividers />
           <CommentList>
             <h4>추가된 댓글들 </h4>
-            {allComment.map(item => (
-              <li key={item._id}>
-                <h5>작성 시간 : {item.createdAt}</h5>
-                <h5>작성자 이름: {item.user[0].nickname}</h5>
-                <h5>댓글 내용 : {item.description}</h5>
-              </li>
+            {allComment.map(comment => (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                deleteComment={deleteComments}
+              />
             ))}
             {comment.comments.map(item => (
               <li key={item.id}>
@@ -222,7 +232,7 @@ const ComentTitle = styled.span`
   }
 `;
 
-const Comment = styled.textarea`
+const CommentSection = styled.textarea`
   display: block;
   width: 90%;
   height: 100px;
