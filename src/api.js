@@ -37,10 +37,6 @@ export const booklistApi = {
 };
 
 export const commentApi = {
-  commentBook: data => {
-    api.post("/book/comment", data);
-  },
-  bookComment: id => {
-    api.get(`/book/comment/${id}`);
-  }
+  commentBook: data => api.post("/book/comment", data),
+  bookComment: id => api.get(`/comment/${id}`)
 };

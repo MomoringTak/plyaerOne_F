@@ -12,7 +12,7 @@ export default function BookDetail({
   }
 }) {
   const { googleUser } = useGoogleAuth();
-
+  const [user, setUser] = useState([]);
   const [book, setBook] = useState({});
   const [comment, dispatch] = useReducer(reducer, initialState);
   const [commentText, setCommentText] = useState("");
@@ -22,7 +22,7 @@ export default function BookDetail({
     const {
       data: { user }
     } = await userApi.getUser(googleUser.googleId);
-
+    setUser(user);
     const COMMENT_DATA = {
       user: user._id,
       book: book._id,
@@ -53,12 +53,12 @@ export default function BookDetail({
     const {
       data: { book: Results }
     } = await bookApi.getBookDetail(id);
+    const {
+      data: { commentResult }
+    } = await commentApi.bookComment(Results._id);
 
-    const data = await commentApi.bookComment(Results._id);
-
-    console.log(data);
     setBook(Results);
-    // setAllComment(commentResult);
+    setAllComment(commentResult);
   };
 
   useEffect(() => {
@@ -105,13 +105,19 @@ export default function BookDetail({
           <Dividers />
           <CommentList>
             <h4>추가된 댓글들 </h4>
+            {allComment.map(item => (
+              <li key={item._id}>
+                <h5>작성 시간 : {item.createdAt}</h5>
+                <h5>작성자 이름: {item.user[0].nickname}</h5>
+                <h5>댓글 내용 : {item.description}</h5>
+              </li>
+            ))}
             {comment.comments.map(item => (
-              <>
-                <li key={item.id}>
-                  <h5>{item.time}</h5>
-                  <span>{item.text}</span>
-                </li>
-              </>
+              <li key={item.id}>
+                <h5>작성 시간 : {item.time}</h5>
+                <h5>작성자 이름 : {user.nickname}</h5>
+                <span>댓글 내용 : {item.text}</span>
+              </li>
             ))}
           </CommentList>
         </CommentCotainer>
