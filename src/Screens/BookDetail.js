@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
+import { v4 as uuidv4 } from "uuid";
+
 import { useGoogleAuth } from "../Components/AuthG";
 import { bookApi, userApi, commentApi } from "../api";
 
@@ -25,13 +27,20 @@ export default function BookDetail({
       data: { user }
     } = await userApi.getUser(googleUser.googleId);
     setUser(user);
+
     const COMMENT_DATA = {
       user: user._id,
       book: book._id,
-      description: commentText
+      description: commentText,
+      uuid: uuidv4()
     };
 
     await commentApi.commentBook(COMMENT_DATA);
+
+    dispatch({
+      type: ADD,
+      payload: { commentText: commentText, id: COMMENT_DATA.uuid }
+    });
   };
 
   const onSubmit = e => {
@@ -40,7 +49,6 @@ export default function BookDetail({
     }
     saveComment();
 
-    dispatch({ type: ADD, payload: commentText });
     setCommentText("");
   };
 
@@ -52,20 +60,30 @@ export default function BookDetail({
   };
 
   const showBook = async () => {
-    const {
-      data: { book: Results }
-    } = await bookApi.getBookDetail(id);
-    const {
-      data: { commentResult }
-    } = await commentApi.bookComment(Results._id);
-    setBook(Results);
-    setAllComment(commentResult);
+    if (null !== googleUser && user.length === 0) {
+      //get all info about the book.
+      const {
+        data: { book: Results }
+      } = await bookApi.getBookDetail(id);
+
+      setBook(Results);
+
+      //get all the comment.
+      const {
+        data: { commentResult }
+      } = await commentApi.bookComment(Results._id);
+
+      setAllComment(commentResult);
+    }
   };
 
   const deleteComments = async commentId => {
     try {
-      console.log("fk");
-      await commentApi.deleteComment(commentId);
+      const {
+        data: { commentResult }
+      } = await commentApi.deleteComment(commentId, book._id);
+      setAllComment(commentResult);
+      dispatch({ type: DEL, payload: commentId });
     } catch (e) {
       console.log(e);
     }
@@ -73,7 +91,7 @@ export default function BookDetail({
 
   useEffect(() => {
     showBook();
-  }, []);
+  }, [googleUser]);
 
   return (
     <Container>
@@ -119,15 +137,17 @@ export default function BookDetail({
               <Comment
                 key={comment._id}
                 comment={comment}
+                user={comment.user}
                 deleteComment={deleteComments}
               />
             ))}
-            {comment.comments.map(item => (
-              <li key={item.id}>
-                <h5>작성 시간 : {item.time}</h5>
-                <h5>작성자 이름 : {user.nickname}</h5>
-                <span>댓글 내용 : {item.text}</span>
-              </li>
+            {comment.comments.map(comment => (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                user={user}
+                deleteComment={deleteComments}
+              />
             ))}
           </CommentList>
         </CommentCotainer>

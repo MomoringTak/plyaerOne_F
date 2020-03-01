@@ -1,6 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
-
-//입력된 날짜 추가해야됨. 추 후 예정. DB 저장 ㄱㄱ
 export const initialState = {
   comments: []
 };
@@ -17,13 +14,19 @@ const reducer = (state, action) => {
         ...state,
         comments: [
           ...state.comments,
-          { text: action.payload, time: CURRENT_TIME, id: uuidv4() }
+          {
+            description: action.payload.commentText,
+            createdAt: CURRENT_TIME,
+            uuid: action.payload.id
+          }
         ]
       };
     case DEL:
       return {
         ...state,
-        comments: state.comments.filter(toDo => toDo.id !== action.payload)
+        comments: state.comments.filter(
+          comment => comment.uuid !== action.payload
+        )
       };
 
     default:

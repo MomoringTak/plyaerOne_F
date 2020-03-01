@@ -36,8 +36,10 @@ export const booklistApi = {
   getBooks: id => api.get(`/booklist/detail/${id}`)
 };
 
+//Comment API
 export const commentApi = {
   commentBook: data => api.post("/book/comment", data),
   bookComment: id => api.get(`/comment/${id}`),
-  deleteComment: id => api.delete("/comment", { params: { id: id } })
+  deleteComment: (id, bookId) =>
+    api.delete("/comment", { params: { id: id, bookId: bookId } })
 };
