@@ -8,9 +8,10 @@ const Comment = ({ comment, user, deleteComment }) => {
   const clickDelete = e => {
     deleteComment(comment.uuid);
   };
+
   return (
     <Container>
-      <h5>작성 시간 : {comment.createdAt}</h5>
+      <h5>작성 시간 : {(new Date(comment.createdAt)).toString()}</h5>
 
       <h5>작성자 이름: {user.nickname}</h5>
       <h5>댓글 내용 : {comment.description}</h5>

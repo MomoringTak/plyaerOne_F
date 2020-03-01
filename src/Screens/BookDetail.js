@@ -35,12 +35,26 @@ export default function BookDetail({
       uuid: uuidv4()
     };
 
-    await commentApi.commentBook(COMMENT_DATA);
+    const {
+      data: {
+        commentResult,
+        success,
+        msg
+      }
+    } = await commentApi.commentBook(COMMENT_DATA);
 
-    dispatch({
-      type: ADD,
-      payload: { commentText: commentText, id: COMMENT_DATA.uuid }
-    });
+    if (success) {
+      dispatch({
+        type: ADD,
+        payload: {
+          commentText: commentResult.description,
+          id: commentResult.uuid,
+          createdAt: commentResult.createdAt
+        }
+      });
+    } else {
+      alert(msg);
+    }
   };
 
   const onSubmit = e => {

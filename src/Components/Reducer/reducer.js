@@ -6,8 +6,6 @@ export const ADD = "add";
 export const DEL = "del";
 
 const reducer = (state, action) => {
-  const date = new Date();
-  const CURRENT_TIME = date.toUTCString();
   switch (action.type) {
     case ADD:
       return {
@@ -16,7 +14,7 @@ const reducer = (state, action) => {
           ...state.comments,
           {
             description: action.payload.commentText,
-            createdAt: CURRENT_TIME,
+            createdAt: action.payload.createdAt,
             uuid: action.payload.id
           }
         ]
