@@ -83,10 +83,16 @@ export default function BookDetail({
         data: { commentResult }
       } = await commentApi.deleteComment(commentId, book._id);
       setAllComment(commentResult);
-      dispatch({ type: DEL, payload: commentId });
     } catch (e) {
       console.log(e);
     }
+  };
+
+  const deleteNow = async commentId => {
+    const {
+      data: { commentResult }
+    } = await commentApi.deleteComment(commentId, book._id);
+    dispatch({ type: DEL, payload: commentId });
   };
 
   useEffect(() => {
@@ -143,10 +149,10 @@ export default function BookDetail({
             ))}
             {comment.comments.map(comment => (
               <Comment
-                key={comment._id}
+                key={comment.uuid}
                 comment={comment}
                 user={user}
-                deleteComment={deleteComments}
+                deleteComment={deleteNow}
               />
             ))}
           </CommentList>
