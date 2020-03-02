@@ -6,40 +6,40 @@ const api = axios.create({
 
 //Book API
 export const bookApi = {
-  getBook: (title, display) => api.get(`/book/${title}/${display}`),
-  addBook: book => api.post(`/book`, book),
-  getAllBook: () => api.get(`/book/`),
-  getBookDetail: id => api.get(`/book/${id}`)
+  getBook: (title, display) => api.get(`/books/${title}/${display}`),
+  addBook: book => api.post(`/books/upload`, book),
+  getAllBook: () => api.get(`/books/`),
+  getBookDetail: id => api.get(`/books/${id}`)
 };
 
 //User API
 export const userApi = {
-  ssoGLogin: userInfo => api.post(`/user`, userInfo),
-  getUser: googleId => api.get(`/user/${googleId}`),
+  ssoGLogin: userInfo => api.post(`/users/add`, userInfo),
+  getUser: googleId => api.get(`/users/${googleId}`),
   updateUser: (googleId, nickname) =>
-    api.patch(`/user/${googleId}`, { nickname: nickname })
+    api.patch(`/users/${googleId}`, { nickname: nickname })
 };
 
 export const booklistApi = {
-  serachBook: title => api.get(`/booklist/${title}`),
-  addBookList: booklist => api.post(`/booklist`, booklist),
+  serachBook: title => api.get(`/booklists/${title}`),
+  addBookList: booklist => api.post(`/booklists/upload`, booklist),
   getBookList: googleId =>
-    api.get(`/booklist`, { params: { googleId: googleId } }),
-  getOneBookList: id => api.get(`/booklist/item/${id}`),
+    api.get(`/booklists`, { params: { googleId: googleId } }),
+  getOneBookList: id => api.get(`/booklists/item/${id}`),
   deleteBookList: (id, googleId) =>
-    api.delete(`/booklist`, {
+    api.delete(`/booklists/delete`, {
       params: {
         id: id,
         googleId: googleId
       }
     }),
-  getBooks: id => api.get(`/booklist/detail/${id}`)
+  getBooks: id => api.get(`/booklists/detail/${id}`)
 };
 
 //Comment API
 export const commentApi = {
-  commentBook: data => api.post("/book/comment", data),
-  bookComment: id => api.get(`/comment/${id}`),
+  commentBook: data => api.post("/books/comment", data),
+  bookComment: id => api.get(`/comments/${id}`),
   deleteComment: (id, bookId) =>
-    api.delete("/comment", { params: { id: id, bookId: bookId } })
+    api.delete("/comments/delete", { params: { id: id, bookId: bookId } })
 };
