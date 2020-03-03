@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
+import './Font.css';
 
 const globalStyles = createGlobalStyle`
     ${reset};
@@ -12,9 +13,10 @@ const globalStyles = createGlobalStyle`
 
     }
     body{
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        //font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
         font-size:14px;
         background-color: #FFF;
+        line-height: 1.33;
         
     }
     button{

@@ -19,11 +19,10 @@ const Template = styled.div`
   width: 100vw;
 
   @media only screen and (max-width: 767px) {
-    //height: 500px;
+    width: calc(100% - 20px);
   }
 
   @media only screen and (min-width: 768px) {
-    //height: 500px;
     width: 800px;
     max-width: 100%;
   }
