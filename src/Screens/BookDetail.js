@@ -83,10 +83,11 @@ export default function BookDetail({
 
       //get all the booklist of users
       const {
-        data: { booklist }
+        data: {
+          booklist: { booklists }
+        }
       } = await booklistApi.getBookList(googleUser.googleId);
-
-      setBooklist(booklist);
+      setBooklist(booklists);
 
       //get all the comment.
       const {
@@ -96,6 +97,8 @@ export default function BookDetail({
       setAllComment(commentResult);
     }
   };
+
+  const addBooktoBooklist = booklistId => {};
 
   const deleteComments = async commentId => {
     try {
@@ -188,6 +191,19 @@ export default function BookDetail({
       <AddBook clicked={click}>
         <AddBookTemplate>
           <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
+          <div>
+            {booklist.map(item => (
+              <h1
+                onClick={async () => {
+                  await bookApi.addToBooklist(book._id, item._id);
+                  setClick(false);
+                }}
+                key={item._id}
+              >
+                {item.title}
+              </h1>
+            ))}
+          </div>
         </AddBookTemplate>
       </AddBook>
     </>
