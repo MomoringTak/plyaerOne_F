@@ -16,6 +16,7 @@ const Template = styled.div`
   position: relative;
   margin: 0 auto;
   padding-top: 30px;
+  width: 100vw;
 
   @media only screen and (max-width: 767px) {
     //height: 500px;

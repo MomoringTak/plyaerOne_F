@@ -26,8 +26,11 @@ export default function UserShelf() {
           booklist: { booklists }
         }
       } = await booklistApi.deleteBookList(item, googleUser.googleId);
-
-      setBooklist(booklists);
+      const NEW_BL = booklists.map(item => {
+        item.userBL = true;
+        return item;
+      });
+      setBooklist(NEW_BL);
     } catch (e) {
       console.log(e);
     }
