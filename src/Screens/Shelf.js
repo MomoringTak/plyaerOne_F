@@ -10,7 +10,6 @@ export default function Shelf() {
   const showBookList = async () => {
     try {
       const data = await booklistApi.getBookList(googleUser.googleId);
-      console.log(data);
     } catch (e) {
       console.log(e);
     }
@@ -27,5 +26,4 @@ export default function Shelf() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;

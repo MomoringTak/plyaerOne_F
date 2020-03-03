@@ -7,6 +7,8 @@ const api = axios.create({
 
 //Book API
 export const bookApi = {
+  addToBooklist: (bookId, booklistId) =>
+    api.post(`books/addbook-to-booklist/${bookId}/${booklistId}`),
   getBook: (title, display) => api.get(`/books/${title}/${display}`),
   addBook: book => api.post(`/books/upload`, book),
   getAllBook: () => api.get(`/books/`),

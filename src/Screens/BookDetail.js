@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 import { useGoogleAuth } from "../Components/AuthG";
-import { bookApi, userApi, commentApi } from "../api";
+import { bookApi, booklistApi, userApi, commentApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
@@ -21,6 +21,9 @@ export default function BookDetail({
   const [comment, dispatch] = useReducer(reducer, initialState);
   const [commentText, setCommentText] = useState("");
   const [allComment, setAllComment] = useState([]);
+  const [booklist, setBooklist] = useState([]);
+
+  const [click, setClick] = useState(false);
 
   const saveComment = async () => {
     const {
@@ -36,11 +39,7 @@ export default function BookDetail({
     };
 
     const {
-      data: {
-        commentResult,
-        success,
-        msg
-      }
+      data: { commentResult, success, msg }
     } = await commentApi.commentBook(COMMENT_DATA);
 
     if (success) {
@@ -82,6 +81,14 @@ export default function BookDetail({
 
       setBook(Results);
 
+      //get all the booklist of users
+      const {
+        data: {
+          booklist: { booklists }
+        }
+      } = await booklistApi.getBookList(googleUser.googleId);
+      setBooklist(booklists);
+
       //get all the comment.
       const {
         data: { commentResult }
@@ -90,6 +97,8 @@ export default function BookDetail({
       setAllComment(commentResult);
     }
   };
+
+  const addBooktoBooklist = booklistId => {};
 
   const deleteComments = async commentId => {
     try {
@@ -109,72 +118,131 @@ export default function BookDetail({
     dispatch({ type: DEL, payload: commentId });
   };
 
+  const clickAddBook = () => {
+    setClick(!click);
+  };
+
   useEffect(() => {
     showBook();
   }, [googleUser]);
 
   return (
-    <Container>
-      <LeftContainer>
-        <img
-          className="bookImage"
-          src={String(book.image).replace("type=m1&", "")}
-          alt={book.title}
-        ></img>
-      </LeftContainer>
-      <RightContainer>
-        <Item>
-          <h1>{book.title}</h1>by {book.author}
-        </Item>
-        <Divider></Divider>
-        <Item className="description">{book.description}</Item>
-        <Item className="author-wrap">
+    <>
+      <Container>
+        <LeftContainer>
           <img
-            src="https://secure.gravatar.com/avatar/f56af396b817f5a028808653642862de?s=50&amp;d=mm&amp;r=g"
-            alt={book.author}
+            className="bookImage"
+            src={String(book.image).replace("type=m1&", "")}
+            alt={book.title}
           ></img>
-          <span>{book.author}</span>
-        </Item>
-        <Item>{book.publisher}</Item>
-      </RightContainer>
-      <ContentContainer>
-        <CommentCotainer>
-          <CommentForm onSubmit={onSubmit}>
-            <ComentTitle />
-            <CommentSection
-              placeholder="댓글 입력"
-              value={commentText}
-              onChange={onChange}
-            />
-            <CommentSubmit type="submit">등록</CommentSubmit>
-          </CommentForm>
-          <Dividers />
-          <CommentTitle>댓글</CommentTitle>
-          <Dividers />
-          <CommentList>
-            <h4>추가된 댓글들 </h4>
-            {allComment.map(comment => (
-              <Comment
-                key={comment._id}
-                comment={comment}
-                user={comment.user}
-                deleteComment={deleteComments}
+        </LeftContainer>
+        <RightContainer>
+          <Item>
+            <h1>{book.title}</h1>by {book.author}
+          </Item>
+          <Divider></Divider>
+          <Item className="description">{book.description}</Item>
+          <Item className="author-wrap">
+            <img
+              src="https://secure.gravatar.com/avatar/f56af396b817f5a028808653642862de?s=50&amp;d=mm&amp;r=g"
+              alt={book.author}
+            ></img>
+            <span>{book.author}</span>
+          </Item>
+          <Item>{book.publisher}</Item>
+          <AddBookBtn onClick={clickAddBook}>Add to Booklist</AddBookBtn>
+        </RightContainer>
+        <ContentContainer>
+          <CommentCotainer>
+            <CommentForm onSubmit={onSubmit}>
+              <ComentTitle />
+              <CommentSection
+                placeholder="댓글 입력"
+                value={commentText}
+                onChange={onChange}
               />
+              <CommentSubmit type="submit">등록</CommentSubmit>
+            </CommentForm>
+            <Dividers />
+            <CommentTitle>댓글</CommentTitle>
+            <Dividers />
+            <CommentList>
+              <h4>추가된 댓글들 </h4>
+              {allComment.map(comment => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  user={comment.user}
+                  deleteComment={deleteComments}
+                />
+              ))}
+              {comment.comments.map(comment => (
+                <Comment
+                  key={comment.uuid}
+                  comment={comment}
+                  user={user}
+                  deleteComment={deleteNow}
+                />
+              ))}
+            </CommentList>
+          </CommentCotainer>
+        </ContentContainer>
+      </Container>
+      <AddBook clicked={click}>
+        <AddBookTemplate>
+          <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
+          <div>
+            {booklist.map(item => (
+              <h1
+                onClick={async () => {
+                  await bookApi.addToBooklist(book._id, item._id);
+                  setClick(false);
+                }}
+                key={item._id}
+              >
+                {item.title}
+              </h1>
             ))}
-            {comment.comments.map(comment => (
-              <Comment
-                key={comment.uuid}
-                comment={comment}
-                user={user}
-                deleteComment={deleteNow}
-              />
-            ))}
-          </CommentList>
-        </CommentCotainer>
-      </ContentContainer>
-    </Container>
+          </div>
+        </AddBookTemplate>
+      </AddBook>
+    </>
   );
 }
+
+const AddBookBtn = styled.button`
+  border: 1px solid black;
+  width: 100px;
+  height: 50px;
+  padding: 5px;
+`;
+
+const CloseBtn = styled.span`
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  cursor: pointer;
+`;
+
+const AddBookTemplate = styled.div`
+  position: relative;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+`;
+
+const AddBook = styled.div`
+  position: absolute;
+  display: ${props => (props.clicked ? "block" : "none")};
+  width: 360px;
+  height: 360px;
+  border: 1px solid black;
+  margin-left: calc(50% - 180px);
+  margin-top: calc(50% - 180px);
+  background-color: rgba(255, 255, 255, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+`;
 
 const Container = styled.div``;
 
@@ -202,6 +270,10 @@ const RightContainer = styled.div`
     padding: 0 30px;
     width: calc(100% - 250px);
     float: left;
+    &:after {
+      content: "";
+      clear: both;
+    }
   }
 `;
 

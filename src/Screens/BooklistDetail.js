@@ -22,7 +22,6 @@ const BooklistDetail = ({
         data: { data: booklists }
       } = await booklistApi.getBooks(id);
       setBooklist(booklists);
-      console.log(booklists.books);
       setBook(booklists.books);
     } catch (e) {
       console.log(e);
@@ -57,7 +56,6 @@ const BooklistDetail = ({
   );
 };
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 export default BooklistDetail;
