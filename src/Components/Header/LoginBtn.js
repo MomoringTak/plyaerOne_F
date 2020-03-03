@@ -4,7 +4,7 @@ import { Link, Redirect } from "react-router-dom";
 
 import { useGoogleAuth } from "../AuthG";
 
-import { userApi } from "../../api";
+import { userApi, AuthApi } from "../../api";
 
 const LoginBtn = () => {
   const { signIn, signOut, isSignedIn } = useGoogleAuth();
@@ -24,13 +24,22 @@ const LoginBtn = () => {
       };
 
       //CreateOrFind the user who logged In.
-      await userApi.ssoGLogin(userInfo).catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
+      const {
+        data: {
+          success,
+          msg,
+          id_token
         }
-      });
+      } = await userApi.ssoGLogin(userInfo);
+
+      if(success) {
+        AuthApi.setToken(id_token);
+      }
+      else {
+        alert(msg);
+        return <Redirect to="/" />;
+      }
+
     } catch (e) {
       console.log(e);
     } finally {

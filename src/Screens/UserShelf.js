@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Link, Route, Redirect, useHistory } from "react-router-dom";
 import { useGoogleAuth } from "../Components/AuthG";
-import { userApi, booklistApi } from "../api";
+import { userApi, booklistApi, AuthApi } from "../api";
 
 import Table from "../Components/Table";
 import List from "../Components/List";
@@ -50,16 +50,17 @@ export default function UserShelf() {
 
   const showBookList = async () => {
     try {
-      const {
-        data: { booklist }
-      } = await booklistApi.getBookList(googleUser.googleId);
-      const NEW_BL = booklist.booklists.map(item => {
-        item.userBL = true;
-        return item;
-      });
-      setBooklist(NEW_BL);
-    } catch (e) {
-      console.log(e);
+      const data = await booklistApi.getBookList(googleUser.googleId);
+      if(AuthApi.checkAuth(data)){
+        const booklist = data.booklist;
+        const NEW_BL = booklist.booklists.map(item => {
+          item.userBL = true;
+          return item;
+        });
+        setBooklist(NEW_BL);
+      }
+    } catch (err) {
+      if(err.response !== undefined) AuthApi.checkAuth(err.response.data);
     }
   };
 

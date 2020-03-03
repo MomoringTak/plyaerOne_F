@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useGoogleAuth } from "./Components/AuthG";
 
 const api = axios.create({
   baseURL: "http://localhost:8008"
@@ -23,8 +24,7 @@ export const userApi = {
 export const booklistApi = {
   serachBook: title => api.get(`/booklists/${title}`),
   addBookList: booklist => api.post(`/booklists/upload`, booklist),
-  getBookList: googleId =>
-    api.get(`/booklists`, { params: { googleId: googleId } }),
+  getBookList: googleId => api.get(`/booklists`, { params: { googleId: googleId }, headers: AuthApi.getAuthHeader() }),
   getOneBookList: id => api.get(`/booklists/item/${id}`),
   deleteBookList: (id, googleId) =>
     api.delete(`/booklists/delete`, {
@@ -43,3 +43,43 @@ export const commentApi = {
   deleteComment: (id, bookId) =>
     api.delete("/comments/delete", { params: { id: id, bookId: bookId } })
 };
+
+
+export const AuthApi = {
+  getToken: () => {
+    return JSON.parse(localStorage.getItem('wtbUser'));
+  },
+  setToken: (token) => {
+    localStorage.setItem('wtbUser', JSON.stringify(token));
+  },
+  clearToken: () => {
+    localStorage.removeItem('wtbUser');
+    useGoogleAuth.signOut();
+  },
+  getAuthHeader: () => {
+      const token = AuthApi.getToken();
+      if (token) {
+        return {Authorization: `Bearer ${token}`};
+      } else {
+        return {};
+      }
+  },
+  checkAuth: (data) => {
+    if(!data.success){
+      if(data.err.name === "JsonWebTokenError"){
+        alert("인증에러");
+        if (window !== undefined) {
+          window.location.href = '/';
+        }
+        return false;
+      }
+      else {
+        return false;
+      }
+    }
+    else {
+      return true;
+    }
+  }
+
+}
