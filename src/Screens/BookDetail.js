@@ -150,6 +150,7 @@ export default function BookDetail({
             <span>{book.author}</span>
           </Item>
           <Item>{book.publisher}</Item>
+          <Item>좋아요</Item>
           <AddBookBtn onClick={clickAddBook}>Add to Booklist</AddBookBtn>
         </RightContainer>
         <ContentContainer>

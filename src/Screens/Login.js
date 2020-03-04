@@ -1,47 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+
+import "react-bulma-components/dist/react-bulma-components.min.css";
+import { Button, Columns, Container } from "react-bulma-components";
 
 import styled from "styled-components";
 
 const Login = () => {
   return (
-    <Container>
-      <Head>
-        <Title>Login Page</Title>
-        <Spacer style={{ height: "100px" }} />
-        <Section>
-          <Spacer />
-        </Section>
-      </Head>
-    </Container>
+    <Box>
+      <Container>
+        <Columns></Columns>
+      </Container>
+    </Box>
   );
 };
 
 export default Login;
 
-const Container = styled.div`
-`;
-
-const Head = styled.div`
-  margin: 20px 20px;
-`;
-
-const Title = styled.span`
-  display: block;
-  font-weight: 600;
-  font-size: 2rem;
-`;
-
-const Spacer = styled.div`
-  height: 15px;
-`;
-
-const Section = styled.div`
-  font-weight: 500;
-  color: #8189a9;
-`;
-
-const SLink = styled(Link)`
-  margin-top: 10px;
-  color: #4a6ee0;
+const Box = styled.div`
+  border: 1px solid;
+  width: 100%;
+  height: 60vh;
+  min-height: 540px;
 `;

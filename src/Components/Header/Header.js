@@ -16,9 +16,9 @@ export default withRouter(({ location: { pathname } }) => {
       </Logo>
 
       <List>
-        {/* <Item>
+        <Item>
           <SLink to="/login">LOGIN</SLink>
-        </Item> */}
+        </Item>
         <Item>
           <SLink to="/">HOME</SLink>
         </Item>
@@ -48,24 +48,22 @@ export default withRouter(({ location: { pathname } }) => {
       </List>
 
       <LoginBtn />
-
     </Header>
   );
 });
 
 const Header = styled.header`
-  
   position: fixed;
-  width:100%;
-  height:70px;
-  padding:20px;
+  width: 100%;
+  height: 70px;
+  padding: 20px;
   display: flex;
 
-  background-color: RGB(20,20,20);
+  background-color: RGB(20, 20, 20);
   //background-color: #323439;
   border-radius: 2px;
-  top:0;
-  z-index:1;
+  top: 0;
+  z-index: 1;
 `;
 
 const List = styled.ul`
@@ -74,36 +72,35 @@ const List = styled.ul`
 `;
 
 const Item = styled.li`
-  font-size:12px;
+  font-size: 12px;
   text-align: left;
-  margin-right:24px;
-  line-height:30px;
-  border-bottom:RGB(20,20,20) solid 1px;
-  color:#E5E5E5;
-  font-weight:400;
+  margin-right: 24px;
+  line-height: 30px;
+  border-bottom: RGB(20, 20, 20) solid 1px;
+  color: #e5e5e5;
+  font-weight: 400;
 
   transition: 1s;
 
   > a {
-    display:block;
+    display: block;
   }
 
   :hover {
     color: #666;
-    border-bottom:#333 solid 1px;
+    border-bottom: #333 solid 1px;
   }
 `;
-const SLink = styled(Link)`
-`;
+const SLink = styled(Link)``;
 
 const Logo = styled.div`
-  width:120px;
-  margin-right:30px;
+  width: 120px;
+  margin-right: 30px;
   line-height: 30px;
-  font-weight:600;
+  font-weight: 600;
   font-size: 2rem;
-  color:#E5E5E5;
-  text-align:center;
+  color: #e5e5e5;
+  text-align: center;
 
   transition: 0.5s;
 
@@ -112,6 +109,6 @@ const Logo = styled.div`
   }
 
   :hover {
-    color:#AAA;
+    color: #aaa;
   }
 `;
