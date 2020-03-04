@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { Link, Route, Redirect, useHistory } from "react-router-dom";
-import { useGoogleAuth } from "../Components/AuthG";
+import { useGoogleAuth, useUserAuth } from "../Components/AuthG";
 import { userApi, booklistApi, AuthApi } from "../api";
 
 import Table from "../Components/Table";
@@ -12,7 +12,9 @@ export default function UserShelf() {
   const history = useHistory();
 
   const { googleUser } = useGoogleAuth();
-  const [user, setUser] = useState([]);
+  // 20200305
+  // 유저 정보를 받아옴. AuthG Context에서
+  const user = useUserAuth();
   const [booklist, setBooklist] = useState([]);
 
   const booklistDetail = async item => {
@@ -36,26 +38,10 @@ export default function UserShelf() {
     }
   };
 
-  async function getUserInfo() {
-    if (null !== googleUser && user.length === 0) {
-      const {
-        data: { user }
-      } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
-        }
-      });
-      setUser(user);
-    }
-  }
-
   const showBookList = async () => {
     try {
-      const data = await booklistApi.getBookList(googleUser.googleId);
-      if(AuthApi.checkAuth(data)){
-        const booklist = data.booklist;
+      if(user.length !== 0) {
+        const { data: {booklist} } = await booklistApi.getBookList(user.googleId);
         const NEW_BL = booklist.booklists.map(item => {
           item.userBL = true;
           return item;
@@ -67,10 +53,11 @@ export default function UserShelf() {
     }
   };
 
+  // User 정보가 업데이트 된 경우. 북 리스트를 갱신
+  // 20200305
   useEffect(() => {
-    getUserInfo();
     showBookList();
-  }, [googleUser]);
+  }, [user]);
 
   return (
     <Container>

@@ -18,7 +18,7 @@ export const bookApi = {
 //User API
 export const userApi = {
   ssoGLogin: userInfo => api.post(`/users/add`, userInfo),
-  getUser: googleId => api.get(`/users/${googleId}`),
+  getUser: () => api.get(`/users`, { headers: AuthApi.getAuthHeader() }),
   updateUser: (googleId, nickname) =>
     api.patch(`/users/${googleId}`, { nickname: nickname })
 };
@@ -54,9 +54,11 @@ export const AuthApi = {
   setToken: (token) => {
     localStorage.setItem('wtbUser', JSON.stringify(token));
   },
-  clearToken: () => {
+  // 20200305
+  clearToken: (signOut) => {
     localStorage.removeItem('wtbUser');
-    useGoogleAuth.signOut();
+    if(signOut !== undefined) signOut();
+    AuthApi.goToHome();
   },
   getAuthHeader: () => {
       const token = AuthApi.getToken();
@@ -70,9 +72,7 @@ export const AuthApi = {
     if(!data.success){
       if(data.err.name === "JsonWebTokenError"){
         alert("인증에러");
-        if (window !== undefined) {
-          window.location.href = '/';
-        }
+        AuthApi.goToHome();
         return false;
       }
       else {
@@ -82,6 +82,39 @@ export const AuthApi = {
     else {
       return true;
     }
+  },  
+  // 20200305
+  checkLogin: async (googleAuth) => {
+    // 1. 토큰이 있을경우
+    if(AuthApi.getToken()) {
+      // 토큰을 통해 로그인 체크 하기
+      const { data: { user } } = await userApi.getUser().catch(function(err) {
+        if (err.response) {
+          alert("인증정보가 잘못됨...");
+          AuthApi.clearToken(googleAuth.signOut);
+          const user = { isLogin: false };
+          return user;
+        }
+      });
+      
+      // 만약 토큰의 유저와 현재 프론트에 로그인되어있는 메일주소와 일치하지 않을경우. 토큰을 삭제시킴.
+      if(googleAuth.googleUser.googleId !== undefined && user.email !== googleAuth.googleUser.Rt.Au) {
+        alert("유저 정보가 잘못됨...");
+        const user = { isLogin: false };
+        AuthApi.clearToken(googleAuth.signOut);
+        return user;
+      }
+      user.isLogin = true;
+      return user;
+    }
+    else{
+      const user = { isLogin: false };
+      return user;
+    }
+  },
+  goToHome: () => {
+    if (window !== undefined) {
+      window.location.href = '/';
+    }
   }
-
 }
