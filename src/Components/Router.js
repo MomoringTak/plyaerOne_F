@@ -17,7 +17,7 @@ import EditProfile from "../Screens/EditProfile";
 import AddBook from "../Screens/AddBook";
 import AddBookList from "../Screens/AddBookList";
 import Login from "../Screens/Login";
-import styled from "styled-components";
+import SignUp from "../Screens/SignUp";
 
 import Header from "./Header";
 import Wrapper from "./Wrapper";
@@ -30,6 +30,7 @@ export default () => {
         <Switch>
           <Route path="/" exact component={Home} />
           <Route path="/login" exact component={Login} />
+          <Route path="/singup" exact component={SignUp} />
           <Route path="/shelf" component={Shelf} />
           <Route path="/:userid/booklist/:id" component={Booklist} />
           <Route path="/:userid/shelf" component={UserShelf} />

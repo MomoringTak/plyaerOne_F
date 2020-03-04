@@ -54,7 +54,7 @@ export default function UserShelf() {
   const showBookList = async () => {
     try {
       const data = await booklistApi.getBookList(googleUser.googleId);
-      if(AuthApi.checkAuth(data)){
+      if (AuthApi.checkAuth(data)) {
         const booklist = data.booklist;
         const NEW_BL = booklist.booklists.map(item => {
           item.userBL = true;
@@ -63,7 +63,7 @@ export default function UserShelf() {
         setBooklist(NEW_BL);
       }
     } catch (err) {
-      if(err.response !== undefined) AuthApi.checkAuth(err.response.data);
+      if (err.response !== undefined) AuthApi.checkAuth(err.response.data);
     }
   };
 
