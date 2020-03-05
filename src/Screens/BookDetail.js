@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
-import Helmet from "react-helmet";
 import { v4 as uuidv4 } from "uuid";
 
 import { useGoogleAuth } from "../Components/AuthG";
@@ -130,9 +129,6 @@ export default function BookDetail({
   return (
     <>
       <Container>
-        <Helmet>
-          <title>{book.title} | WTB</title>
-        </Helmet>
         <LeftContainer>
           <img
             className="bookImage"
