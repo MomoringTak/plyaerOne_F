@@ -22,11 +22,6 @@ const UserShelf = () => {
 
   const valid = useIsValid();
 
-  const getUser = async () => {
-    const authorized = await valid(googleAuth);
-    setUser(authorized);
-  };
-
   const booklistDetail = async item => {
     history.push(`/booklist/${item}`);
   };
@@ -37,7 +32,7 @@ const UserShelf = () => {
         data: {
           booklist: { booklists }
         }
-      } = await booklistApi.deleteBookList(item, googleUser.googleId);
+      } = await booklistApi.deleteBookList(item, user.googleId);
       const NEW_BL = booklists.map(item => {
         item.userBL = true;
         return item;
@@ -48,13 +43,16 @@ const UserShelf = () => {
     }
   };
 
-  const showBookList = async () => {
+  const showBookList = async user => {
     try {
       if (user.length !== 0) {
         const {
-          data: { booklist }
+          data: {
+            booklist: { booklists }
+          }
         } = await booklistApi.getBookList(user.googleId);
-        const NEW_BL = booklist.booklists.map(item => {
+
+        const NEW_BL = booklists.map(item => {
           item.userBL = true;
           return item;
         });
@@ -65,19 +63,24 @@ const UserShelf = () => {
     }
   };
 
-  // User 정보가 업데이트 된 경우. 북 리스트를 갱신
-  // 20200305
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+
+    setUser(authorized);
+    showBookList(authorized);
+  };
+
   useEffect(() => {
     getUser();
-    showBookList();
   }, []);
 
+  //Refresh Paging 시 property nickname of undefined. 첫 Rendering 시 user값이 없어서 발생하는 문제
   return (
     <Container>
       <h1>{user.nickname}</h1>
-      {/* <SLink to={`/${user.email}/addbooklist`}>
+      <SLink to={`/${user.email}/addbooklist`}>
         <AddBook>Add BookList</AddBook>
-      </SLink> */}
+      </SLink>
       <Table>
         {booklist ? (
           booklist.map(item => (
