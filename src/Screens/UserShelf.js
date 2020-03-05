@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Link, Route, Redirect, useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
-import { booklistApi, AuthApi } from "../api";
+import { userApi, booklistApi, AuthApi } from "../api";
 
 import Table from "../Components/Table";
 import List from "../Components/List";
@@ -11,6 +11,11 @@ import List from "../Components/List";
 const UserShelf = () => {
   const history = useHistory();
   const googleAuth = useGoogleAuth();
+  const { googleUser } = useGoogleAuth();
+  // 20200305
+  // 유저 정보를 받아옴. AuthG Context에서
+  // const user = useUserAuth();
+  // console.log(user.isLogin);
 
   const [user, setUser] = useState({});
   const [booklist, setBooklist] = useState([]);

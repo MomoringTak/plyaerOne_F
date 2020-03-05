@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
-import { useGoogleAuth } from "../Components/AuthG";
-
-import { userApi } from "../api";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 export default function Profile() {
-  const { googleUser } = useGoogleAuth();
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState({});
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
 
-  async function getUserInfo() {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-      if (err.response) {
-        if (err.response.msg !== `success`) {
-          return <Redirect to="/" />;
-        }
-      }
-    });
-    setUser(user);
-  }
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
 
   useEffect(() => {
-    getUserInfo();
+    getUser();
   }, []);
 
   return (
@@ -50,8 +41,7 @@ export default function Profile() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Head = styled.div`
   margin: 20px 20px;
