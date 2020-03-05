@@ -39,7 +39,7 @@ const List = ({ booklist, clickBooklist, deleteBL }) => {
               alt={item.image}
             ></BookImage>
             <BookListDesc>
-              <p className="title">{item.title}</p>
+              <p className="booktitle">{item.title}</p>
               <p className="desc">
                 {item.author} 저 &nbsp; | &nbsp; {item.publisher}
               </p>
@@ -163,7 +163,7 @@ const BookListDesc = styled.div`
   width: 188px;
   padding: 10px 15px;
 
-  > .title {
+  > .booktitle {
     display: -webkit-box;
     min-height: 17px;
     max-height: 34px;

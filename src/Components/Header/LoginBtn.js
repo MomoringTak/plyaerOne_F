@@ -37,7 +37,8 @@ const LoginBtn = () => {
       }
       else {
         alert(msg);
-        return <Redirect to="/" />;
+        // return <Redirect to="/" />;
+        //AuthApi.goToHome();
       }
 
     } catch (e) {
@@ -47,11 +48,18 @@ const LoginBtn = () => {
     }
   }
 
+  // 로그아웃 시, 구글 signOut 펑션을 함께 넘겨줌.
+  // 토큰 삭제
+  // 20200305
+  function LogOut() {
+    AuthApi.clearToken(signOut);
+  }
+
   return (
     <LogInBtnCotainer>
       {isSignedIn ? (
         <Container>
-          <button onClick={signOut}>
+          <button onClick={LogOut}>
             <SLink to={`/`}>LOGOUT</SLink>
           </button>
         </Container>
