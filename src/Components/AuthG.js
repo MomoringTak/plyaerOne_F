@@ -17,8 +17,7 @@ const GoogleAuthProvider = ({ children }) => {
   // 20200305
   const getUserAuth = async googleAuth => {
     if (googleAuth.googleUser !== null) {
-      const data = await AuthApi.checkLogin(googleAuth);
-      return data;
+      return await AuthApi.checkLogin(googleAuth);
     }
   };
 

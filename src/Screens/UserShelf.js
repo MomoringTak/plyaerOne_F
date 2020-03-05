@@ -24,15 +24,9 @@ const UserShelf = () => {
 
   const getUser = async () => {
     const authorized = await valid(googleAuth);
-    console.log(authorized);
-
-    for (let item in authorized) {
-      console.log(authorized[item]);
-      // console.log(authorized);
-    }
-    console.log(authorized.nickname);
-    // setUser(user);
+    setUser(authorized);
   };
+
   const booklistDetail = async item => {
     history.push(`/booklist/${item}`);
   };
