@@ -19,7 +19,6 @@ const UserShelf = () => {
 
   const [user, setUser] = useState({});
   const [booklist, setBooklist] = useState([]);
-
   const valid = useIsValid();
 
   const booklistDetail = async item => {
@@ -65,7 +64,6 @@ const UserShelf = () => {
 
   const getUser = async () => {
     const authorized = await valid(googleAuth);
-
     setUser(authorized);
     showBookList(authorized);
   };
