@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import { bookApi } from "../api";
 import Book from "../Components/Book";
@@ -39,6 +40,9 @@ export default function Home() {
 
   return (
     <Container>
+      <Helmet>
+        <title>HOME | WTB</title>
+      </Helmet>
       <Section>
         {book ? (
           book.map(bookItem => (
@@ -56,5 +60,4 @@ export default function Home() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;

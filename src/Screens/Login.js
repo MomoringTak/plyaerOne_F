@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 const LinkToSingUp = () => {};
 
@@ -14,6 +14,9 @@ const onSubmit = e => {
 const Login = () => {
   return (
     <Box>
+      <Helmet>
+        <title>LOGIN | WTB</title>
+      </Helmet>
       <Form onSubmit={onSubmit}>
         <LoginInput type="email" placeholder="Enter Your Email" />
         <LoginInput type="text" placeholder="Enter Your Password" />

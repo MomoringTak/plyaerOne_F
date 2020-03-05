@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
+
 import { Link, Redirect } from "react-router-dom";
 
 import { useGoogleAuth } from "../Components/AuthG";
@@ -58,6 +60,9 @@ export default function EditProfile() {
 
   return (
     <Container>
+      <Helmet>
+        <title>EDIT PROFILE | WTB</title>
+      </Helmet>
       <Header>
         <Title>Edit Nickname</Title>
         <Spacer style={{ height: "100px" }} />
@@ -77,9 +82,7 @@ export default function EditProfile() {
           ) : (
             <>
               <h1>New Nickname : {name}</h1>
-              <SLink to={`/${user.email}/profile`}>
-                Back to Profile Page
-              </SLink>
+              <SLink to={`/${user.email}/profile`}>Back to Profile Page</SLink>
             </>
           )}
           <Spacer />
@@ -94,8 +97,7 @@ export default function EditProfile() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Header = styled.div`
   margin: 20px 20px;

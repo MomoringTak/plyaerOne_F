@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 import { useHistory } from "react-router-dom";
 import { bookApi, booklistApi } from "../api";
 
@@ -38,6 +39,9 @@ const BooklistDetail = ({
 
   return (
     <Container>
+      <Helmet>
+        <title>{booklist.title} | WTB</title>
+      </Helmet>
       <span>Title : {booklist.title}</span>
       <Section>
         {book ? (

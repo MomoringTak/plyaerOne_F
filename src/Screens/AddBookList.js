@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 import { Link, Redirect, useHistory } from "react-router-dom";
 
 import { bookApi, booklistApi } from "../api";
@@ -99,6 +100,9 @@ const AddBookList = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>ADD BOOKLIST | WTB</title>
+      </Helmet>
       {next ? (
         <Form onSubmit={handleTitle}>
           <Template>
@@ -124,9 +128,7 @@ const AddBookList = () => {
             <>
               {clickedBook > 0 ? (
                 <>
-                  <BookNum>
-                    북 리스트에 추가 할 책 갯수 : {clickedBook}
-                  </BookNum>
+                  <BookNum>북 리스트에 추가 할 책 갯수 : {clickedBook}</BookNum>
                   <Add onClick={pickBook}>책 추가 선정 완료</Add>
                 </>
               ) : null}
@@ -149,8 +151,7 @@ const AddBookList = () => {
   );
 };
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Form = styled.form`
   width: 100%;

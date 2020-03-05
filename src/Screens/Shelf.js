@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import { booklistApi } from "../api";
 import { useGoogleAuth } from "../Components/AuthG";
@@ -21,6 +22,9 @@ export default function Shelf() {
 
   return (
     <Container>
+      <Helmet>
+        <title>SHELF | WTB</title>
+      </Helmet>
       <h1>Shelf</h1>
     </Container>
   );

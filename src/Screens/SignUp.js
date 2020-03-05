@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import { Link } from "react-router-dom";
 
@@ -12,6 +13,9 @@ const SignUp = () => {
 
   return (
     <Box>
+      <Helmet>
+        <title>SINGUP | WTB</title>
+      </Helmet>
       <Form onSubmit={onSubmit}>
         <LoginInput type="email" placeholder="Email" />
         <LoginInput type="text" placeholder="Password" />

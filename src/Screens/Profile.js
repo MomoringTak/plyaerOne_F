@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
@@ -20,6 +21,9 @@ export default function Profile() {
 
   return (
     <Container>
+      <Helmet>
+        <title>PROFILE | WTB</title>
+      </Helmet>
       <Head>
         <Title>Profile</Title>
         <Spacer style={{ height: "100px" }} />

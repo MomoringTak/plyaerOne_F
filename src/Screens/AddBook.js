@@ -5,6 +5,7 @@ import { bookApi } from "../api";
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
 import Book from "../Components/Book";
+import Helmet from "react-helmet";
 
 export default function AddBook() {
   const [loading, setLoading] = useState(false);
@@ -74,6 +75,9 @@ export default function AddBook() {
 
   return (
     <Container>
+      <Helmet>
+        <title>ADD BOOK | WTB</title>
+      </Helmet>
       <Form onSubmit={handleSubmit}>
         <Input
           placeholder="제목을 입력 해주세요"
@@ -108,8 +112,7 @@ export default function AddBook() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Form = styled.form`
   margin-bottom: 50px;
