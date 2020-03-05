@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Link, withRouter } from "react-router-dom";
-
-import "react-bulma-components/dist/react-bulma-components.min.css";
-import { Button, Columns, Container } from "react-bulma-components";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const onSubmit = e => {
@@ -15,37 +12,31 @@ const SignUp = () => {
 
   return (
     <Box>
-      <Container>
-        <Columns>
-          <Columns.Column></Columns.Column>
-          <Columns.Column size="two-thrids">
-            회원가입
-            <Form onSubmit={onSubmit}>
-              <LoginInput type="email" placeholder="Email" />
-              <LoginInput type="text" placeholder="Password" />
-              <LoginInput type="text" placeholder="Re-Enter Your Password" />
-              <LoginInput type="email" placeholder="Name" />
-              <LoginInput type="email" placeholder="Age" />
-              <LoginInput type="email" placeholder="Gender" />
-              <ButtonSection>
-                <SLink to={`/singup`}>
-                  <Button color="danger">Submit</Button>
-                </SLink>
-              </ButtonSection>
-            </Form>
-          </Columns.Column>
-          <Columns.Column></Columns.Column>
-        </Columns>
-      </Container>
+      <Form onSubmit={onSubmit}>
+        <LoginInput type="email" placeholder="Email" />
+        <LoginInput type="text" placeholder="Password" />
+        <LoginInput type="text" placeholder="Re-Enter Your Password" />
+        <LoginInput type="email" placeholder="Name" />
+        <LoginInput type="email" placeholder="Age" />
+        <LoginInput type="email" placeholder="Gender" />
+        <ButtonSection>
+          <SLink to={`/singup`}>
+            <Button color="danger">Submit</Button>
+          </SLink>
+        </ButtonSection>
+      </Form>
     </Box>
   );
 };
 
 const Box = styled.div`
-  border: 1px solid;
   width: 100%;
   height: 60vh;
   min-height: 540px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Form = styled.form`
@@ -73,6 +64,10 @@ const ButtonSection = styled.div`
   height: 20%;
   display: flex;
   justify-content: space-around;
+`;
+
+const Button = styled.button`
+  all: unset;
 `;
 
 const SLink = styled(Link)``;

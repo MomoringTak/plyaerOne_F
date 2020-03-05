@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-import "react-bulma-components/dist/react-bulma-components.min.css";
-import { Button, Columns, Container } from "react-bulma-components";
-
 import styled from "styled-components";
 
 const LinkToSingUp = () => {};
@@ -17,27 +14,16 @@ const onSubmit = e => {
 const Login = () => {
   return (
     <Box>
-      <Container>
-        <Columns>
-          <Columns.Column></Columns.Column>
-          <Columns.Column size="two-thrids">
-            로그인
-            <Form onSubmit={onSubmit}>
-              <LoginInput type="email" placeholder="Enter Your Email" />
-              <LoginInput type="text" placeholder="Enter Your Password" />
-              <ButtonSection>
-                <Button color="info" type="submit">
-                  Log In
-                </Button>
-                <SLink to={`/singup`}>
-                  <Button color="danger">Sing Up</Button>
-                </SLink>
-              </ButtonSection>
-            </Form>
-          </Columns.Column>
-          <Columns.Column></Columns.Column>
-        </Columns>
-      </Container>
+      <Form onSubmit={onSubmit}>
+        <LoginInput type="email" placeholder="Enter Your Email" />
+        <LoginInput type="text" placeholder="Enter Your Password" />
+        <ButtonSection>
+          <Button type="submit">Log In</Button>
+          <SLink to={`/singup`}>
+            <Button color="danger">Sing Up</Button>
+          </SLink>
+        </ButtonSection>
+      </Form>
     </Box>
   );
 };
@@ -45,10 +31,12 @@ const Login = () => {
 export default Login;
 
 const Box = styled.div`
-  border: 1px solid;
   width: 100%;
   height: 60vh;
   min-height: 540px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Form = styled.form`
@@ -72,10 +60,17 @@ const LoginInput = styled.input`
 `;
 
 const ButtonSection = styled.div`
-  width: 50%;
-  height: 20%;
   display: flex;
+  width: 100%;
   justify-content: space-around;
+`;
+
+const Button = styled.button`
+  all: unset;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
 `;
 
 const SLink = styled(Link)``;
