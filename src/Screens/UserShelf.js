@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
-import { Link, Route, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
-import { userApi, booklistApi, AuthApi } from "../api";
+import { booklistApi, AuthApi } from "../api";
 
 import Table from "../Components/Table";
 import List from "../Components/List";
@@ -11,11 +11,6 @@ import List from "../Components/List";
 const UserShelf = () => {
   const history = useHistory();
   const googleAuth = useGoogleAuth();
-  const { googleUser } = useGoogleAuth();
-  // 20200305
-  // 유저 정보를 받아옴. AuthG Context에서
-  // const user = useUserAuth();
-  // console.log(user.isLogin);
 
   const [user, setUser] = useState({});
   const [booklist, setBooklist] = useState([]);
@@ -72,7 +67,6 @@ const UserShelf = () => {
     getUser();
   }, []);
 
-  //Refresh Paging 시 property nickname of undefined. 첫 Rendering 시 user값이 없어서 발생하는 문제
   return (
     <Container>
       <h1>{user.nickname}</h1>

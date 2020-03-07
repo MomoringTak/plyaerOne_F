@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { AuthApi } from "../api";
 import styled from "styled-components";
@@ -11,7 +11,6 @@ const clientID =
 const GoogleAuthContext = React.createContext(); // Not necessary, but recommended.
 
 const GoogleAuthProvider = ({ children }) => {
-  const [userAuth, setUserAuth] = useState([]);
   const googleAuth = useGoogleLogin({
     clientId: clientID
   });

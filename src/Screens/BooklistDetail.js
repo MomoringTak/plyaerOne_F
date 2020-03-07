@@ -39,9 +39,6 @@ const BooklistDetail = ({
 
   return (
     <Container>
-      <Helmet>
-        <title>{booklist.title} | WTB</title>
-      </Helmet>
       <span>Title : {booklist.title}</span>
       <Section>
         {book ? (

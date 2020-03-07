@@ -27,15 +27,10 @@ const AddBookList = () => {
     try {
       const {
         data: { books: bookResult }
-      } = await booklistApi.serachBook(term).catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
-        }
-      });
+      } = await booklistApi.serachBook(term);
       setBook(bookResult);
     } catch (e) {
+      history.push(`/`);
       console.log(e);
     }
   };

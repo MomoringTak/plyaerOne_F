@@ -6,13 +6,20 @@ import Helmet from "react-helmet";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 export default function Profile() {
+  const history = useHistory();
+
   const [user, setUser] = useState({});
+
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
 
   const getUser = async () => {
-    const authorized = await valid(googleAuth);
-    setUser(authorized);
+    try {
+      const authorized = await valid(googleAuth);
+      setUser(authorized);
+    } catch (err) {
+      history.push(`/`);
+    }
   };
 
   useEffect(() => {

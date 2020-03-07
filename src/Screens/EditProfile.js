@@ -2,61 +2,49 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
-import { useGoogleAuth } from "../Components/AuthG";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 import { userApi } from "../api";
 
 export default function EditProfile() {
-  const { googleUser } = useGoogleAuth();
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+  const history = useHistory();
   const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [changed, setChanged] = useState(true);
 
-  async function getUserInfo() {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-      if (err.response) {
-        if (err.response.msg !== `success`) {
-          return <Redirect to="/" />;
-        }
-      }
-    });
-    setUser(user);
-  }
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
 
   useEffect(() => {
-    getUserInfo();
+    getUser();
   }, []);
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     if (e) {
       e.preventDefault();
     }
     if (name !== "") {
       setChanged(false);
-      userApi.updateUser(user.googleId, name).catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
-        }
-      });
+      await userApi.updateUser(user.googleId, name);
     }
-  }
+  };
 
-  function updateName(e) {
+  const updateName = e => {
     const {
       target: { value }
     } = e;
     setName(value);
-  }
+  };
 
-  function updateAgain() {
+  const updateAgain = () => {
     setChanged(true);
-  }
+  };
 
   return (
     <Container>

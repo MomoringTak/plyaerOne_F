@@ -2,8 +2,8 @@ import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-import { useGoogleAuth } from "../Components/AuthG";
-import { bookApi, booklistApi, userApi, commentApi } from "../api";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
+import { bookApi, booklistApi, commentApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
@@ -25,11 +25,16 @@ export default function BookDetail({
 
   const [click, setClick] = useState(false);
 
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
+
   const saveComment = async () => {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId);
-    setUser(user);
+    getUser();
 
     const COMMENT_DATA = {
       user: user._id,
