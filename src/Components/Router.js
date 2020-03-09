@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import Home from "../Screens/Home";
+import Books from "../Screens/Books";
 import Profile from "../Screens/Profile";
 import BookDetail from "../Screens/BookDetail";
 import Booklist from "../Screens/Booklist";
@@ -29,6 +30,7 @@ export default () => {
       <Wrapper>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/books" exact component={Books} />
           <Route path="/login" exact component={Login} />
           <Route path="/singup" exact component={SignUp} />
           <Route path="/shelf" component={Shelf} />
