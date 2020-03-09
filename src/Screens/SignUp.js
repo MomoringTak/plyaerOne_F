@@ -1,14 +1,33 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
+import { useForm } from "react-hook-form";
 
 import { Link } from "react-router-dom";
+import { userApi, AuthApi } from "../api";
 
 const SignUp = () => {
-  const onSubmit = e => {
-    if (e) {
-      e.preventDefault();
+  const history = useHistory();
+  const { register, handleSubmit } = useForm();
+
+  const onSubmit = async userInfo => {
+    console.log(userInfo);
+    try {
+      const {
+        data: { success, msg, id_token }
+      } = await userApi.ssoGLogin(userInfo);
+      if (success) {
+        AuthApi.setToken(id_token);
+        history.push(`/`);
+      } else {
+        alert(msg);
+      }
+    } catch (e) {
+      console.log(e);
     }
+
+    // history.push(`/login`);
   };
 
   return (
@@ -16,22 +35,60 @@ const SignUp = () => {
       <Helmet>
         <title>SINGUP | WTB</title>
       </Helmet>
-      <Form onSubmit={onSubmit}>
-        <LoginInput type="email" placeholder="Email" />
-        <LoginInput type="text" placeholder="Password" />
-        <LoginInput type="text" placeholder="Re-Enter Your Password" />
-        <LoginInput type="email" placeholder="Name" />
-        <LoginInput type="email" placeholder="Age" />
-        <LoginInput type="email" placeholder="Gender" />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <LoginInput
+          type="email"
+          placeholder="Email"
+          name="email"
+          ref={register}
+          required
+        />
+        <LoginInput
+          type="password"
+          placeholder="Password"
+          name="password"
+          ref={register}
+          required
+        />
+        <LoginInput
+          type="text"
+          placeholder="Name"
+          name="name"
+          ref={register}
+          required
+        />
+        <Gender>
+          <legend>성별을 골라주세요</legend>
+          <input
+            id="male"
+            type="radio"
+            value="male"
+            name="gender"
+            ref={register}
+            defaultChecked
+          />
+          <label htmlFor="male">남자</label>
+          <input
+            id="femlae"
+            type="radio"
+            value="female"
+            name="gender"
+            ref={register}
+          />
+          <label htmlFor="female">여자</label>
+        </Gender>
+
         <ButtonSection>
-          <SLink to={`/singup`}>
-            <Button color="danger">Submit</Button>
-          </SLink>
+          {/* <SLink to={`/singup`}> */}
+          <Button>Submit</Button>
+          {/* </SLink> */}
         </ButtonSection>
       </Form>
     </Box>
   );
 };
+
+const Gender = styled.fieldset``;
 
 const Box = styled.div`
   width: 100%;
@@ -72,6 +129,10 @@ const ButtonSection = styled.div`
 
 const Button = styled.button`
   all: unset;
+  margin-top: 15px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
 `;
 
 const SLink = styled(Link)``;

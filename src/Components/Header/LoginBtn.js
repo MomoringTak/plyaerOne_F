@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useGoogleAuth } from "../AuthG";
 
@@ -25,32 +25,19 @@ const LoginBtn = () => {
 
       //CreateOrFind the user who logged In.
       const {
-        data: {
-          success,
-          msg,
-          id_token
-        }
+        data: { success, msg, id_token }
       } = await userApi.ssoGLogin(userInfo);
 
-      if(success) {
+      if (success) {
         AuthApi.setToken(id_token);
-      }
-      else {
+      } else {
         alert(msg);
-        // return <Redirect to="/" />;
-        //AuthApi.goToHome();
       }
-
     } catch (e) {
       console.log(e);
-    } finally {
-      console.log("The end of Login Process");
     }
   }
 
-  // 로그아웃 시, 구글 signOut 펑션을 함께 넘겨줌.
-  // 토큰 삭제
-  // 20200305
   function LogOut() {
     AuthApi.clearToken(signOut);
   }
@@ -72,23 +59,22 @@ const LoginBtn = () => {
 
 const Container = styled.div``;
 
-const SLink = styled(Link)`
-`;
+const SLink = styled(Link)``;
 
 const LogInBtnCotainer = styled.div`
-  position:absolute;
-  right:0;
-  margin-right:40px;
-  line-height:30px;
+  position: absolute;
+  right: 0;
+  margin-right: 40px;
+  line-height: 30px;
   border: 1px solid white;
   border-radius: 10px;
   padding: 0 20px;
   transition: 0.5s;
-  color:#FFF;
+  color: #fff;
 
   :hover {
     color: #333;
-    background:#FFF;
+    background: #fff;
   }
 `;
 
