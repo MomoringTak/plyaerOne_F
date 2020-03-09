@@ -43,39 +43,31 @@ const LoginBtn = () => {
   }
 
   return (
-    <LogInBtnCotainer>
+    <>
       {isSignedIn ? (
-        <Container>
-          <button onClick={LogOut}>
-            <SLink to={`/`}>LOGOUT</SLink>
-          </button>
-        </Container>
+        <UserLink to="#" onClick={LogOut}>
+          로그아웃
+        </UserLink>
       ) : (
-        <button onClick={LogIn}>SIGN-IN WITH GOOGLE</button>
+        <UserLink to="#" onClick={LogIn}>
+          로그인
+        </UserLink>
       )}
-    </LogInBtnCotainer>
+    </>
   );
 };
 
-const Container = styled.div``;
-
-const SLink = styled(Link)``;
-
-const LogInBtnCotainer = styled.div`
-  position: absolute;
-  right: 0;
-  margin-right: 40px;
-  line-height: 30px;
-  border: 1px solid white;
-  border-radius: 10px;
-  padding: 0 20px;
-  transition: 0.5s;
-  color: #fff;
-
-  :hover {
-    color: #333;
-    background: #fff;
-  }
+const UserLink = styled(Link)`
+  float: left;
+  line-height: 32px;
+  padding-left: 10px;
+  color: #da3e58;
+  font-weight: 500;
+  font-family: "Noto Sans";
 `;
+
+// const LogInBtnCotainer = styled.div`
+//   line-height:32px;
+// `;
 
 export default LoginBtn;

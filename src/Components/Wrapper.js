@@ -8,7 +8,7 @@ const Wrapper = ({ children }) => (
 );
 
 const Container = styled.div`
-  margin: 80px auto 20px;
+  margin: 0px auto 20px;
   box-sizing: border-box;
 `;
 
