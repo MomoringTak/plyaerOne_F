@@ -1,34 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
+import Helmet from "react-helmet";
 
-import { useGoogleAuth } from "../Components/AuthG";
-
-import { userApi } from "../api";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 export default function Profile() {
-  const { googleUser } = useGoogleAuth();
-  const [user, setUser] = useState([]);
+  const history = useHistory();
 
-  async function getUserInfo() {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-      if (err.response) {
-        if (err.response.msg !== `success`) {
-          return <Redirect to="/" />;
-        }
-      }
-    });
-    setUser(user);
-  }
+  const [user, setUser] = useState({});
+
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+
+  const getUser = async () => {
+    try {
+      const authorized = await valid(googleAuth);
+      setUser(authorized);
+    } catch (err) {
+      history.push(`/`);
+    }
+  };
 
   useEffect(() => {
-    getUserInfo();
+    getUser();
   }, []);
 
   return (
     <Container>
+      <Helmet>
+        <title>PROFILE | WTB</title>
+      </Helmet>
       <Head>
         <Title>Profile</Title>
         <Spacer style={{ height: "100px" }} />
@@ -50,8 +52,7 @@ export default function Profile() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Head = styled.div`
   margin: 20px 20px;

@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext } from "react";
 import { useGoogleLogin } from "react-use-googlelogin";
 import { AuthApi } from "../api";
 import styled from "styled-components";
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
-import Loader from 'react-loader-spinner'
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+import Loader from "react-loader-spinner";
 
 const clientID =
   "563473472310-ih69dhvqsbl37b20ic312v96nqlvfjr9.apps.googleusercontent.com";
@@ -11,7 +11,6 @@ const clientID =
 const GoogleAuthContext = React.createContext(); // Not necessary, but recommended.
 
 const GoogleAuthProvider = ({ children }) => {
-  const [userAuth, setUserAuth] = useState([]);
   const googleAuth = useGoogleLogin({
     clientId: clientID
   });
@@ -24,24 +23,18 @@ const GoogleAuthProvider = ({ children }) => {
     }
   };
 
-  if(googleAuth.googleUser !== null) {
+  if (googleAuth.googleUser !== null) {
     return (
       <GoogleAuthContext.Provider value={{ googleAuth, isValid: getUserAuth }}>
         {/* The rest of your app */}
         {children}
       </GoogleAuthContext.Provider>
     );
-  }
-  else {
+  } else {
     return (
       <Centered>
         <CenteredContent>
-          <Loader
-            type="ThreeDots"
-            color="#00BFFF"
-            height={100}
-            width={100}
-          />
+          <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} />
         </CenteredContent>
       </Centered>
     );
@@ -59,7 +52,6 @@ const useIsValid = () => {
   return isValid;
 };
 
-
 const Centered = styled.div`
   position: fixed;
   top: 0px;
@@ -72,7 +64,8 @@ const Centered = styled.div`
 `;
 
 const CenteredContent = styled.div`
-  margin: auto;max-height: 100%;
+  margin: auto;
+  max-height: 100%;
 `;
 
 export default GoogleAuthProvider;

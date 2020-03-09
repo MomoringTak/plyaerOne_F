@@ -1,63 +1,56 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, Redirect } from "react-router-dom";
+import Helmet from "react-helmet";
 
-import { useGoogleAuth } from "../Components/AuthG";
+import { Link, useHistory } from "react-router-dom";
+
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 import { userApi } from "../api";
 
 export default function EditProfile() {
-  const { googleUser } = useGoogleAuth();
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+  const history = useHistory();
   const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [changed, setChanged] = useState(true);
 
-  async function getUserInfo() {
-    const {
-      data: { user }
-    } = await userApi.getUser(googleUser.googleId).catch(function(err) {
-      if (err.response) {
-        if (err.response.msg !== `success`) {
-          return <Redirect to="/" />;
-        }
-      }
-    });
-    setUser(user);
-  }
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
 
   useEffect(() => {
-    getUserInfo();
+    getUser();
   }, []);
 
-  function handleSubmit(e) {
+  const handleSubmit = async e => {
     if (e) {
       e.preventDefault();
     }
     if (name !== "") {
       setChanged(false);
-      userApi.updateUser(user.googleId, name).catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
-        }
-      });
+      await userApi.updateUser(user.googleId, name);
     }
-  }
+  };
 
-  function updateName(e) {
+  const updateName = e => {
     const {
       target: { value }
     } = e;
     setName(value);
-  }
+  };
 
-  function updateAgain() {
+  const updateAgain = () => {
     setChanged(true);
-  }
+  };
 
   return (
     <Container>
+      <Helmet>
+        <title>EDIT PROFILE | WTB</title>
+      </Helmet>
       <Header>
         <Title>Edit Nickname</Title>
         <Spacer style={{ height: "100px" }} />
@@ -77,9 +70,7 @@ export default function EditProfile() {
           ) : (
             <>
               <h1>New Nickname : {name}</h1>
-              <SLink to={`/${user.email}/profile`}>
-                Back to Profile Page
-              </SLink>
+              <SLink to={`/${user.email}/profile`}>Back to Profile Page</SLink>
             </>
           )}
           <Spacer />
@@ -94,8 +85,7 @@ export default function EditProfile() {
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;
 
 const Header = styled.div`
   margin: 20px 20px;
