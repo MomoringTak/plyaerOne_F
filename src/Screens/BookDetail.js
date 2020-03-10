@@ -93,7 +93,7 @@ export default function BookDetail({
             booklist: { booklists }
           }
         } = await booklistApi.getBookList(googleUser.googleId);
-        setBooklist(booklists);
+        if (booklists !== null) setBooklist(booklists);
 
         //get all the comment.
         const {
@@ -158,7 +158,9 @@ export default function BookDetail({
           </Item>
           <Item>{book.publisher}</Item>
           <Item>좋아요</Item>
-          <AddBookBtn onClick={clickAddBook}>Add to Booklist</AddBookBtn>
+          {booklist.length > 0 ? (
+            <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
+          ) : null}
         </RightContainer>
         <ContentContainer>
           <CommentCotainer>
@@ -200,19 +202,21 @@ export default function BookDetail({
         <AddBookTemplate>
           <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
           <div>
-            {booklist
-              ? booklist.map(item => (
-                  <h1
-                    onClick={async () => {
-                      await bookApi.addToBooklist(book._id, item._id);
-                      setClick(false);
-                    }}
-                    key={item._id}
-                  >
-                    {item.title}
-                  </h1>
-                ))
-              : null}
+            {booklist ? (
+              booklist.map(item => (
+                <h1
+                  onClick={async () => {
+                    await bookApi.addToBooklist(book._id, item._id);
+                    setClick(false);
+                  }}
+                  key={item._id}
+                >
+                  {item.title}
+                </h1>
+              ))
+            ) : (
+              <span>책묶음이 없습니다.</span>
+            )}
           </div>
         </AddBookTemplate>
       </AddBook>

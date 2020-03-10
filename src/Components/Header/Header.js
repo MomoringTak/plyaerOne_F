@@ -114,9 +114,11 @@ export default withRouter(({ location: { pathname } }) => {
                   </SSubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SSubLink to={`/${googleUser.profileObj.email}/addbook`}>
-                    <span className="txt">책 추가하기</span>
-                  </SSubLink>
+                  {/* {googleUser ? (
+                    <SSubLink to={`/${googleUser.profileObj.email}/addbook`}>
+                      <span className="txt">책 추가하기</span>
+                    </SSubLink>
+                  ) : null} */}
                 </SubMenuLi>
                 <SubMenuLi>
                   <SubLink to="#">

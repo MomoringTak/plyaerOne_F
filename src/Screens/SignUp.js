@@ -12,11 +12,10 @@ const SignUp = () => {
   const { register, handleSubmit } = useForm();
 
   const onSubmit = async userInfo => {
-    console.log(userInfo);
     try {
       const {
         data: { success, msg, id_token }
-      } = await userApi.ssoGLogin(userInfo);
+      } = await userApi.wtbSignUp(userInfo);
       if (success) {
         AuthApi.setToken(id_token);
         history.push(`/`);
@@ -24,16 +23,14 @@ const SignUp = () => {
         alert(msg);
       }
     } catch (e) {
-      console.log(e);
+      alert(e);
     }
-
-    // history.push(`/login`);
   };
 
   return (
     <Box>
       <Helmet>
-        <title>SINGUP | WTB</title>
+        <title>SIGN UP | WTB</title>
       </Helmet>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <LoginInput
@@ -53,7 +50,7 @@ const SignUp = () => {
         <LoginInput
           type="text"
           placeholder="Name"
-          name="name"
+          name="nickname"
           ref={register}
           required
         />

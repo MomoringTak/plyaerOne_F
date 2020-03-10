@@ -48,9 +48,9 @@ const List = ({ booklist, clickBooklist, deleteBL }) => {
         ))}
         {empty}
       </BookListUl>
-      {/* {booklist.userBL ? (
+      {booklist.userBL ? (
         <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
-      ) : null} */}
+      ) : null}
     </Container>
   );
 };
