@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
+import { useForm } from "react-hook-form";
 
 import { useGoogleAuth } from "../Components/AuthG";
 import { userApi, AuthApi } from "../api";
 
 const Login = () => {
-  const { signIn, signOut, isSignedIn } = useGoogleAuth();
+  const { signIn } = useGoogleAuth();
   const history = useHistory();
+  const { register, handleSubmit } = useForm();
 
   async function LogIn() {
     try {
@@ -39,9 +41,19 @@ const Login = () => {
     }
   }
 
-  const onSubmit = e => {
-    if (e) {
-      e.preventDefault();
+  const onSubmit = async userInfo => {
+    try {
+      const {
+        data: { success, msg, id_token }
+      } = await userApi.wtbSignIn(userInfo);
+      if (success) {
+        AuthApi.setToken(id_token);
+        history.push(`/`);
+      } else {
+        alert(msg);
+      }
+    } catch (e) {
+      alert("유저정보가 매칭 되지 않습니다.");
     }
   };
 
@@ -50,13 +62,23 @@ const Login = () => {
       <Helmet>
         <title>LOGIN | WTB</title>
       </Helmet>
-      <Form onSubmit={onSubmit}>
-        <LoginInput type="email" placeholder="Enter Your Email" />
-        <LoginInput type="text" placeholder="Enter Your Password" />
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <LoginInput
+          type="email"
+          placeholder="Email"
+          name="email"
+          ref={register}
+        />
+        <LoginInput
+          type="text"
+          placeholder="Password"
+          name="password"
+          ref={register}
+        />
         <ButtonSection>
-          <Button type="submit">Log In</Button>
+          <Button type="submit">로그인</Button>
           <SLink to={`/singup`}>
-            <Button>Sing Up</Button>
+            <Button>회원 가입</Button>
           </SLink>
           <Button onClick={LogIn}>구글 로그인</Button>
         </ButtonSection>

@@ -20,7 +20,8 @@ export const userApi = {
   getUser: () => api.get(`/users`, { headers: AuthApi.getAuthHeader() }),
   updateUser: (googleId, nickname) =>
     api.patch(`/users/${googleId}`, { nickname: nickname }),
-  wtbSignUp: userInfo => api.post(`/users/signup`, userInfo)
+  wtbSignUp: userInfo => api.post(`/users/signup`, userInfo),
+  wtbSignIn: userInfo => api.post(`/users/signin`, userInfo)
 };
 
 export const booklistApi = {

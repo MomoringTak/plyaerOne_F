@@ -4,47 +4,20 @@ import { Link } from "react-router-dom";
 
 import { useGoogleAuth } from "../AuthG";
 
-import { userApi, AuthApi } from "../../api";
+import { AuthApi } from "../../api";
 
 const LoginBtn = () => {
-  const { signIn, signOut, isSignedIn } = useGoogleAuth();
+  const { signOut, isSignedIn } = useGoogleAuth();
 
-  //Method : Login Process.
-  async function LogIn() {
-    try {
-      //get the data of googleId, name, email from the one who logged in.
-      const {
-        profileObj: { googleId, name, email }
-      } = await signIn();
+  const isTokenExist = AuthApi.getToken();
 
-      const userInfo = {
-        googleId,
-        name,
-        email
-      };
-
-      //CreateOrFind the user who logged In.
-      const {
-        data: { success, msg, id_token }
-      } = await userApi.ssoGLogin(userInfo);
-
-      if (success) {
-        AuthApi.setToken(id_token);
-      } else {
-        alert(msg);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
-  function LogOut() {
+  const LogOut = () => {
     AuthApi.clearToken(signOut);
-  }
+  };
 
   return (
     <>
-      {isSignedIn ? (
+      {isSignedIn || isTokenExist != null ? (
         <UserLink to="#" onClick={LogOut}>
           로그아웃
         </UserLink>
