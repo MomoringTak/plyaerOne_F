@@ -1,17 +1,50 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
-const LinkToSingUp = () => {};
-
-const onSubmit = e => {
-  if (e) {
-    e.preventDefault();
-  }
-};
+import { useGoogleAuth } from "../Components/AuthG";
+import { userApi, AuthApi } from "../api";
 
 const Login = () => {
+  const { signIn, signOut, isSignedIn } = useGoogleAuth();
+  const history = useHistory();
+
+  async function LogIn() {
+    try {
+      //get the data of googleId, name, email from the one who logged in.
+      const {
+        profileObj: { googleId, name, email }
+      } = await signIn();
+
+      const userInfo = {
+        googleId,
+        name,
+        email
+      };
+
+      //CreateOrFind the user who logged In.
+      const {
+        data: { success, msg, id_token }
+      } = await userApi.ssoGLogin(userInfo);
+
+      if (success) {
+        AuthApi.setToken(id_token);
+        history.push("/");
+      } else {
+        alert(msg);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const onSubmit = e => {
+    if (e) {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Box>
       <Helmet>
@@ -23,8 +56,9 @@ const Login = () => {
         <ButtonSection>
           <Button type="submit">Log In</Button>
           <SLink to={`/singup`}>
-            <Button color="danger">Sing Up</Button>
+            <Button>Sing Up</Button>
           </SLink>
+          <Button onClick={LogIn}>구글 로그인</Button>
         </ButtonSection>
       </Form>
     </Box>

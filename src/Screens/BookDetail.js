@@ -80,30 +80,32 @@ export default function BookDetail({
   const showBook = async () => {
     if (null !== googleUser && user.length === 0) {
       //get all info about the book.
-      const {
-        data: { book: Results }
-      } = await bookApi.getBookDetail(id);
+      try {
+        const {
+          data: { book: Results }
+        } = await bookApi.getBookDetail(id);
 
-      setBook(Results);
+        setBook(Results);
 
-      //get all the booklist of users
-      const {
-        data: {
-          booklist: { booklists }
-        }
-      } = await booklistApi.getBookList(googleUser.googleId);
-      setBooklist(booklists);
+        //get all the booklist of users
+        const {
+          data: {
+            booklist: { booklists }
+          }
+        } = await booklistApi.getBookList(googleUser.googleId);
+        setBooklist(booklists);
 
-      //get all the comment.
-      const {
-        data: { commentResult }
-      } = await commentApi.bookComment(Results._id);
+        //get all the comment.
+        const {
+          data: { commentResult }
+        } = await commentApi.bookComment(Results._id);
 
-      setAllComment(commentResult);
+        setAllComment(commentResult);
+      } catch (err) {
+        alert(err);
+      }
     }
   };
-
-  const addBooktoBooklist = booklistId => {};
 
   const deleteComments = async commentId => {
     try {
@@ -198,17 +200,19 @@ export default function BookDetail({
         <AddBookTemplate>
           <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
           <div>
-            {booklist.map(item => (
-              <h1
-                onClick={async () => {
-                  await bookApi.addToBooklist(book._id, item._id);
-                  setClick(false);
-                }}
-                key={item._id}
-              >
-                {item.title}
-              </h1>
-            ))}
+            {booklist
+              ? booklist.map(item => (
+                  <h1
+                    onClick={async () => {
+                      await bookApi.addToBooklist(book._id, item._id);
+                      setClick(false);
+                    }}
+                    key={item._id}
+                  >
+                    {item.title}
+                  </h1>
+                ))
+              : null}
           </div>
         </AddBookTemplate>
       </AddBook>

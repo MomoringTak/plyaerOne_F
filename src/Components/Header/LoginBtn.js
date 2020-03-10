@@ -49,9 +49,7 @@ const LoginBtn = () => {
           로그아웃
         </UserLink>
       ) : (
-        <UserLink to="#" onClick={LogIn}>
-          로그인
-        </UserLink>
+        <UserLink to="/login">로그인</UserLink>
       )}
     </>
   );
@@ -65,9 +63,5 @@ const UserLink = styled(Link)`
   font-weight: 500;
   font-family: "Noto Sans";
 `;
-
-// const LogInBtnCotainer = styled.div`
-//   line-height:32px;
-// `;
 
 export default LoginBtn;

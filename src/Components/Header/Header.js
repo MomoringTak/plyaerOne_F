@@ -61,9 +61,6 @@ export default withRouter(({ location: { pathname } }) => {
           </HeaderLogo>
           <HeaderMenu>
             <List>
-              {/* <Item>
-                <SLink to="/login">LOGIN</SLink>
-              </Item> */}
               <Item className="all">
                 <SLink
                   to="#"
@@ -89,18 +86,11 @@ export default withRouter(({ location: { pathname } }) => {
                 <SLink to="/shelf">SHELF</SLink>
               </Item> */}
               {isSignedIn && (
-                <>
-                  <Item>
-                    <SLink to={`/${googleUser.profileObj.email}/shelf`}>
-                      <span className="txt">나의책장</span>
-                    </SLink>
-                  </Item>
-                  {/* <Item>
-                    <SLink to={`/${googleUser.profileObj.email}/addbook`}>
-                      <span className="txt">+Book</span>
-                    </SLink>
-                  </Item> */}
-                </>
+                <Item>
+                  <SLink to={`/${googleUser.profileObj.email}/shelf`}>
+                    <span className="txt">나의책장</span>
+                  </SLink>
+                </Item>
               )}
             </List>
             {(menuHover || subMenuHover) && (
@@ -124,7 +114,7 @@ export default withRouter(({ location: { pathname } }) => {
                   </SSubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SSubLink to="#">
+                  <SSubLink to={`/${googleUser.profileObj.email}/addbook`}>
                     <span className="txt">책 추가하기</span>
                   </SSubLink>
                 </SubMenuLi>
