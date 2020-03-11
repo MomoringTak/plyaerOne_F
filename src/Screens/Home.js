@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
@@ -17,13 +17,7 @@ export default function Home() {
     try {
       const {
         data: { books }
-      } = await bookApi.getAllBook().catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
-          }
-        }
-      });
+      } = await bookApi.getAllBook();
       setBook(books);
     } catch (e) {
       console.log(e);

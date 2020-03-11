@@ -12,6 +12,7 @@ export default function EditProfile() {
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
   const history = useHistory();
+
   const [user, setUser] = useState([]);
   const [name, setName] = useState("");
   const [changed, setChanged] = useState(true);
@@ -21,17 +22,17 @@ export default function EditProfile() {
     setUser(authorized);
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
   const handleSubmit = async e => {
     if (e) {
       e.preventDefault();
     }
     if (name !== "") {
       setChanged(false);
-      await userApi.updateUser(user.googleId, name);
+      const userInfo = {
+        email: user.email,
+        nickname: name
+      };
+      await userApi.updateUser(userInfo);
     }
   };
 
@@ -46,6 +47,9 @@ export default function EditProfile() {
     setChanged(true);
   };
 
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <Container>
       <Helmet>
@@ -70,7 +74,9 @@ export default function EditProfile() {
           ) : (
             <>
               <h1>New Nickname : {name}</h1>
-              <SLink to={`/${user.email}/profile`}>Back to Profile Page</SLink>
+              <SLink to={`/${user.nickname}/profile`}>
+                Back to Profile Page
+              </SLink>
             </>
           )}
           <Spacer />
