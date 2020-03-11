@@ -22,8 +22,6 @@ export default withRouter(({ location: { pathname } }) => {
 
   const getUser = async () => {
     const authorized = await valid(googleAuth);
-    console.log(authorized);
-    console.log("hello");
     setUser(authorized);
   };
 
@@ -96,9 +94,6 @@ export default withRouter(({ location: { pathname } }) => {
                   <span className="txt">테마가 있는 책장</span>
                 </SLink>
               </Item>
-              {/* <Item>
-                <SLink to="/shelf">SHELF</SLink>
-              </Item> */}
               {isTokenExist !== null ? (
                 <Item>
                   <SLink to={`/${user.nickname}/shelf`}>
@@ -128,11 +123,11 @@ export default withRouter(({ location: { pathname } }) => {
                   </SSubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  {/* {user.length >= 1 ? (
+                  {isTokenExist !== null ? (
                     <SSubLink to={`/${user.nickname}/addbook`}>
                       <span className="txt">책 추가하기</span>
                     </SSubLink>
-                  ) : null} */}
+                  ) : null}
                 </SubMenuLi>
                 <SubMenuLi>
                   <SubLink to="#">
