@@ -16,7 +16,7 @@ export const bookApi = {
 
 //User API
 export const userApi = {
-  ssoGLogin: userInfo => api.post(`/users/add`, userInfo),
+  ssoGLogin: userInfo => api.post(`/users/googleSignIn`, userInfo),
   getUser: () => api.get(`/users`, { headers: AuthApi.getAuthHeader() }),
   updateUser: (googleId, nickname) =>
     api.patch(`/users/${googleId}`, { nickname: nickname }),
