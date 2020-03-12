@@ -26,18 +26,18 @@ export const userApi = {
 
 export const booklistApi = {
   serachBook: title => api.get(`/booklists/${title}`),
-  addBookList: booklist => api.post(`/booklists/upload`, booklist),
-  getBookList: googleId =>
+  uploadBookList: booklist => api.post(`/booklists/upload`, booklist),
+  getBookList: email =>
     api.get(`/booklists`, {
-      params: { googleId: googleId },
+      params: { email: email },
       headers: AuthApi.getAuthHeader()
     }),
   getOneBookList: id => api.get(`/booklists/item/${id}`),
-  deleteBookList: (id, googleId) =>
+  deleteBookList: (id, email) =>
     api.delete(`/booklists/delete`, {
       params: {
         id: id,
-        googleId: googleId
+        email: email
       }
     }),
   getBooks: id => api.get(`/booklists/detail/${id}`)
