@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
-import { bookApi, booklistApi, commentApi } from "../api";
+import { bookApi, booklistApi, commentApi, AuthApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 
@@ -15,7 +15,6 @@ export default function BookDetail({
     params: { id }
   }
 }) {
-  const { googleUser } = useGoogleAuth();
   const [user, setUser] = useState([]);
   const [book, setBook] = useState({});
   const [comment, dispatch] = useReducer(reducer, initialState);
@@ -25,17 +24,12 @@ export default function BookDetail({
 
   const [click, setClick] = useState(false);
 
+  const isTokenExist = AuthApi.getToken();
+
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
 
-  const getUser = async () => {
-    const authorized = await valid(googleAuth);
-    setUser(authorized);
-  };
-
   const saveComment = async () => {
-    getUser();
-
     const COMMENT_DATA = {
       user: user._id,
       book: book._id,
@@ -77,33 +71,35 @@ export default function BookDetail({
     setCommentText(value);
   };
 
-  const showBook = async () => {
-    if (null !== googleUser && user.length === 0) {
-      //get all info about the book.
-      try {
-        const {
-          data: { book: Results }
-        } = await bookApi.getBookDetail(id);
-
-        setBook(Results);
-
-        //get all the booklist of users
-        const {
-          data: {
-            booklist: { booklists }
-          }
-        } = await booklistApi.getBookList(googleUser.googleId);
-        if (booklists !== null) setBooklist(booklists);
-
-        //get all the comment.
-        const {
-          data: { commentResult }
-        } = await commentApi.bookComment(Results._id);
-
-        setAllComment(commentResult);
-      } catch (err) {
-        alert(err);
+  const getUserBooklist = async user => {
+    const {
+      data: {
+        booklist: { booklists }
       }
+    } = await booklistApi.getBookList(user.email);
+    setBooklist(booklists);
+  };
+
+  const showBook = async user => {
+    //get all info about the book.
+    try {
+      const {
+        data: { book: Results }
+      } = await bookApi.getBookDetail(id);
+
+      setBook(Results);
+
+      if (isTokenExist != null) {
+        getUserBooklist(user);
+      }
+
+      //get all the comment.
+      const {
+        data: { commentResult }
+      } = await commentApi.bookComment(Results._id);
+      setAllComment(commentResult);
+    } catch (err) {
+      alert(err);
     }
   };
 
@@ -129,9 +125,15 @@ export default function BookDetail({
     setClick(!click);
   };
 
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+    showBook(authorized);
+  };
+
   useEffect(() => {
-    showBook();
-  }, [googleUser]);
+    getUser();
+  }, []);
 
   return (
     <>
@@ -158,7 +160,7 @@ export default function BookDetail({
           </Item>
           <Item>{book.publisher}</Item>
           <Item>좋아요</Item>
-          {booklist.length > 0 ? (
+          {isTokenExist !== null ? (
             <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
           ) : null}
         </RightContainer>
@@ -202,7 +204,7 @@ export default function BookDetail({
         <AddBookTemplate>
           <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
           <div>
-            {booklist ? (
+            {booklist.length >= 1 ? (
               booklist.map(item => (
                 <h1
                   onClick={async () => {

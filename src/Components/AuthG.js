@@ -16,7 +16,6 @@ const GoogleAuthProvider = ({ children }) => {
   });
 
   // 유저 정보를 받아오는 부분. (토큰이 있다면)
-  // 20200305
   const getUserAuth = async googleAuth => {
     if (googleAuth.googleUser !== null) {
       return await AuthApi.checkLogin(googleAuth);
@@ -46,7 +45,6 @@ const useGoogleAuth = () => {
   return googleAuth;
 };
 
-// UserAuth 새로 만듬
 const useIsValid = () => {
   const { isValid } = useContext(GoogleAuthContext);
   return isValid;

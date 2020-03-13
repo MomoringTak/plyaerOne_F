@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useHistory } from "react-router-dom";
-import styled from "styled-components";
 import Helmet from "react-helmet";
+import styled from "styled-components";
 import { useForm } from "react-hook-form";
 
 import { useGoogleAuth } from "../Components/AuthG";
@@ -12,7 +12,7 @@ const Login = () => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
 
-  async function LogIn() {
+  const googleLogIn = async () => {
     try {
       //get the data of googleId, name, email from the one who logged in.
       const {
@@ -39,7 +39,7 @@ const Login = () => {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const onSubmit = async userInfo => {
     try {
@@ -80,9 +80,9 @@ const Login = () => {
           <SLink to={`/singup`}>
             <Button>회원 가입</Button>
           </SLink>
-          <Button onClick={LogIn}>구글 로그인</Button>
         </ButtonSection>
       </Form>
+      <Gbtn onClick={googleLogIn}>구글 로그인</Gbtn>
     </Box>
   );
 };
@@ -92,6 +92,7 @@ const Box = styled.div`
   height: 60vh;
   min-height: 540px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 `;
@@ -99,7 +100,7 @@ const Box = styled.div`
 const Form = styled.form`
   display: flex;
   width: 500px;
-  height: 500px;
+  height: 300px;
   flex-flow: column wrap;
   align-items: center;
   justify-content: center;
@@ -130,6 +131,11 @@ const Button = styled.button`
   padding: 10px;
 `;
 
+const Gbtn = styled.button`
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 5px;
+`;
 const SLink = styled(Link)``;
 
 export default Login;

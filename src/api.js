@@ -16,28 +16,28 @@ export const bookApi = {
 
 //User API
 export const userApi = {
-  ssoGLogin: userInfo => api.post(`/users/add`, userInfo),
+  ssoGLogin: userInfo => api.post(`/users/googleSignIn`, userInfo),
   getUser: () => api.get(`/users`, { headers: AuthApi.getAuthHeader() }),
-  updateUser: (googleId, nickname) =>
-    api.patch(`/users/${googleId}`, { nickname: nickname }),
+  updateUser: userInfo => api.patch(`/users/update`, userInfo),
   wtbSignUp: userInfo => api.post(`/users/signup`, userInfo),
-  wtbSignIn: userInfo => api.post(`/users/signin`, userInfo)
+  wtbSignIn: userInfo => api.post(`/users/signin`, userInfo),
+  deleteUser: id => api.delete(`users/delete/${id}`)
 };
 
 export const booklistApi = {
   serachBook: title => api.get(`/booklists/${title}`),
-  addBookList: booklist => api.post(`/booklists/upload`, booklist),
-  getBookList: googleId =>
+  uploadBookList: booklist => api.post(`/booklists/upload`, booklist),
+  getBookList: email =>
     api.get(`/booklists`, {
-      params: { googleId: googleId },
+      params: { email: email },
       headers: AuthApi.getAuthHeader()
     }),
   getOneBookList: id => api.get(`/booklists/item/${id}`),
-  deleteBookList: (id, googleId) =>
+  deleteBookList: (id, email) =>
     api.delete(`/booklists/delete`, {
       params: {
         id: id,
-        googleId: googleId
+        email: email
       }
     }),
   getBooks: id => api.get(`/booklists/detail/${id}`)

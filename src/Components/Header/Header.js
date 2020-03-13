@@ -2,21 +2,32 @@ import React, { useEffect, useState } from "react";
 import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 
-import { useGoogleAuth } from "../AuthG";
+import { useGoogleAuth, useIsValid } from "../AuthG";
 
 import LoginBtn from "./LoginBtn";
 import SearchBar from "../SearchBar";
+import { AuthApi } from "../../api";
 
 import Icon from '@mdi/react'
 import { mdiHome, mdiHomeOutline, mdiBook, mdiBookOutline, mdiBookshelf, mdiAccount, mdiBookPlus } from '@mdi/js'
 
 export default withRouter(({ location: { pathname } }) => {
-  const { isSignedIn, googleUser } = useGoogleAuth();
   const [menuHover, setMenuHover] = useState(false);
   const [subMenuHover, setSubMenuHover] = useState(false);
 
+  const [user, setUser] = useState([]);
+  const valid = useIsValid();
+
+  const googleAuth = useGoogleAuth();
+  const isTokenExist = AuthApi.getToken();
+
   const size = useWindowSize();
   const icon = useFloatBtnActive();
+
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
 
   const searchBook = searchText => {
     console.log(searchText);
@@ -25,7 +36,6 @@ export default withRouter(({ location: { pathname } }) => {
 
   const enterMenu = () => {
     setMenuHover(true);
-    //setSubMenuHover(true);
   };
   const leaveMenu = () => {
     setMenuHover(false);
@@ -49,6 +59,10 @@ export default withRouter(({ location: { pathname } }) => {
     }
   }
 
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <Header>
       {size.width >= 768 ? (
@@ -58,13 +72,11 @@ export default withRouter(({ location: { pathname } }) => {
           </HeaderBanner>
           <HeaderUser>
             <UserMenuUl>
-              {isSignedIn && (
+              {isTokenExist !== null ? (
                 <UserMenuLi>
-                  <UserLink to={`/${googleUser.profileObj.email}/profile`}>
-                    내 정보
-                  </UserLink>
+                  <UserLink to={`/${user.nickname}/profile`}>내 정보</UserLink>
                 </UserMenuLi>
-              )}
+              ) : null}
               <UserMenuLi>
                 <LoginBtn />
               </UserMenuLi>
@@ -98,16 +110,13 @@ export default withRouter(({ location: { pathname } }) => {
                   <span className="txt">테마가 있는 책장</span>
                 </SLink>
               </Item>
-              {/* <Item>
-                <SLink to="/shelf">SHELF</SLink>
-              </Item> */}
-              {isSignedIn && (
+              {isTokenExist !== null ? (
                 <Item>
-                  <SLink to={`/${googleUser.profileObj.email}/shelf`}>
+                  <SLink to={`/${user.nickname}/shelf`}>
                     <span className="txt">나의책장</span>
                   </SLink>
                 </Item>
-              )}
+              ) : null}
             </List>
             {(menuHover || subMenuHover) && (
               <SubMenuUl
@@ -130,11 +139,11 @@ export default withRouter(({ location: { pathname } }) => {
                   </SSubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  {/* {googleUser ? (
-                    <SSubLink to={`/${googleUser.profileObj.email}/addbook`}>
+                  {isTokenExist !== null ? (
+                    <SSubLink to={`/${user.nickname}/addbook`}>
                       <span className="txt">책 추가하기</span>
                     </SSubLink>
-                  ) : null} */}
+                  ) : null}
                 </SubMenuLi>
                 <SubMenuLi>
                   <SubLink to="#">

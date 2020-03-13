@@ -34,13 +34,13 @@ export default () => {
           <Route path="/login" exact component={Login} />
           <Route path="/singup" exact component={SignUp} />
           <Route path="/shelf" component={Shelf} />
-          <Route path="/:userid/booklist/:id" component={Booklist} />
-          <Route path="/:userid/shelf" component={UserShelf} />
+          <Route path="/:userEmail/booklist/:id" component={Booklist} />
+          <Route path="/:userEmail/shelf" component={UserShelf} />
           <Route path="/booklist/:id" component={BooklistDetail} />
-          <Route path="/:userid/addbooklist" component={AddBookList} />
-          <Route path="/:userid/profile" component={Profile} />
-          <Route path="/:userid/editprofile" component={EditProfile} />
-          <Route path="/:userid/addbook" component={AddBook} />
+          <Route path="/:userEmail/addbooklist" component={AddBookList} />
+          <Route path="/:userEmail/profile" component={Profile} />
+          <Route path="/:userEmail/editprofile" component={EditProfile} />
+          <Route path="/:userEmail/addbook" component={AddBook} />
           <Route path="/book/:id" component={BookDetail} />
 
           <Redirect from="*" to="/" />

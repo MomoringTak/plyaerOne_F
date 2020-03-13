@@ -26,7 +26,7 @@ const UserShelf = () => {
         data: {
           booklist: { booklists }
         }
-      } = await booklistApi.deleteBookList(item, user.googleId);
+      } = await booklistApi.deleteBookList(item, user.email);
       const NEW_BL = booklists.map(item => {
         item.userBL = true;
         return item;
@@ -44,7 +44,7 @@ const UserShelf = () => {
           data: {
             booklist: { booklists }
           }
-        } = await booklistApi.getBookList(user.googleId);
+        } = await booklistApi.getBookList(user.email);
 
         const NEW_BL = booklists.map(item => {
           item.userBL = true;

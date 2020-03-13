@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 
+import { userApi, AuthApi } from "../api";
+
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 export default function Profile() {
@@ -11,6 +13,7 @@ export default function Profile() {
   const [user, setUser] = useState({});
 
   const googleAuth = useGoogleAuth();
+  const { signOut } = useGoogleAuth();
   const valid = useIsValid();
 
   const getUser = async () => {
@@ -19,6 +22,16 @@ export default function Profile() {
       setUser(authorized);
     } catch (err) {
       history.push(`/`);
+    }
+  };
+
+  const deleteUser = async () => {
+    try {
+      await userApi.deleteUser(user._id);
+      await AuthApi.clearToken(signOut);
+      history.push("/");
+    } catch (err) {
+      history.push("/");
     }
   };
 
@@ -44,7 +57,7 @@ export default function Profile() {
           <Spacer />
           <h3>{user.email}</h3>
           <Spacer />
-
+          <Button onClick={deleteUser}>Delete Profile</Button>
           <Spacer />
         </Section>
       </Head>
@@ -75,5 +88,9 @@ const Section = styled.div`
 
 const SLink = styled(Link)`
   margin-top: 10px;
+  color: #4a6ee0;
+`;
+
+const Button = styled.button`
   color: #4a6ee0;
 `;

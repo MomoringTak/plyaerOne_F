@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { bookApi, booklistApi } from "../api";
-import { useGoogleAuth } from "../Components/AuthG";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
@@ -18,6 +18,10 @@ const AddBookList = () => {
   const [clickedBook, setClickedBook] = useState(0);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
+
+  const [user, setUser] = useState([]);
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
 
   const { googleUser } = useGoogleAuth();
 
@@ -51,11 +55,11 @@ const AddBookList = () => {
     const Final_Booklist = {
       title: title,
       books: BookId,
-      userId: googleUser.googleId
+      userId: user._id
     };
 
-    await booklistApi.addBookList(Final_Booklist);
-    history.push(`/${googleUser.profileObj.email}/shelf`);
+    await booklistApi.uploadBookList(Final_Booklist);
+    history.push(`/${user.nickname}/shelf`);
   };
 
   const handleTitle = e => {
@@ -92,6 +96,15 @@ const AddBookList = () => {
     setBook([]);
     setClickedBook(0);
   };
+
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Container>
