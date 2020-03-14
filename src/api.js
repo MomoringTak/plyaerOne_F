@@ -21,7 +21,8 @@ export const userApi = {
   updateUser: userInfo => api.patch(`/users/update`, userInfo),
   wtbSignUp: userInfo => api.post(`/users/signup`, userInfo),
   wtbSignIn: userInfo => api.post(`/users/signin`, userInfo),
-  deleteUser: id => api.delete(`users/delete/${id}`)
+  deleteUser: id => api.delete(`users/delete/${id}`),
+  userComment: id => api.get(`users/comment/${id}`)
 };
 
 export const booklistApi = {

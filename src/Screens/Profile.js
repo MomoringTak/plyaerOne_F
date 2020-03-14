@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
+import Comment from "../Components/Comment";
 
 import { userApi, AuthApi } from "../api";
 
@@ -11,6 +12,7 @@ export default function Profile() {
   const history = useHistory();
 
   const [user, setUser] = useState({});
+  const [comment, setComment] = useState([]);
 
   const googleAuth = useGoogleAuth();
   const { signOut } = useGoogleAuth();
@@ -20,6 +22,13 @@ export default function Profile() {
     try {
       const authorized = await valid(googleAuth);
       setUser(authorized);
+
+      const {
+        data: { userCommentResult }
+      } = await userApi.userComment(authorized._id);
+      console.log(userCommentResult);
+
+      setComment(userCommentResult);
     } catch (err) {
       history.push(`/`);
     }
@@ -59,6 +68,17 @@ export default function Profile() {
           <Spacer />
           <Button onClick={deleteUser}>Delete Profile</Button>
           <Spacer />
+          <Dividers />
+          {comment.length >= 1
+            ? comment.map(comment => (
+                <Comment
+                  key={comment._id}
+                  comment={comment}
+                  user={comment.user}
+                  book={comment.book}
+                />
+              ))
+            : null}
         </Section>
       </Head>
     </Container>
@@ -93,4 +113,67 @@ const SLink = styled(Link)`
 
 const Button = styled.button`
   color: #4a6ee0;
+`;
+
+const CommentCotainer = styled.div`
+  width: 100%;
+  height: 300px;
+
+  margin-bottom: 30px;
+`;
+
+const CommentForm = styled.form`
+  width: 90%;
+  height: 200px;
+
+  margin: 20px auto 0 auto;
+
+  position: relative;
+`;
+
+const ComentTitle = styled.span`
+  display: block;
+  font-weight: 600;
+  margin-top: 20px;
+  margin-left: 40px;
+
+  :before {
+    content: "댓글쓰기";
+  }
+`;
+
+const CommentSection = styled.textarea`
+  display: block;
+  width: 90%;
+  height: 100px;
+  margin: 10px auto 0 auto;
+`;
+
+const CommentSubmit = styled.button`
+  width: 50px;
+  height: 20px;
+
+  right: 5%;
+  bottom: 10%;
+  position: absolute;
+
+  text-align: center;
+`;
+
+const CommentList = styled.ul`
+  list-style: none;
+`;
+
+const CommentTitle = styled.span`
+  font-size: 1rem;
+  font-weight: 700;
+
+  margin-left: 5%;
+`;
+
+const Dividers = styled.div`
+  width: 100%;
+  border: 0.8px solid black;
+  margin-bottom: 5px;
+  margin-top: 5px;
 `;

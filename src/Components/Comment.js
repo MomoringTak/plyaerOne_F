@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useGoogleAuth } from "../Components/AuthG";
 
-const Comment = ({ comment, user, deleteComment }) => {
+const Comment = ({ comment, user, deleteComment, book }) => {
   const { googleUser } = useGoogleAuth();
 
   const clickDelete = e => {
@@ -11,7 +11,8 @@ const Comment = ({ comment, user, deleteComment }) => {
 
   return (
     <Container>
-      <h5>작성 시간 : {(new Date(comment.createdAt)).toString()}</h5>
+      {book !== undefined ? <span>{book.title}</span> : null}
+      <h5>작성 시간 : {new Date(comment.createdAt).toString()}</h5>
 
       <h5>작성자 이름: {user.nickname}</h5>
       <h5>댓글 내용 : {comment.description}</h5>
@@ -24,6 +25,7 @@ const Comment = ({ comment, user, deleteComment }) => {
 
 const Container = styled.div`
   color: black;
+  margin-top: 10px;
 `;
 
 export default Comment;
