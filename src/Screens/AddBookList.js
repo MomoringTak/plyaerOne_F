@@ -11,21 +11,24 @@ import Section from "../Components/Section";
 import Book from "../Components/Book";
 
 const AddBookList = () => {
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+
+  const history = useHistory();
+
   const [next, setNext] = useState(true);
+
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
 
   const [loading, setLoading] = useState(false);
+
   const [clickedBook, setClickedBook] = useState(0);
+
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
 
   const [user, setUser] = useState([]);
-  const googleAuth = useGoogleAuth();
-  const valid = useIsValid();
-
-  const { googleUser } = useGoogleAuth();
-
-  const history = useHistory();
 
   const showBook = async () => {
     try {
@@ -54,6 +57,7 @@ const AddBookList = () => {
 
     const Final_Booklist = {
       title: title,
+      description: description,
       books: BookId,
       userId: user._id
     };
@@ -62,21 +66,12 @@ const AddBookList = () => {
     history.push(`/${user.nickname}/shelf`);
   };
 
-  const handleTitle = e => {
+  const handleBooklistInfo = e => {
     if (e) {
       e.preventDefault();
     }
-    if (title !== "") {
+    if (title !== "" && description !== "") {
       setNext(false);
-    }
-  };
-
-  const handleSubmit = e => {
-    if (e) {
-      e.preventDefault();
-    }
-    if (term !== "") {
-      showBook(term);
     }
   };
 
@@ -85,6 +80,22 @@ const AddBookList = () => {
       target: { value }
     } = e;
     setTitle(value);
+  };
+
+  const updateDescription = e => {
+    const {
+      target: { value }
+    } = e;
+    setDescription(value);
+  };
+
+  const handleSubmit = e => {
+    if (e) {
+      e.preventDefault();
+    }
+    if (term !== "" && description !== "") {
+      showBook(term);
+    }
   };
 
   const updateTerm = e => {
@@ -112,13 +123,19 @@ const AddBookList = () => {
         <title>ADD BOOKLIST | WTB</title>
       </Helmet>
       {next ? (
-        <Form onSubmit={handleTitle}>
+        <Form onSubmit={handleBooklistInfo}>
           <Template>
             <Input
               placeholder="생성 할 북리스트 이름을 작성해주세요."
               value={title}
               onChange={updateTitle}
             />
+            <Input
+              placeholder="생성 할 북리스트의 설명을 작성해주세요."
+              value={description}
+              onChange={updateDescription}
+            />
+            <NextBtn type="submit">Next </NextBtn>
           </Template>
         </Form>
       ) : (
@@ -150,7 +167,7 @@ const AddBookList = () => {
                     />
                   ))}
                 </Section>
-              )}{" "}
+              )}
             </>
           )}
         </>
@@ -227,6 +244,13 @@ const Spacer = styled.div`
 const Header = styled.div`
   font-weight: 500;
   color: #8189a9;
+`;
+
+const NextBtn = styled.button`
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
 `;
 
 export default AddBookList;

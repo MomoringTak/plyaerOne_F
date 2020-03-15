@@ -39,7 +39,8 @@ const BooklistDetail = ({
 
   return (
     <Container>
-      <span>Title : {booklist.title}</span>
+      <h1>Title : {booklist.title}</h1>
+      <h1>Description : {booklist.description}</h1>
       <Section>
         {book ? (
           book.map(bookItem => (
