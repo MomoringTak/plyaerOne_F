@@ -38,7 +38,7 @@ export default () => {
           <Route path="/:userEmail/addbooklist" component={AddBookList} />
           <Route path="/:userEmail/profile" component={Profile} />
           <Route path="/:userEmail/editprofile" component={EditProfile} />
-          <Route path="/:userEmail/addbook" component={AddBook} />
+          <Route path="/addbook" component={AddBook} />
           <Route path="/book/:id" component={BookDetail} />
 
           <Redirect from="*" to="/" />

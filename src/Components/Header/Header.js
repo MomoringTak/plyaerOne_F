@@ -110,13 +110,13 @@ export default withRouter(({ location: { pathname } }) => {
                   <span className="txt">테마가 있는 책장</span>
                 </SLink>
               </Item>
-              {isTokenExist !== null ? (
+              {isTokenExist !== null && (
                 <Item>
                   <SLink to={`/${user.nickname}/shelf`}>
                     <span className="txt">나의책장</span>
                   </SLink>
                 </Item>
-              ) : null}
+              )}
             </List>
             {(menuHover || subMenuHover) && (
               <SubMenuUl
@@ -188,9 +188,13 @@ export default withRouter(({ location: { pathname } }) => {
               </SubMenuUl>
             )}
             {/* 검색창 */}
+            <div className="iconAddBook">
+              <Link to={`/addbook`}><Icon path={mdiBookPlus} size={0.85}/></Link>
+            </div>
+            {isTokenExist !== null && (
             <div className="searchbar">
               <SearchBar text="" submitSearch={searchBook}></SearchBar>
-            </div>
+            </div>)}
           </HeaderMenu>
         </>
       ) : (
@@ -232,9 +236,10 @@ export default withRouter(({ location: { pathname } }) => {
             </List>
           </HeaderMenu>
           <div className={icon ? 'footer-button active' : 'footer-button'}>
+              {isTokenExist !== null && (
               <button className="button-float">
-                <Link href="/"><Icon path={mdiBookPlus} size={1}/></Link>
-              </button>
+                <Link to={`/addbook`}><Icon path={mdiBookPlus} size={1}/></Link>
+              </button>)}
               <button className="button-float button-top">
                 <span>to the Top</span>
               </button>
@@ -520,6 +525,20 @@ const HeaderMenu = styled.div`
       right: 0px;
       top: 10px;
       width: 238px;
+    }
+
+    .iconAddBook {
+      position: absolute;
+      right: -40px;
+      top: 10px;
+      width: 36px;
+      height: 36px;
+      padding:7.8px;
+      border-radius:50%;
+      background:#f7f7f7;
+      svg path {
+        fill:#333;
+      }
     }
   }
 `;
