@@ -17,12 +17,18 @@ export const bookApi = {
 //User API
 export const userApi = {
   ssoGLogin: userInfo => api.post(`/users/googleSignIn`, userInfo),
-  getUser: () => api.get(`/users`, { headers: AuthApi.getAuthHeader() }),
+  getUser: () =>
+    api.get(`/users`, {
+      headers: AuthApi.getAuthHeader()
+    }),
   updateUser: userInfo => api.patch(`/users/update`, userInfo),
   wtbSignUp: userInfo => api.post(`/users/signup`, userInfo),
   wtbSignIn: userInfo => api.post(`/users/signin`, userInfo),
   deleteUser: id => api.delete(`users/delete/${id}`),
-  userComment: id => api.get(`users/comment/${id}`)
+  userComment: id => api.get(`users/comment/${id}`),
+  handleWish: logData => api.post(`users/wishlist`, logData),
+  handleRead: logData => api.post(`users/doneRead`, logData),
+  getReadLogger: logId => api.post(`users/readLogger`, logId)
 };
 
 export const booklistApi = {

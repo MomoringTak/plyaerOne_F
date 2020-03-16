@@ -3,10 +3,9 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
-import { bookApi, booklistApi, commentApi, AuthApi } from "../api";
+import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
-
 import Comment from "../Components/Comment";
 
 export default function BookDetail({
@@ -23,6 +22,9 @@ export default function BookDetail({
   const [booklist, setBooklist] = useState([]);
 
   const [click, setClick] = useState(false);
+  const [wish, setWish] = useState(false);
+  const [doneReading, setDoneReading] = useState(false);
+  const [readLogger, setReadLogger] = useState({});
 
   const isTokenExist = AuthApi.getToken();
 
@@ -80,6 +82,22 @@ export default function BookDetail({
     setBooklist(booklists);
   };
 
+  const getReadLogger = async (userId, bookId) => {
+    const logData = {
+      user: userId,
+      book: bookId
+    };
+
+    const {
+      data: { logResult }
+    } = await userApi.getReadLogger(logData);
+    if (logResult !== null) {
+      setWish(logResult.wish);
+      setDoneReading(logResult.doneReading);
+    }
+    setReadLogger(logResult);
+  };
+
   const showBook = async user => {
     //get all info about the book.
     try {
@@ -91,6 +109,7 @@ export default function BookDetail({
 
       if (isTokenExist != null) {
         getUserBooklist(user);
+        getReadLogger(user._id, Results._id);
       }
 
       //get all the comment.
@@ -123,6 +142,32 @@ export default function BookDetail({
 
   const clickAddBook = () => {
     setClick(!click);
+  };
+
+  const clickWishlist = async (wish, doneReading) => {
+    const logData = {
+      user: user._id,
+      book: book._id,
+      wish: !wish
+    };
+
+    //Need Error Handling in the future.
+    if (!doneReading) {
+      await userApi.handleWish(logData);
+      setWish(!wish);
+    }
+  };
+
+  const clickDoneReading = async () => {
+    const logData = {
+      user: user._id,
+      book: book._id,
+      doneReading: !doneReading,
+      wish: false
+    };
+
+    await userApi.handleRead(logData);
+    setDoneReading(!doneReading);
   };
 
   const getUser = async () => {
@@ -161,7 +206,23 @@ export default function BookDetail({
           <Item>{book.publisher}</Item>
           <Item>좋아요</Item>
           {isTokenExist !== null ? (
-            <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
+            <ButtonTemplate>
+              <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
+              <AddBookBtn
+                onClick={() => {
+                  clickDoneReading(doneReading);
+                }}
+              >
+                읽음
+              </AddBookBtn>
+              <AddBookBtn
+                onClick={() => {
+                  clickWishlist(wish, doneReading);
+                }}
+              >
+                위시리스트
+              </AddBookBtn>
+            </ButtonTemplate>
           ) : null}
         </RightContainer>
         <ContentContainer>
@@ -226,11 +287,17 @@ export default function BookDetail({
   );
 }
 
+const ButtonTemplate = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 const AddBookBtn = styled.button`
   border: 1px solid black;
   width: 100px;
   height: 50px;
   padding: 5px;
+  text-align: center;
 `;
 
 const CloseBtn = styled.span`

@@ -26,7 +26,6 @@ export default function Profile() {
       const {
         data: { userCommentResult }
       } = await userApi.userComment(authorized._id);
-      console.log(userCommentResult);
 
       setComment(userCommentResult);
     } catch (err) {
