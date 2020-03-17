@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { bookApi } from "../api";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
+import { bookApi, AuthApi } from "../api";
 
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
@@ -13,7 +14,12 @@ export default function AddBook() {
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
 
-  async function showBook() {
+  const [user, setUser] = useState({});
+
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+
+  const showBook = async () => {
     let display = 10;
     try {
       const { data: bookResults } = await bookApi.getBook(term, display);
@@ -31,7 +37,7 @@ export default function AddBook() {
     } catch (e) {
       console.log(e);
     }
-  }
+  };
 
   const handleSubmit = e => {
     if (e) {
@@ -57,12 +63,18 @@ export default function AddBook() {
     reset();
   };
 
-  const pickBook = async () => {
+  const pickBook = async user => {
     const newBook = book.filter(item => item.selected === true);
     for (let item of newBook) {
       item.selected = false;
     }
-    await bookApi.addBook(newBook);
+
+    const newBookData = {
+      newBook,
+      user: user._id
+    };
+
+    await bookApi.addBook(newBookData);
     reset();
     setTerm("책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요.");
   };
@@ -72,6 +84,15 @@ export default function AddBook() {
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
     setBook(book);
   };
+
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Container>
@@ -92,7 +113,13 @@ export default function AddBook() {
           {clickedBook > 0 ? (
             <>
               <BookNum>추가 할 책 갯수 : {clickedBook}</BookNum>
-              <Add onClick={pickBook}>책 추가</Add>
+              <Add
+                onClick={() => {
+                  pickBook(user);
+                }}
+              >
+                책 추가
+              </Add>
             </>
           ) : null}
           {book && book.length > 0 && (
