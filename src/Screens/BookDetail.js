@@ -209,6 +209,7 @@ export default function BookDetail({
             <ButtonTemplate>
               <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
               <AddBookBtn
+                doneReading={doneReading}
                 onClick={() => {
                   clickDoneReading(doneReading);
                 }}
@@ -216,6 +217,7 @@ export default function BookDetail({
                 읽음
               </AddBookBtn>
               <AddBookBtn
+                wish={wish}
                 onClick={() => {
                   clickWishlist(wish, doneReading);
                 }}
@@ -298,6 +300,8 @@ const AddBookBtn = styled.button`
   height: 50px;
   padding: 5px;
   text-align: center;
+  background-color: ${props =>
+    props.wish ? "blue" : props.doneReading ? "blue" : "white"};
 `;
 
 const CloseBtn = styled.span`
