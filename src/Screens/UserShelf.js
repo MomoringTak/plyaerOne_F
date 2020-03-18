@@ -37,6 +37,20 @@ const UserShelf = () => {
     }
   };
 
+  const progress = async () => {
+    const logger = booklist.books.map(book => {
+      const singleLogger = {
+        book: book._id,
+        user: user
+      };
+      return singleLogger;
+    });
+
+    const {
+      data: { logDataResult }
+    } = await booklistApi.getAllReadLog(logger);
+  };
+
   const showBookList = async user => {
     try {
       if (user.length !== 0) {
@@ -81,6 +95,7 @@ const UserShelf = () => {
               booklist={item}
               clickBooklist={booklistDetail}
               deleteBL={deleteBL}
+              user={user._id}
             />
           ))
         ) : (

@@ -47,7 +47,8 @@ export const booklistApi = {
         email: email
       }
     }),
-  getBooks: id => api.get(`/booklists/detail/${id}`)
+  getBooks: id => api.get(`/booklists/detail/${id}`),
+  getAllReadLog: logData => api.post(`/booklists/getAllReadLog`, logData)
 };
 
 //Comment API

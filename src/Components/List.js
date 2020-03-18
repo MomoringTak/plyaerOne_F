@@ -1,11 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { booklistApi } from "../api";
 
-const List = ({ booklist, clickBooklist, deleteBL }) => {
+const List = ({ booklist, clickBooklist, deleteBL, user }) => {
+  const [score, setScore] = useState({});
   const clickEvent = e => {
     clickBooklist(booklist._id);
+  };
+
+  const progress = async () => {
+    const logger = booklist.books.map(book => {
+      const singleLogger = {
+        book: book._id,
+        user: user
+      };
+      return singleLogger;
+    });
+
+    // console.log(logger);
+
+    const {
+      data: { Scores }
+    } = await booklistApi.getAllReadLog(logger);
+
+    Scores.progress = Scores.doneReading / (Scores.wish + Scores.doneReading);
+
+    setScore(Scores);
   };
 
   const clickDelete = e => {
@@ -24,10 +45,17 @@ const List = ({ booklist, clickBooklist, deleteBL }) => {
     }
   }
 
+  useEffect(() => {
+    progress();
+  }, []);
   return (
     <Container>
       <BookListHeader>
         <Title onClick={clickEvent}>{booklist.title}</Title>
+        <Title>
+          WISH : {score.wish}/ doneReading : {score.doneReading}/ Percentage :
+          {score.progress}
+        </Title>
         <DetailView onClick={clickEvent}>상세보기 ></DetailView>
       </BookListHeader>
       <Divider></Divider>

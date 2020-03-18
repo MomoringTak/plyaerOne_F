@@ -8,8 +8,16 @@ import LoginBtn from "./LoginBtn";
 import SearchBar from "../SearchBar";
 import { AuthApi } from "../../api";
 
-import Icon from '@mdi/react'
-import { mdiHome, mdiHomeOutline, mdiBook, mdiBookOutline, mdiBookshelf, mdiAccount, mdiBookPlus } from '@mdi/js'
+import Icon from "@mdi/react";
+import {
+  mdiHome,
+  mdiHomeOutline,
+  mdiBook,
+  mdiBookOutline,
+  mdiBookshelf,
+  mdiAccount,
+  mdiBookPlus
+} from "@mdi/js";
 
 export default withRouter(({ location: { pathname } }) => {
   const [menuHover, setMenuHover] = useState(false);
@@ -48,16 +56,17 @@ export default withRouter(({ location: { pathname } }) => {
   };
 
   const pathCheck = () => {
-    switch(pathname) {
-      case '/': 
-        return 'home';
-      case '/books': 
-        return 'book';
-      case '/shelf':
-        return 'shelf';
-      default : return '';
+    switch (pathname) {
+      case "/":
+        return "home";
+      case "/books":
+        return "book";
+      case "/shelf":
+        return "shelf";
+      default:
+        return "";
     }
-  }
+  };
 
   useEffect(() => {
     getUser();
@@ -189,12 +198,15 @@ export default withRouter(({ location: { pathname } }) => {
             )}
             {/* 검색창 */}
             <div className="iconAddBook">
-              <Link to={`/addbook`}><Icon path={mdiBookPlus} size={0.85}/></Link>
+              <Link to={`/addbook`}>
+                <Icon path={mdiBookPlus} size={0.85} />
+              </Link>
             </div>
             {isTokenExist !== null && (
-            <div className="searchbar">
-              <SearchBar text="" submitSearch={searchBook}></SearchBar>
-            </div>)}
+              <div className="searchbar">
+                <SearchBar text="" submitSearch={searchBook}></SearchBar>
+              </div>
+            )}
           </HeaderMenu>
         </>
       ) : (
@@ -210,39 +222,51 @@ export default withRouter(({ location: { pathname } }) => {
           <HeaderMenu>
             <List class="GNBMobile_container__1OTMW">
               <Item>
-                <MenuLink to="/" className={pathCheck() === 'home' && 'active'}>
-                  <Icon path={mdiHome} size={1.4}/>
+                <MenuLink to="/" className={pathCheck() === "home" && "active"}>
+                  <Icon path={mdiHome} size={1.4} />
                   <MenuText>홈</MenuText>
                 </MenuLink>
               </Item>
               <Item>
-                <MenuLink to="/books" className={pathCheck() === 'book' && 'active'}>
-                  <Icon path={mdiBookOutline} size={1.4}/>
+                <MenuLink
+                  to="/books"
+                  className={pathCheck() === "book" && "active"}
+                >
+                  <Icon path={mdiBookOutline} size={1.4} />
                   <MenuText>책</MenuText>
                 </MenuLink>
               </Item>
               <Item>
-                <MenuLink to="/shelf" className={pathCheck() === 'shelf' && 'active'}>
-                  <Icon path={mdiBookshelf} size={1.4}/>
+                <MenuLink
+                  to="/shelf"
+                  className={pathCheck() === "shelf" && "active"}
+                >
+                  <Icon path={mdiBookshelf} size={1.4} />
                   <MenuText>책묶음</MenuText>
                 </MenuLink>
               </Item>
               <Item>
-                <MenuLink to="/profile" className={pathCheck() === 'my' && 'active'}>
-                  <Icon path={mdiAccount} size={1.4}/>
+                <MenuLink
+                  to="/profile"
+                  className={pathCheck() === "my" && "active"}
+                >
+                  <Icon path={mdiAccount} size={1.4} />
                   <MenuText>My</MenuText>
                 </MenuLink>
               </Item>
             </List>
           </HeaderMenu>
-          <div className={icon ? 'footer-button active' : 'footer-button'}>
-              {isTokenExist !== null && (
+          <div className={icon ? "footer-button active" : "footer-button"}>
+            {isTokenExist !== null && (
               <button className="button-float">
-                <Link to={`/addbook`}><Icon path={mdiBookPlus} size={1}/></Link>
-              </button>)}
-              <button className="button-float button-top">
-                <span>to the Top</span>
+                <Link to={`/addbook`}>
+                  <Icon path={mdiBookPlus} size={1} />
+                </Link>
               </button>
+            )}
+            <button className="button-float button-top">
+              <span>to the Top</span>
+            </button>
           </div>
         </>
       )}
@@ -283,10 +307,9 @@ function useFloatBtnActive() {
   const isClient = typeof window === "object";
 
   function getVisible() {
-    if(window.screen.availHeight < window.scrollY) return true;
+    if (window.screen.availHeight < window.scrollY) return true;
     else return false;
   }
-
 
   const [visible, setVisible] = useState(getVisible);
 
@@ -355,8 +378,7 @@ const Header = styled.header`
   }
 
   @media only screen and (max-width: 767px) {
-    border-bottom:0.5px solid #EFEFEF;
-
+    border-bottom: 0.5px solid #efefef;
 
     .footer-button {
       z-index: 56;
@@ -378,25 +400,25 @@ const Header = styled.header`
         margin-bottom: 8px;
         border-radius: 50%;
         font-size: 14px;
-        box-shadow: 0 4px 6px 0 rgba(0,0,0,.15);
-        background-color: RGBA(226,1,54,0.7);
+        box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.15);
+        background-color: RGBA(226, 1, 54, 0.7);
         color: #fff;
         cursor: pointer;
-        transition: all .5s ease;
-        text-align:center;
+        transition: all 0.5s ease;
+        text-align: center;
 
         svg path {
-          fill: #FFF;
+          fill: #fff;
         }
 
-        &.button-top{
+        &.button-top {
           display: flex;
           align-items: center;
           justify-content: center;
           background-color: #fff;
           border: 1px solid #dedede;
-          transition: all .9s ease;
-          
+          transition: all 0.9s ease;
+
           span {
             font-size: 0;
             color: #fff;
@@ -406,8 +428,8 @@ const Header = styled.header`
               width: 10px;
               height: 2px;
               background-color: #555;
-              margin-top:2px;
-              margin-left:1px;
+              margin-top: 2px;
+              margin-left: 1px;
             }
             &:after {
               content: "";
@@ -430,9 +452,7 @@ const Header = styled.header`
         }
       }
     }
-    
   }
-
 `;
 
 const HeaderBanner = styled.div`
@@ -443,10 +463,10 @@ const HeaderBanner = styled.div`
   font-size: 14px;
 
   @media only screen and (max-width: 767px) {
-    min-width:0;
+    min-width: 0;
     width: 100%;
-    line-height:30px;
-    font-size:12px;
+    line-height: 30px;
+    font-size: 12px;
   }
 `;
 
@@ -468,9 +488,7 @@ const UserMenuUl = styled.ul`
   }
 `;
 const UserMenuLi = styled.li`
-  
   @media only screen and (max-width: 767px) {
-    
   }
 
   @media only screen and (min-width: 768px) {
@@ -511,7 +529,7 @@ const HeaderLogo = styled.div`
 const HeaderMenu = styled.div`
   @media only screen and (max-width: 767px) {
     display: block;
-    width:100%;
+    width: 100%;
   }
 
   @media only screen and (min-width: 768px) {
@@ -533,11 +551,11 @@ const HeaderMenu = styled.div`
       top: 10px;
       width: 36px;
       height: 36px;
-      padding:7.8px;
-      border-radius:50%;
-      background:#f7f7f7;
+      padding: 7.8px;
+      border-radius: 50%;
+      background: #f7f7f7;
       svg path {
-        fill:#333;
+        fill: #333;
       }
     }
   }
@@ -552,12 +570,12 @@ const List = styled.ul`
     left: 0;
     justify-content: space-between;
     transform: translateY(0);
-    transition: transform .25s;
+    transition: transform 0.25s;
     z-index: 1;
     margin-left: 0;
-    box-shadow: 0 0 10px 2px rgba(0,0,0,.15);
+    box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.15);
     background-color: #fff;
-    padding: 0 0 max(8px,env(safe-area-inset-bottom));
+    padding: 0 0 max(8px, env(safe-area-inset-bottom));
     width: 100%;
     list-style: none;
   }
@@ -566,14 +584,11 @@ const List = styled.ul`
     float: left;
     width: 100%;
   }
-  
 `;
 
 const Item = styled.li`
-  
-
   @media only screen and (max-width: 767px) {
-    width:100%;
+    width: 100%;
   }
 
   @media only screen and (min-width: 768px) {
@@ -645,7 +660,7 @@ const LogoLink = styled(Link)`
   margin-left: -66px;
 
   @media only screen and (max-width: 767px) {
-    margin-left:-51px;
+    margin-left: -51px;
   }
 `;
 
@@ -678,7 +693,7 @@ const Logo = styled.img`
   @media only screen and (max-width: 767px) {
     width: 102px;
     height: 40.8px;
-    margin-right:0;
+    margin-right: 0;
   }
 `;
 
