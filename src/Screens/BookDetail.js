@@ -168,6 +168,7 @@ export default function BookDetail({
 
     await userApi.handleRead(logData);
     setDoneReading(!doneReading);
+    setWish(false);
   };
 
   const getUser = async () => {
