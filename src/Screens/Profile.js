@@ -34,7 +34,6 @@ export default function Profile() {
         data: { wishData }
       } = await userApi.getAllWish(authorized._id);
 
-      console.log(wishData);
       setComment(userCommentResult);
       setWishList(wishData);
     } catch (err) {
