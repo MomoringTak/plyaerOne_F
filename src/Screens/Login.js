@@ -32,7 +32,7 @@ const Login = () => {
 
       if (success) {
         AuthApi.setToken(id_token);
-        history.push("/");
+        history.push("/addtionalInfo");
       } else {
         alert(msg);
       }

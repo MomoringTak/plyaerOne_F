@@ -18,6 +18,7 @@ import AddBook from "../Screens/AddBook";
 import AddBookList from "../Screens/AddBookList";
 import Login from "../Screens/Login";
 import SignUp from "../Screens/SignUp";
+import AddGoogleUserInfo from "../Screens/AddGoogleUserInfo";
 
 import Header from "./Header";
 import Wrapper from "./Wrapper";
@@ -40,6 +41,7 @@ export default () => {
           <Route path="/:userEmail/editprofile" component={EditProfile} />
           <Route path="/addbook" component={AddBook} />
           <Route path="/book/:id" component={BookDetail} />
+          <Route paht="/addtionalInfo" component={AddGoogleUserInfo} />
 
           <Redirect from="*" to="/" />
         </Switch>
