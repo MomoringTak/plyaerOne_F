@@ -24,7 +24,7 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
       data: { Scores }
     } = await booklistApi.getAllReadLog(logger);
 
-    Scores.progress = Scores.doneReading / (Scores.wish + Scores.doneReading);
+    Scores.progress = Scores.doneReading / booklist.books.length;
 
     setScore(Scores);
   };
@@ -53,8 +53,8 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
       <BookListHeader>
         <Title onClick={clickEvent}>{booklist.title}</Title>
         <Title>
-          WISH : {score.wish}/ doneReading : {score.doneReading}/ Percentage :
-          {score.progress}
+          Book Number : {booklist.books.length} | doneReading :{" "}
+          {score.doneReading} | Percentage :{score.progress}
         </Title>
         <DetailView onClick={clickEvent}>상세보기 ></DetailView>
       </BookListHeader>
