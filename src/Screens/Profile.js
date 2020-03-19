@@ -3,6 +3,8 @@ import { Link, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 import Comment from "../Components/Comment";
+import Book from "../Components/Book";
+import Section from "../Components/Section";
 
 import { userApi, AuthApi } from "../api";
 
@@ -13,6 +15,7 @@ export default function Profile() {
 
   const [user, setUser] = useState({});
   const [comment, setComment] = useState([]);
+  const [wishList, setWishList] = useState([]);
 
   const googleAuth = useGoogleAuth();
   const { signOut } = useGoogleAuth();
@@ -27,7 +30,13 @@ export default function Profile() {
         data: { userCommentResult }
       } = await userApi.userComment(authorized._id);
 
+      const {
+        data: { wishData }
+      } = await userApi.getAllWish(authorized._id);
+
+      console.log(wishData);
       setComment(userCommentResult);
+      setWishList(wishData);
     } catch (err) {
       history.push(`/`);
     }
@@ -43,6 +52,10 @@ export default function Profile() {
     }
   };
 
+  const bookDetail = async item => {
+    history.push(`/book/${item.isbn}`);
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -55,7 +68,7 @@ export default function Profile() {
       <Head>
         <Title>Profile</Title>
         <Spacer style={{ height: "100px" }} />
-        <Section>
+        <Wrapper>
           <span>Name</span>
           <Spacer />
           <h3>{user.nickname}</h3>
@@ -68,17 +81,35 @@ export default function Profile() {
           <Button onClick={deleteUser}>Delete Profile</Button>
           <Spacer />
           <Dividers />
-          {comment.length >= 1
-            ? comment.map(comment => (
-                <Comment
-                  key={comment._id}
-                  comment={comment}
-                  user={comment.user}
-                  book={comment.book}
+          {comment.length >= 1 ? (
+            comment.map(comment => (
+              <Comment
+                key={comment._id}
+                comment={comment}
+                user={comment.user}
+                book={comment.book}
+              />
+            ))
+          ) : (
+            <h1>NO COMMENT</h1>
+          )}
+
+          <Dividers />
+          <h1>WISHLIST</h1>
+          <Section>
+            {wishList ? (
+              wishList.map(item => (
+                <Book
+                  key={item.book.isbn}
+                  bookItem={item.book}
+                  clickBook={bookDetail}
                 />
               ))
-            : null}
-        </Section>
+            ) : (
+              <h1>No WishList</h1>
+            )}
+          </Section>
+        </Wrapper>
       </Head>
     </Container>
   );
@@ -100,7 +131,7 @@ const Spacer = styled.div`
   height: 15px;
 `;
 
-const Section = styled.div`
+const Wrapper = styled.div`
   font-weight: 500;
   color: #8189a9;
 `;

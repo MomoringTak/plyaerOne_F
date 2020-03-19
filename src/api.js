@@ -29,7 +29,8 @@ export const userApi = {
   userComment: id => api.get(`users/comment/${id}`),
   handleWish: logData => api.post(`users/wishlist`, logData),
   handleRead: logData => api.post(`users/doneRead`, logData),
-  getReadLogger: logId => api.post(`users/readLogger`, logId)
+  getReadLogger: logId => api.post(`users/readLogger`, logId),
+  getAllWish: id => api.get(`users/allWish/${id}`)
 };
 
 export const booklistApi = {
