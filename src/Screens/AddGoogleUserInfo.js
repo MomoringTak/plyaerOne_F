@@ -13,18 +13,29 @@ const AddGoogleUserInfo = () => {
 
   const valid = useIsValid();
 
-  const onSubmit = async userInfo => {
-    const user = await valid(googleAuth);
+  let user;
 
+  const onSubmit = async userInfo => {
     userInfo.userId = user._id;
 
     try {
       await userApi.ssoGdetail(userInfo);
-      history.push("/");
+      history.push("/addbook");
     } catch (err) {
       alert(err);
     }
   };
+
+  const getUser = async () => {
+    user = await valid(googleAuth);
+    if (user.gender !== null) {
+      history.push(`/addbook`);
+    }
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <Box>

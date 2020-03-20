@@ -14,11 +14,17 @@ const SignUp = () => {
   const onSubmit = async userInfo => {
     try {
       const {
-        data: { success, msg, id_token }
+        data: {
+          success,
+          msg,
+          id_token,
+          userResult: { doc }
+        }
       } = await userApi.wtbSignUp(userInfo);
       if (success) {
         AuthApi.setToken(id_token);
-        history.push(`/`);
+        if (doc.newbie) history.push(`/addbook`);
+        else history.push(`/`);
       } else {
         alert(msg);
       }
