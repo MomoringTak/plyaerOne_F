@@ -18,8 +18,6 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
       return singleLogger;
     });
 
-    // console.log(logger);
-
     const {
       data: { Scores }
     } = await booklistApi.getAllReadLog(logger);
