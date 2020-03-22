@@ -205,7 +205,7 @@ export default function BookDetail({
             <span>{book.author}</span>
           </Item>
           <Item>{book.publisher}</Item>
-          <Item>좋아요</Item>
+          <Item>카테고리 : {book.category}</Item>
           {isTokenExist !== null ? (
             <ButtonTemplate>
               <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
