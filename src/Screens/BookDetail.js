@@ -179,7 +179,6 @@ export default function BookDetail({
     const {
       target: { value }
     } = e;
-    console.log(value);
     setDifficulty(value);
   };
 
@@ -194,6 +193,19 @@ export default function BookDetail({
       book: book._id,
       difficulty: difficulty,
       time: time,
+      doneReading: !doneReading,
+      wish: false
+    };
+
+    await userApi.handleRead(logData);
+    setDoneReading(!doneReading);
+    setWish(false);
+  };
+
+  const cancelReading = async () => {
+    const logData = {
+      user: user._id,
+      book: book._id,
       doneReading: !doneReading,
       wish: false
     };
@@ -242,7 +254,16 @@ export default function BookDetail({
             <ButtonTemplate>
               <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
 
-              <AddBookBtn doneReading={doneReading} onClick={clickReadBook}>
+              <AddBookBtn
+                doneReading={doneReading}
+                onClick={() => {
+                  if (doneReading) {
+                    cancelReading();
+                  } else {
+                    clickReadBook();
+                  }
+                }}
+              >
                 읽음
               </AddBookBtn>
               <AddBookBtn
@@ -348,8 +369,7 @@ export default function BookDetail({
               placeholder="총 읽은 시간"
               name="time"
               onChange={handleTime}
-
-              //   required
+              required
             />
             <ReadButton>Submit</ReadButton>
           </ReadForm>
