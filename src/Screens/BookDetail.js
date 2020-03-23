@@ -31,6 +31,7 @@ export default function BookDetail({
 
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(1);
+  const [wishNum, setWishNum] = useState(0);
 
   const isTokenExist = AuthApi.getToken();
 
@@ -112,6 +113,12 @@ export default function BookDetail({
       } = await bookApi.getBookDetail(id);
 
       setBook(Results);
+
+      const {
+        data: { wishNumber }
+      } = await bookApi.getBookWish(Results._id);
+      console.log(wishNumber);
+      setWishNum(wishNumber);
 
       if (isTokenExist != null) {
         getUserBooklist(user);
@@ -269,7 +276,7 @@ export default function BookDetail({
               <AddBookBtn
                 wish={wish}
                 onClick={() => {
-                  clickWishlist(wish, doneReading);
+                  clickWishlist(wish);
                 }}
               >
                 위시리스트

@@ -11,7 +11,8 @@ export const bookApi = {
   getBook: (title, display) => api.get(`/books/${title}/${display}`),
   addBook: book => api.post(`/books/upload`, book),
   getAllBook: () => api.get(`/books/`),
-  getBookDetail: id => api.get(`/books/${id}`)
+  getBookDetail: id => api.get(`/books/${id}`),
+  getBookWish: id => api.get(`/books/wish/user/${id}`)
 };
 
 //User API
