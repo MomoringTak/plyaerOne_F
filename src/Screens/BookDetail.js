@@ -2,11 +2,15 @@ import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
+
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 import Comment from "../Components/Comment";
+
+import Modal from "../Components/Modal";
+import Read from "../Components/Read";
 
 export default function BookDetail({
   location: { pathname },
@@ -22,9 +26,13 @@ export default function BookDetail({
   const [booklist, setBooklist] = useState([]);
 
   const [click, setClick] = useState(false);
+  const [readClick, setReadClick] = useState(false);
   const [wish, setWish] = useState(false);
   const [doneReading, setDoneReading] = useState(false);
   const [readLogger, setReadLogger] = useState({});
+
+  const [time, setTime] = useState(0);
+  const [difficulty, setDifficulty] = useState(1);
 
   const isTokenExist = AuthApi.getToken();
 
@@ -144,6 +152,10 @@ export default function BookDetail({
     setClick(!click);
   };
 
+  const clickReadBook = () => {
+    setReadClick(!readClick);
+  };
+
   const clickWishlist = async (wish, doneReading) => {
     const logData = {
       user: user._id,
@@ -158,14 +170,33 @@ export default function BookDetail({
     }
   };
 
-  const clickDoneReading = async () => {
+
+  const handleTime = (e) => {
+    const { target : { value }} = e;
+    setTime(value);
+  }
+
+  const handledifficulty = (e) => {
+    const { target : { value }} = e;
+    console.log(value);
+    setDifficulty(value);
+  }
+
+  const clickDoneReading = async (e) => {
+    if(e){
+      e.preventDefault();
+    }
+    setReadClick(false);
+    
     const logData = {
       user: user._id,
       book: book._id,
+      difficulty : difficulty,
+      time : time,
       doneReading: !doneReading,
       wish: false
     };
-
+    
     await userApi.handleRead(logData);
     setDoneReading(!doneReading);
     setWish(false);
@@ -209,12 +240,15 @@ export default function BookDetail({
           {isTokenExist !== null ? (
             <ButtonTemplate>
               <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
-              <AddBookBtn
+              {/* <AddBookBtn
                 doneReading={doneReading}
                 onClick={() => {
                   clickDoneReading(doneReading);
                 }}
               >
+                읽음
+              </AddBookBtn> */}
+              <AddBookBtn doneReading={doneReading} onClick={clickReadBook}>
                 읽음
               </AddBookBtn>
               <AddBookBtn
@@ -264,28 +298,70 @@ export default function BookDetail({
           </CommentCotainer>
         </ContentContainer>
       </Container>
-      <AddBook clicked={click}>
-        <AddBookTemplate>
-          <CloseBtn onClick={clickAddBook}>❌</CloseBtn>
-          <div>
-            {booklist.length >= 1 ? (
-              booklist.map(item => (
-                <h1
-                  onClick={async () => {
-                    await bookApi.addToBooklist(book._id, item._id);
-                    setClick(false);
-                  }}
-                  key={item._id}
-                >
-                  {item.title}
-                </h1>
-              ))
-            ) : (
-              <span>책묶음이 없습니다.</span>
-            )}
-          </div>
-        </AddBookTemplate>
-      </AddBook>
+      <Modal clickBtn={clickAddBook} click={click}>
+        <div>
+          {booklist.length >= 1 ? (
+            booklist.map(item => (
+              <h1
+                onClick={async () => {
+                  await bookApi.addToBooklist(book._id, item._id);
+                  setClick(false);
+                }}
+                key={item._id}
+              >
+                {item.title}
+              </h1>
+            ))
+          ) : (
+            <span>책묶음이 없습니다.</span>
+          )}
+        </div>
+      </Modal>
+      <Modal clickBtn={clickReadBook} click={readClick}>
+        <Box>
+          <ReadForm onSubmit={clickDoneReading}>
+            <FieldSet>
+              <legend>난이도를 알려주세요</legend>
+              <input
+                id="1"
+                type="radio"
+                value="1"
+                name="difficulty"
+                defaultChecked
+                onChange={handledifficulty}
+              />
+              <label htmlFor="1">초급</label>
+
+              <input
+                id="2"
+                type="radio"
+                value="2"
+                name="difficulty"
+                onChange={handledifficulty}
+                
+              />
+              <label htmlFor="2">중급</label>
+              <input
+                id="3"
+                type="radio"
+                value="3"
+                name="difficulty"
+                onChange={handledifficulty}                
+              />
+              <label htmlFor="3">고급</label>
+            </FieldSet>
+            <ReadInput
+              type="number"
+              placeholder="총 읽은 시간"
+              name="time"
+              onChange={handleTime}
+
+              //   required
+            />
+            <ReadButton>Submit</ReadButton>
+          </ReadForm>
+        </Box>
+      </Modal>
     </>
   );
 }
@@ -467,3 +543,27 @@ const Dividers = styled.div`
   margin-bottom: 5px;
   margin-top: 5px;
 `;
+
+const Box = styled.div``;
+
+const ReadForm = styled.form`
+  display: flex;
+  flex-direction: column;
+`;
+
+const ReadInput = styled.input`
+  all: unset;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+
+  border-bottom: 1px rgba(0, 0, 0, 0.3) solid;
+`;
+
+const ReadButton = styled.button`
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 5px;
+  text-align: center;
+`;
+const FieldSet = styled.fieldset``;
