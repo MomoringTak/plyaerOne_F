@@ -2,7 +2,6 @@ import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
@@ -10,7 +9,6 @@ import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 import Comment from "../Components/Comment";
 
 import Modal from "../Components/Modal";
-import Read from "../Components/Read";
 
 export default function BookDetail({
   location: { pathname },
@@ -170,33 +168,36 @@ export default function BookDetail({
     }
   };
 
-
-  const handleTime = (e) => {
-    const { target : { value }} = e;
+  const handleTime = e => {
+    const {
+      target: { value }
+    } = e;
     setTime(value);
-  }
+  };
 
-  const handledifficulty = (e) => {
-    const { target : { value }} = e;
+  const handledifficulty = e => {
+    const {
+      target: { value }
+    } = e;
     console.log(value);
     setDifficulty(value);
-  }
+  };
 
-  const clickDoneReading = async (e) => {
-    if(e){
+  const clickDoneReading = async e => {
+    if (e) {
       e.preventDefault();
     }
     setReadClick(false);
-    
+
     const logData = {
       user: user._id,
       book: book._id,
-      difficulty : difficulty,
-      time : time,
+      difficulty: difficulty,
+      time: time,
       doneReading: !doneReading,
       wish: false
     };
-    
+
     await userApi.handleRead(logData);
     setDoneReading(!doneReading);
     setWish(false);
@@ -240,14 +241,7 @@ export default function BookDetail({
           {isTokenExist !== null ? (
             <ButtonTemplate>
               <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
-              {/* <AddBookBtn
-                doneReading={doneReading}
-                onClick={() => {
-                  clickDoneReading(doneReading);
-                }}
-              >
-                읽음
-              </AddBookBtn> */}
+
               <AddBookBtn doneReading={doneReading} onClick={clickReadBook}>
                 읽음
               </AddBookBtn>
@@ -338,7 +332,6 @@ export default function BookDetail({
                 value="2"
                 name="difficulty"
                 onChange={handledifficulty}
-                
               />
               <label htmlFor="2">중급</label>
               <input
@@ -346,7 +339,7 @@ export default function BookDetail({
                 type="radio"
                 value="3"
                 name="difficulty"
-                onChange={handledifficulty}                
+                onChange={handledifficulty}
               />
               <label htmlFor="3">고급</label>
             </FieldSet>
