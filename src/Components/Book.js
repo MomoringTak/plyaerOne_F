@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-const Book = ({ bookItem, clickBook }) => {
-  const clickEvent = e => {
-    clickBook(bookItem);
-  };
+const Book = ({ bookItem, clickBook, completeBook }) => {
   const uuid = uuidv4();
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(1);
+
+  const clickEvent = (time, difficulty) => {
+    clickBook(bookItem, time, difficulty);
+  };
 
   const handleTime = e => {
     const {
@@ -16,6 +17,10 @@ const Book = ({ bookItem, clickBook }) => {
     } = e;
 
     setTime(value);
+
+    bookItem.complete = value !== "" ? true : false;
+
+    completeBook(bookItem);
   };
 
   const handledifficulty = e => {
@@ -30,7 +35,9 @@ const Book = ({ bookItem, clickBook }) => {
         {bookItem.selected && <Check>선택 됨</Check>}
         <Image
           bgUrl={bookItem.image ? `${bookItem.image}` : null}
-          onClick={clickEvent}
+          onClick={() => {
+            clickEvent(time, difficulty);
+          }}
         />
       </ImageContainer>
       <Title>

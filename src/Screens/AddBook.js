@@ -32,7 +32,7 @@ export default function AddBook() {
         item.title = item.title.replace(/(<([^>]+)>)/gi, "");
         item.author = item.author.replace(/(<([^>]+)>)/gi, "");
         item.description = item.description.replace(/(<([^>]+)>)/gi, "");
-
+        item.complete = false;
         return item;
       });
 
@@ -91,6 +91,12 @@ export default function AddBook() {
     setBook(book);
   };
 
+  const completeBook = bookItem => {
+    if (bookItem.selected === true) {
+      console.log("complete");
+    }
+  };
+
   const getUser = async () => {
     const authorized = await valid(googleAuth);
     setUser(authorized);
@@ -131,6 +137,7 @@ export default function AddBook() {
                   key={bookItem.isbn}
                   bookItem={bookItem}
                   clickBook={selectedBook}
+                  completeBook={completeBook}
                 />
               ))}
             </Section>
