@@ -11,6 +11,7 @@ import Helmet from "react-helmet";
 export default function AddBook() {
   const [loading, setLoading] = useState(false);
   const [clickedBook, setClickedBook] = useState(0);
+  const [finalBook, setFinalBook] = useState(0);
   const [term, setTerm] = useState("");
   const [book, setBook] = useState([]);
 
@@ -78,8 +79,9 @@ export default function AddBook() {
       newBook,
       user: user._id
     };
+    console.log(newBookData);
 
-    await bookApi.addBook(newBookData);
+    // await bookApi.addBook(newBookData);
     reset();
     setTerm("");
     setPlaceholder(
@@ -90,14 +92,12 @@ export default function AddBook() {
   const selectedBook = bookItem => {
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
-    setBook(book);
   };
 
   const completeBook = bookItem => {
     if (bookItem.complete === true) {
-      console.log("complete");
-      console.log(bookItem.time);
-      console.log(bookItem.difficulty);
+      setFinalBook(prev => prev + (bookItem.selected ? 1 : -1));
+      setBook(book);
     }
   };
 
@@ -122,9 +122,9 @@ export default function AddBook() {
         <Loader />
       ) : (
         <>
-          {clickedBook > 0 ? (
+          {finalBook > 0 ? (
             <>
-              <BookNum>추가 할 책 갯수 : {clickedBook}</BookNum>
+              <BookNum>추가 할 책 갯수 : {finalBook}</BookNum>
               <Add
                 onClick={() => {
                   pickBook(user);

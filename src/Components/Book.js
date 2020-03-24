@@ -7,8 +7,8 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(1);
 
-  const clickEvent = (time, difficulty) => {
-    clickBook(bookItem, time, difficulty);
+  const clickEvent = () => {
+    clickBook(bookItem);
   };
 
   const handleTime = e => {
