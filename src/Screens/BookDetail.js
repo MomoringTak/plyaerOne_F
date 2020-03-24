@@ -200,26 +200,22 @@ export default function BookDetail({
       book: book._id,
       difficulty: difficulty,
       time: time,
-      doneReading: !doneReading,
-      wish: false
+      doneReading: !doneReading
     };
 
     await userApi.handleRead(logData);
     setDoneReading(!doneReading);
-    setWish(false);
   };
 
   const cancelReading = async () => {
     const logData = {
       user: user._id,
       book: book._id,
-      doneReading: !doneReading,
-      wish: false
+      doneReading: !doneReading
     };
 
     await userApi.handleRead(logData);
     setDoneReading(!doneReading);
-    setWish(false);
   };
 
   const getUser = async () => {
