@@ -70,7 +70,7 @@ export default function AddBook() {
   };
 
   const pickBook = async user => {
-    const newBook = book.filter(item => item.selected === true);
+    const newBook = book.filter(item => item.complete === true);
     for (let item of newBook) {
       item.selected = false;
     }
@@ -93,13 +93,19 @@ export default function AddBook() {
   const selectedBook = bookItem => {
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
+    setBook(book);
+    setFinalBook(
+      book.filter(x => x.complete === true && x.selected === true).length
+    );
   };
 
   const completeBook = bookItem => {
-    if (bookItem.complete === true) {
-      setFinalBook(prev => prev + (bookItem.selected ? 1 : -1));
-      setBook(book);
-    }
+    book.filter(x => x.isbn === bookItem.isbn)[0] = bookItem;
+    setBook(book);
+
+    setFinalBook(
+      book.filter(x => x.complete === true && x.selected === true).length
+    );
   };
 
   const getUser = async () => {

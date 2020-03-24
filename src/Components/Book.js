@@ -4,8 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 
 const Book = ({ bookItem, clickBook, recordBook }) => {
   const uuid = uuidv4();
-  const [time, setTime] = useState(0);
-  const [difficulty, setDifficulty] = useState(1);
+
+  const [time, setTime] = useState(bookItem.time);
+  const [difficulty, setDifficulty] = useState(bookItem.difficulty);
 
   const clickEvent = () => {
     clickBook(bookItem);
@@ -19,7 +20,8 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
     setTime(value);
 
     bookItem.complete = value !== "" ? true : false;
-    bookItem.time = value;
+
+    bookItem.time = parseInt(value);
 
     recordBook(bookItem);
   };
@@ -29,8 +31,9 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
       target: { value }
     } = e;
 
-    bookItem.difficulty = value;
-    setDifficulty(value);
+    let valueS = parseInt(value);
+    bookItem.difficulty = valueS;
+    setDifficulty(valueS);
 
     recordBook(bookItem);
   };
@@ -58,7 +61,7 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
               type="radio"
               value="1"
               name={uuid}
-              defaultChecked
+              checked={difficulty === 1}
               onChange={handledifficulty}
             />
             <label htmlFor="1">초급</label>
@@ -67,6 +70,7 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
               type="radio"
               value="2"
               name={uuid}
+              checked={difficulty === 2}
               onChange={handledifficulty}
             />
             <label htmlFor="2">중급</label>
@@ -74,6 +78,7 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
               type="radio"
               value="3"
               name={uuid}
+              checked={difficulty === 3}
               onChange={handledifficulty}
             />
             <label htmlFor="3">고급</label>
@@ -83,6 +88,7 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
             placeholder="총 읽은 시간"
             name="time"
             onChange={handleTime}
+            value={time}
             required
           />
         </Box>
