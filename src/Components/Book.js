@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-const Book = ({ bookItem, clickBook, completeBook }) => {
+const Book = ({ bookItem, clickBook, recordBook }) => {
   const uuid = uuidv4();
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(1);
@@ -19,15 +19,20 @@ const Book = ({ bookItem, clickBook, completeBook }) => {
     setTime(value);
 
     bookItem.complete = value !== "" ? true : false;
+    bookItem.time = value;
 
-    completeBook(bookItem);
+    recordBook(bookItem);
   };
 
   const handledifficulty = e => {
     const {
       target: { value }
     } = e;
+
+    bookItem.difficulty = value;
     setDifficulty(value);
+
+    recordBook(bookItem);
   };
   return (
     <Container>

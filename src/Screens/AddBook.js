@@ -32,6 +32,8 @@ export default function AddBook() {
         item.title = item.title.replace(/(<([^>]+)>)/gi, "");
         item.author = item.author.replace(/(<([^>]+)>)/gi, "");
         item.description = item.description.replace(/(<([^>]+)>)/gi, "");
+        item.difficulty = 1;
+        item.time = 0;
         item.complete = false;
         return item;
       });
@@ -92,8 +94,10 @@ export default function AddBook() {
   };
 
   const completeBook = bookItem => {
-    if (bookItem.selected === true) {
+    if (bookItem.complete === true) {
       console.log("complete");
+      console.log(bookItem.time);
+      console.log(bookItem.difficulty);
     }
   };
 
@@ -137,7 +141,7 @@ export default function AddBook() {
                   key={bookItem.isbn}
                   bookItem={bookItem}
                   clickBook={selectedBook}
-                  completeBook={completeBook}
+                  recordBook={completeBook}
                 />
               ))}
             </Section>
