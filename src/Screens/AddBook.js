@@ -79,7 +79,6 @@ export default function AddBook() {
       newBook,
       user: user._id
     };
-    console.log(newBookData);
 
     await bookApi.addBook(newBookData);
     reset();
