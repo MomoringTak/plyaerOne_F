@@ -29,7 +29,7 @@ export default () => {
       <Header />
       <Wrapper>
         <Switch>
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact component={Shelf} />
           <Route path="/books" exact component={Books} />
           <Route path="/login" exact component={Login} />
           <Route path="/singup" exact component={SignUp} />
