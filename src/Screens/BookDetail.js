@@ -117,7 +117,6 @@ export default function BookDetail({
       const {
         data: { wishNumber }
       } = await bookApi.getBookWish(Results._id);
-      console.log(wishNumber);
       setWishNum(wishNumber);
 
       if (isTokenExist != null) {
@@ -162,6 +161,11 @@ export default function BookDetail({
   };
 
   const clickWishlist = async (wish, doneReading) => {
+    if (wish) {
+      setWishNum(prev => prev - 1);
+    } else if (wish === false) {
+      setWishNum(prev => prev + 1);
+    }
     const logData = {
       user: user._id,
       book: book._id,
@@ -275,7 +279,7 @@ export default function BookDetail({
                   clickWishlist(wish);
                 }}
               >
-                위시리스트
+                위시리스트 # : {wishNum}
               </AddBookBtn>
             </ButtonTemplate>
           ) : null}
