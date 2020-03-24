@@ -179,6 +179,7 @@ export default function BookDetail({
     }
   };
 
+  //하아 시바 인풋 핸들링. 꼭 따로 펑셔널하게 만든다. 시부엉 넘나 Redudunt && Inefficient
   const handleTime = e => {
     const {
       target: { value }
