@@ -15,11 +15,14 @@ export default function AddBook() {
   const [book, setBook] = useState([]);
 
   const [user, setUser] = useState({});
+  const [placeholder, setPlaceholder] = useState("제목을 입력 해주세요");
 
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
 
   const showBook = async () => {
+    //검색되는 책 숫자 === display
+
     let display = 10;
     try {
       const { data: bookResults } = await bookApi.getBook(term, display);
@@ -76,7 +79,10 @@ export default function AddBook() {
 
     await bookApi.addBook(newBookData);
     reset();
-    setTerm("책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요.");
+    setTerm("");
+    setPlaceholder(
+      "책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요."
+    );
   };
 
   const selectedBook = bookItem => {
@@ -100,11 +106,7 @@ export default function AddBook() {
         <title>ADD BOOK | WTB</title>
       </Helmet>
       <Form onSubmit={handleSubmit}>
-        <Input
-          placeholder="제목을 입력 해주세요"
-          value={term}
-          onChange={updateTerm}
-        />
+        <Input placeholder={placeholder} value={term} onChange={updateTerm} />
       </Form>
       {loading ? (
         <Loader />
