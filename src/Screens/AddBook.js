@@ -81,9 +81,10 @@ export default function AddBook() {
     };
     console.log(newBookData);
 
-    // await bookApi.addBook(newBookData);
+    await bookApi.addBook(newBookData);
     reset();
     setTerm("");
+    setFinalBook(0);
     setPlaceholder(
       "책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요."
     );
