@@ -13,11 +13,10 @@ const SearchBar = ({ text, submitSearch }) => {
     setSearchText(e.target.value);
   };
 
-  const _handleKeyUp = e => {
+  const _handleKeyPress = e => {
     if (e.key === "Enter") {
       clickEvent();
     }
-    e.preventDefault();
   };
 
   return (
@@ -26,7 +25,7 @@ const SearchBar = ({ text, submitSearch }) => {
         type="text"
         value={searchText}
         onChange={_handleChange.bind(this)}
-        onKeyUp={_handleKeyUp}
+        onKeyPress={_handleKeyPress}
         placeholder="검색할 책의 정보를 입력해주세요."
       />
       <InputImage

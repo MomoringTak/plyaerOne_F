@@ -41,6 +41,7 @@ export default withRouter(({ location: { pathname } }) => {
   };
 
   const searchBook = searchText => {
+    console.log("in searchBook" + searchText);
     history.push(
       {
         pathname: `/search`,

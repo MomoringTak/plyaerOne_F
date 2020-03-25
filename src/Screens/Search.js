@@ -16,7 +16,6 @@ export default function Search({match, location}) {
   const [bookList, setBookList] = useState([]);
   const query = queryString.parse(location.search);
   const keyword = query.keyword === undefined ? "" : query.keyword;
-  console.log(keyword);
 
   const showResult = async () => {
     try {
@@ -31,10 +30,6 @@ export default function Search({match, location}) {
       });
       setBooks(books);
       setBookList(booklist);
-
-      console.log(books);
-      console.log(booklist);
-
     } catch (e) {
       console.log(e);
     }
@@ -51,8 +46,7 @@ export default function Search({match, location}) {
   
   useEffect(() => {
     showResult();
-  }, []);
-  
+  }, [keyword]);
 
   return (
     <Container>
