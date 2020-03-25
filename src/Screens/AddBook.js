@@ -148,6 +148,7 @@ export default function AddBook() {
                   bookItem={bookItem}
                   clickBook={selectedBook}
                   recordBook={completeBook}
+                  addBook={true}
                 />
               ))}
             </Section>
