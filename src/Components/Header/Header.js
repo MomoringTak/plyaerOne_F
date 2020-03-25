@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Link, withRouter, useHistory } from "react-router-dom";
 import styled from "styled-components";
 
 import { useGoogleAuth, useIsValid } from "../AuthG";
@@ -20,6 +20,9 @@ import {
 } from "@mdi/js";
 
 export default withRouter(({ location: { pathname } }) => {
+  
+  const history = useHistory();
+
   const [menuHover, setMenuHover] = useState(false);
   const [subMenuHover, setSubMenuHover] = useState(false);
 
@@ -38,8 +41,12 @@ export default withRouter(({ location: { pathname } }) => {
   };
 
   const searchBook = searchText => {
-    console.log(searchText);
-    alert(searchText);
+    history.push(
+      {
+        pathname: `/search`,
+        search: `?keyword=${searchText}`
+      }
+    );
   };
 
   const enterMenu = () => {
