@@ -2,20 +2,33 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Helmet from "react-helmet";
 import { booklistApi } from "../api";
+import { Link, useHistory } from "react-router-dom";
 
-export default function Shelf() {
+import Table from "../Components/Table";
+import List from "../Components/List";
+
+const Shelf = () => {
+  const history = useHistory();
   const [booklist, setBooklist] = useState([]);
 
-  const getAllBooklist = async () => {
-    const {
-      data: { BooklistResult }
-    } = await booklistApi.getAllBooklist();
-    console.log(BooklistResult);
-    setBooklist(BooklistResult);
+  const booklistDetail = async item => {
+    history.push(`/booklist/${item}`);
+  };
+
+  const showAllBooklist = async () => {
+    try {
+      const {
+        data: { BooklistResult }
+      } = await booklistApi.getAllBooklist();
+
+      setBooklist(BooklistResult);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
-    getAllBooklist();
+    showAllBooklist();
   }, []);
 
   return (
@@ -23,9 +36,23 @@ export default function Shelf() {
       <Helmet>
         <title>SHELF | WTB</title>
       </Helmet>
-      <h1>Shelf</h1>
+      <Table>
+        {booklist ? (
+          booklist.map(item => (
+            <List
+              key={item._id}
+              booklist={item}
+              clickBooklist={booklistDetail}
+            />
+          ))
+        ) : (
+          <h1>Empty BookList</h1>
+        )}
+      </Table>
     </Container>
   );
-}
+};
 
 const Container = styled.div``;
+
+export default Shelf;

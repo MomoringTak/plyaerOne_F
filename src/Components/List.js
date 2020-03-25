@@ -44,16 +44,19 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
   }
 
   useEffect(() => {
-    progress();
+    if (user !== undefined) progress();
   }, []);
   return (
     <Container>
       <BookListHeader>
         <Title onClick={clickEvent}>{booklist.title}</Title>
-        <Title>
-          Book Number : {booklist.books.length} | doneReading :{" "}
-          {score.doneReading} | Percentage :{score.progress}
-        </Title>
+        {user && (
+          <Title>
+            Book Number : {booklist.books.length} | doneReading :{" "}
+            {score.doneReading} | Percentage :{score.progress}
+          </Title>
+        )}
+
         <DetailView onClick={clickEvent}>상세보기 ></DetailView>
       </BookListHeader>
       <Divider></Divider>
