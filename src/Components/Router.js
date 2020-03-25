@@ -31,7 +31,7 @@ export default () => {
       <Wrapper>
         <Switch>
           <Route path="/" exact component={Shelf} />
-          <Route path="/search" exact component={Search} />
+          <Route path="/search" component={Search} />
           <Route path="/books" exact component={Books} />
           <Route path="/login" exact component={Login} />
           <Route path="/singup" exact component={SignUp} />
