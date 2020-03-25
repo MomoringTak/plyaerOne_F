@@ -55,7 +55,7 @@ export const booklistApi = {
       }
     }),
   getBooks: id => api.get(`/booklists/detail/${id}`),
-  getAllBooklist: () => api.get(`/booklists/getAllBooklist`),
+  getAllBooklist: () => api.get(`/booklists/getAllBooklist/public`),
   getAllReadLog: logData => api.post(`/booklists/getAllReadLog`, logData)
 };
 
