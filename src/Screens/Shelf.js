@@ -15,6 +15,10 @@ const Shelf = () => {
     history.push(`/booklist/${item}`);
   };
 
+  const userBooklist = async nickname => {
+    history.push(`/${nickname}/shelf`);
+  };
+
   const showAllBooklist = async () => {
     try {
       const {
@@ -43,6 +47,8 @@ const Shelf = () => {
               key={item._id}
               booklist={item}
               clickBooklist={booklistDetail}
+              userInfo={item.userId}
+              clickUser={userBooklist}
             />
           ))
         ) : (

@@ -3,10 +3,21 @@ import styled from "styled-components";
 
 import { booklistApi } from "../api";
 
-const List = ({ booklist, clickBooklist, deleteBL, user }) => {
+const List = ({
+  booklist,
+  clickBooklist,
+  deleteBL,
+  user,
+  userInfo,
+  clickUser
+}) => {
   const [score, setScore] = useState({});
   const clickEvent = e => {
     clickBooklist(booklist._id);
+  };
+
+  const navigateUser = e => {
+    clickUser(userInfo.nickname);
   };
 
   const progress = async () => {
@@ -50,6 +61,9 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
     <Container>
       <BookListHeader>
         <Title onClick={clickEvent}>{booklist.title}</Title>
+        {userInfo && (
+          <Title onClick={navigateUser}> Owner : {userInfo.nickname}</Title>
+        )}
         {user && (
           <Title>
             Book Number : {booklist.books.length} | doneReading :{" "}
@@ -77,9 +91,9 @@ const List = ({ booklist, clickBooklist, deleteBL, user }) => {
         ))}
         {empty}
       </BookListUl>
-      {booklist.userBL ? (
-        <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
-      ) : null}
+      {booklist.userBL
+        ? user && <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
+        : null}
     </Container>
   );
 };
