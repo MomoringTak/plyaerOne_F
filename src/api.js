@@ -4,6 +4,10 @@ const api = axios.create({
   baseURL: "http://localhost:8008"
 });
 
+export const searchApi = {
+  searchBook: keyword => api.get(`search/?keyword=${keyword}`)
+};
+
 //Book API
 export const bookApi = {
   addToBooklist: (bookId, booklistId) =>
@@ -51,7 +55,7 @@ export const booklistApi = {
       }
     }),
   getBooks: id => api.get(`/booklists/detail/${id}`),
-  getAllBooklist: () => api.get(`/booklists/getAllBooklist/public`),
+  getAllBooklist: () => api.get(`/booklists/getAllBooklist`),
   getAllReadLog: logData => api.post(`/booklists/getAllReadLog`, logData)
 };
 
