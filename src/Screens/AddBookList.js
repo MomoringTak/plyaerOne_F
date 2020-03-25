@@ -15,7 +15,6 @@ const AddBookList = () => {
   const valid = useIsValid();
 
   const history = useHistory();
-
   const [next, setNext] = useState(true);
 
   const [title, setTitle] = useState("");
@@ -164,6 +163,7 @@ const AddBookList = () => {
                       key={bookItem.isbn}
                       bookItem={bookItem}
                       clickBook={selectedBook}
+                      addBook={false}
                     />
                   ))}
                 </Section>

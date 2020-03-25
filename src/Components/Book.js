@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-const Book = ({ bookItem, clickBook, recordBook }) => {
+const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
   const uuid = uuidv4();
 
   const [time, setTime] = useState(bookItem.time);
@@ -53,7 +53,7 @@ const Book = ({ bookItem, clickBook, recordBook }) => {
           ? `${bookItem.title.substring(0, 18)}`
           : bookItem.title}
       </Title>
-      {bookItem.selected && (
+      {bookItem.selected && addBook && (
         <Box>
           <FieldSet>
             <legend>난이도를 알려주세요</legend>
