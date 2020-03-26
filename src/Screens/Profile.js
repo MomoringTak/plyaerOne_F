@@ -77,7 +77,7 @@ export default function Profile() {
           <Spacer />
           <h3>{user.email}</h3>
           <Spacer />
-          <Button onClick={deleteUser}>Delete Profile</Button>
+          {/* <Button onClick={deleteUser}>Delete Profile</Button> */}
           <Spacer />
           <Dividers />
           {comment.length >= 1 ? (
