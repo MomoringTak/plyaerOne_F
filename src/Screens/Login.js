@@ -34,7 +34,6 @@ const Login = () => {
           userResult: { doc }
         }
       } = await userApi.ssoGLogin(userInfo);
-      console.log(doc);
       if (success) {
         AuthApi.setToken(id_token);
         if (doc.gender === undefined) history.push("/addtionalInfo");
