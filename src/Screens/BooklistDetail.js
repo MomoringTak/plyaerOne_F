@@ -39,8 +39,8 @@ const BooklistDetail = ({
 
   return (
     <Container>
-      <h1>Title : {booklist.title}</h1>
-      <h1>Description : {booklist.description}</h1>
+      <h1>제목 : {booklist.title}</h1>
+      <h1>설명 : {booklist.description}</h1>
       <Section>
         {book ? (
           book.map(bookItem => (
@@ -51,7 +51,7 @@ const BooklistDetail = ({
             />
           ))
         ) : (
-          <h1>No Books</h1>
+          <h1>표시 될 책이 없습니다.</h1>
         )}
       </Section>
     </Container>

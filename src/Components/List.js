@@ -60,14 +60,14 @@ const List = ({
   return (
     <Container>
       <BookListHeader>
-        <Title onClick={clickEvent}>{booklist.title}</Title>
+        <Title onClick={clickEvent}>책장 제목 : {booklist.title} |</Title>
         {userInfo && (
-          <Title onClick={navigateUser}> Owner : {userInfo.nickname}</Title>
+          <Title onClick={navigateUser}> 주인장 : {userInfo.nickname}</Title>
         )}
         {user && (
           <Title>
-            Book Number : {booklist.books.length} | doneReading :{" "}
-            {score.doneReading} | Percentage :{score.progress}
+            전체 책 # : {booklist.books.length} | 일읅 책 # :{" "}
+            {score.doneReading} | 진행률 :{score.progress}
           </Title>
         )}
 

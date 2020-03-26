@@ -52,7 +52,7 @@ const Shelf = () => {
             />
           ))
         ) : (
-          <h1>Empty BookList</h1>
+          <h1>책장이 비어져있습니다.</h1>
         )}
       </Table>
     </Container>

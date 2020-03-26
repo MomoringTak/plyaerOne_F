@@ -49,12 +49,11 @@ export default function Home() {
             />
           ))
         ) : (
-          <h1>No Books</h1>
+          <h1>표시 할 책이 없습니다.</h1>
         )}
       </Section>
     </Container>
   );
 }
 
-const Container = styled.div`
-`;
+const Container = styled.div``;

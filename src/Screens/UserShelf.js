@@ -85,7 +85,7 @@ const UserShelf = () => {
     <Container>
       <h1>{user.nickname}</h1>
       <SLink to={`/${user.email}/addbooklist`}>
-        <AddBook>Add BookList</AddBook>
+        <AddBook>책장 생성하기</AddBook>
       </SLink>
       <Table>
         {booklist ? (
@@ -99,7 +99,7 @@ const UserShelf = () => {
             />
           ))
         ) : (
-          <h1>Empty BookList</h1>
+          <h1>책장이 비어져있습니다.</h1>
         )}
       </Table>
     </Container>

@@ -41,21 +41,21 @@ const SignUp = () => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <LoginInput
           type="email"
-          placeholder="Email"
+          placeholder="이메일"
           name="email"
           ref={register}
           required
         />
         <LoginInput
           type="password"
-          placeholder="Password"
+          placeholder="비밀번호"
           name="password"
           ref={register}
           required
         />
         <LoginInput
           type="text"
-          placeholder="Name"
+          placeholder="닉네임"
           name="nickname"
           ref={register}
           required
@@ -83,7 +83,7 @@ const SignUp = () => {
 
         <ButtonSection>
           {/* <SLink to={`/singup`}> */}
-          <Button>Submit</Button>
+          <Button>완료</Button>
           {/* </SLink> */}
         </ButtonSection>
       </Form>

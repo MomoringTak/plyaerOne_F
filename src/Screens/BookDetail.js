@@ -260,7 +260,7 @@ export default function BookDetail({
           <Item>카테고리 : {book.category}</Item>
           {isTokenExist !== null ? (
             <ButtonTemplate>
-              <AddBookBtn onClick={clickAddBook}>책 묶음에 추가</AddBookBtn>
+              <AddBookBtn onClick={clickAddBook}>책장에 추가</AddBookBtn>
 
               <AddBookBtn
                 doneReading={doneReading}
@@ -280,7 +280,7 @@ export default function BookDetail({
                   clickWishlist(wish);
                 }}
               >
-                위시리스트 # : {wishNum}
+                좋아요 # : {wishNum}
               </AddBookBtn>
             </ButtonTemplate>
           ) : null}

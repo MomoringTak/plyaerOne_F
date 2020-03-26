@@ -56,13 +56,13 @@ export default function EditProfile() {
         <title>EDIT PROFILE | WTB</title>
       </Helmet>
       <Header>
-        <Title>Edit Nickname</Title>
+        <Title>닉네임 수정</Title>
         <Spacer style={{ height: "100px" }} />
         <Section>
           <Spacer />
           {changed ? (
             <>
-              <h3>Please Enter New nickname</h3>
+              <h3>새로운 닉네임을 입력해주세요.</h3>
               <Form onSubmit={handleSubmit}>
                 <Input
                   placeholder={user.nickname}
@@ -73,16 +73,16 @@ export default function EditProfile() {
             </>
           ) : (
             <>
-              <h1>New Nickname : {name}</h1>
+              <h1>새로 입력하신 닉네임 : {name}</h1>
               <SLink to={`/${user.nickname}/profile`}>
-                Back to Profile Page
+                마이페이지로 돌아가기
               </SLink>
             </>
           )}
           <Spacer />
           {!changed && (
             <button style={{ color: "#4a6ee0" }} onClick={updateAgain}>
-              Update Again?
+              다시 수정하시겠습니까?
             </button>
           )}
         </Section>
