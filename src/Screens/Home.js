@@ -50,7 +50,7 @@ export default function Home() {
       console.log(err);
     }
   };
-
+  const dummyFuntion = () => {};
   useEffect(() => {
     showAllBooklist();
     showBook();
@@ -64,13 +64,17 @@ export default function Home() {
       <Section title="새로 등록된 책">
         {book ? (
           book.map((bookItem, index) => {
-            return index < 8 && (
-              <Book
-                key={bookItem.isbn}
-                bookItem={bookItem}
-                clickBook={bookDetail}
-              />
-          )})
+            return (
+              index < 8 && (
+                <Book
+                  key={bookItem.isbn}
+                  bookItem={bookItem}
+                  clickBook={bookDetail}
+                  recordBook={dummyFuntion}
+                />
+              )
+            );
+          })
         ) : (
           <h1>표시 할 책이 없습니다.</h1>
         )}

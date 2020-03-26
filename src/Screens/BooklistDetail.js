@@ -33,6 +33,8 @@ const BooklistDetail = ({
     history.push(`/book/${item.isbn}`);
   };
 
+  const dummyFuntion = () => {};
+
   useEffect(() => {
     showBooklist();
   }, []);
@@ -48,6 +50,7 @@ const BooklistDetail = ({
               key={bookItem.isbn}
               bookItem={bookItem}
               clickBook={bookDetail}
+              recordBook={dummyFuntion}
             />
           ))
         ) : (
