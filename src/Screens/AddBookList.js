@@ -20,8 +20,7 @@ const AddBookList = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
-  const [finalBook, setFinalBook] = useState(0);
-
+  const [bookCollection, setBookCollection] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [clickedBook, setClickedBook] = useState(0);
@@ -44,26 +43,23 @@ const AddBookList = () => {
   };
 
   const selectedBook = bookItem => {
+    if (!bookItem.selected) {
+      setBookCollection(prev => [...prev, bookItem]);
+    } else {
+      setBookCollection(prev => prev.filter(item => item._id !== bookItem._id));
+    }
+
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
     setBook(book);
   };
 
-  const completeBook = bookItem => {
-    book.filter(x => x.isbn === bookItem.isbn)[0] = bookItem;
-    setBook(book);
+  const completeBook = bookItem => {};
 
-    setFinalBook(
-      book.filter(x => x.complete === true && x.selected === true).length
-    );
-  };
-
-  const pickBook = async () => {
-    const newBook = book.filter(item => item.selected === true);
-
+  const pickBook = async bookCollection => {
     const leftOne = ({ _id, ...rest }) => _id;
 
-    const BookId = newBook.map(item => leftOne(item));
+    const BookId = bookCollection.map(item => leftOne(item));
 
     const Final_Booklist = {
       title: title,
@@ -115,7 +111,6 @@ const AddBookList = () => {
     setTerm(value);
 
     setBook([]);
-    setClickedBook(0);
   };
 
   const getUser = async () => {
@@ -161,10 +156,12 @@ const AddBookList = () => {
             <Loader />
           ) : (
             <>
-              {clickedBook > 0 ? (
+              {bookCollection.length > 0 ? (
                 <>
                   <BookNum>북 리스트에 추가 할 책 갯수 : {clickedBook}</BookNum>
-                  <Add onClick={pickBook}>책 추가 선정 완료</Add>
+                  <Add onClick={() => pickBook(bookCollection)}>
+                    책장 선정 완료
+                  </Add>
                 </>
               ) : null}
               {book && book.length > 0 && (
