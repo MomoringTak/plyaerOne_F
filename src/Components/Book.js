@@ -53,80 +53,81 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
             clickEvent(time, difficulty);
           }}
         />
+        <Title>
+          {bookItem.title.length > 18
+            ? `${bookItem.title.substring(0, 18)}`
+            : bookItem.title}
+        </Title>
+        {bookItem.selected && addBook && (
+          <Box>
+            <FieldSet>
+              <legend>난이도</legend>
+              <input
+                type="radio"
+                value="1"
+                name={difficutlyUUID}
+                checked={difficulty === 1}
+                onChange={handledifficulty}
+              />
+              <label htmlFor="1">초급</label>
+
+              <input
+                type="radio"
+                value="2"
+                name={difficutlyUUID}
+                checked={difficulty === 2}
+                onChange={handledifficulty}
+              />
+              <label htmlFor="2">중급</label>
+              <input
+                type="radio"
+                value="3"
+                name={difficutlyUUID}
+                checked={difficulty === 3}
+                onChange={handledifficulty}
+              />
+              <label htmlFor="3">고급</label>
+            </FieldSet>
+            <FieldSet>
+              <legend>읽는데 걸리 소요시간</legend>
+              <input
+                type="radio"
+                value="1"
+                name={timeUUID}
+                checked={time === 1}
+                onChange={handleTime}
+              />
+              <label htmlFor="1">한주 이 내</label>
+
+              <input
+                type="radio"
+                value="2"
+                name={timeUUID}
+                checked={time === 2}
+                onChange={handleTime}
+              />
+              <label htmlFor="2">한달 이 내</label>
+              <input
+                type="radio"
+                value="3"
+                name={timeUUID}
+                checked={time === 3}
+                onChange={handleTime}
+              />
+              <label htmlFor="3">한달 이상</label>
+            </FieldSet>
+            {/* <ReadInput
+              type="number"
+              placeholder="총 읽은 시간"
+              name="time"
+              onChange={handleTime}
+              value={time}
+              required
+            /> */}
+          </Box>
+        )}
       </ImageContainer>
-      <Title>
-        {bookItem.title.length > 18
-          ? `${bookItem.title.substring(0, 18)}`
-          : bookItem.title}
-      </Title>
-      {bookItem.selected && addBook && (
-        <Box>
-          <FieldSet>
-            <legend>난이도</legend>
-            <input
-              type="radio"
-              value="1"
-              name={difficutlyUUID}
-              checked={difficulty === 1}
-              onChange={handledifficulty}
-            />
-            <label htmlFor="1">초급</label>
-
-            <input
-              type="radio"
-              value="2"
-              name={difficutlyUUID}
-              checked={difficulty === 2}
-              onChange={handledifficulty}
-            />
-            <label htmlFor="2">중급</label>
-            <input
-              type="radio"
-              value="3"
-              name={difficutlyUUID}
-              checked={difficulty === 3}
-              onChange={handledifficulty}
-            />
-            <label htmlFor="3">고급</label>
-          </FieldSet>
-          <FieldSet>
-            <legend>읽는데 걸리 소요시간</legend>
-            <input
-              type="radio"
-              value="1"
-              name={timeUUID}
-              checked={time === 1}
-              onChange={handleTime}
-            />
-            <label htmlFor="1">한주 이 내</label>
-
-            <input
-              type="radio"
-              value="2"
-              name={timeUUID}
-              checked={time === 2}
-              onChange={handleTime}
-            />
-            <label htmlFor="2">한달 이 내</label>
-            <input
-              type="radio"
-              value="3"
-              name={timeUUID}
-              checked={time === 3}
-              onChange={handleTime}
-            />
-            <label htmlFor="3">한달 이상</label>
-          </FieldSet>
-          {/* <ReadInput
-            type="number"
-            placeholder="총 읽은 시간"
-            name="time"
-            onChange={handleTime}
-            value={time}
-            required
-          /> */}
-        </Box>
-      )}
+      
     </Container>
   );
 };
@@ -145,28 +146,55 @@ const Check = styled.div`
   justify-content: center;
 `;
 
-const Image = styled.div`
-  background-image: url(${props => props.bgUrl});
-  height: 180px;
-  background-size: cover;
-  border-radius: 4px;
-  background-position: center center;
-  transition: opacity 0.2s linear;
-`;
+// const Image = styled.div`
+//   background-image: url(${props => props.bgUrl});
+//   height: 180px;
+//   background-size: cover;
+//   border-radius: 4px;
+//   background-position: center center;
+//   transition: opacity 0.2s linear;
+// `;
+
+// const ImageContainer = styled.div`
+//   margin-bottom: 5px;
+//   position: relative;
+
+//   border: 1px solid black;
+//   border-radius: 4px;
+
+  // &:hover {
+  //   ${Image} {
+  //     opacity: 0.8;
+  //     box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+  //       2px 2px 5px 1px rgba(0, 0, 0, 1);
+  //   }
+  // }
+// `;
 
 const ImageContainer = styled.div`
-  margin-bottom: 5px;
+  display: block;
+  box-sizing: border-box;
+  margin: 0 5px;
+  width: 188px;
   position: relative;
+  padding-top: 250px;
+  float:left;
+`;
 
-  border: 1px solid black;
-  border-radius: 4px;
-
+const Image = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 168px;
+  height: 240px;
+  background: url(${props => props.bgUrl}) no-repeat top;
+  background-size: cover;
+  //border: 1px solid black;
+  border-radius: 0px;
   &:hover {
-    ${Image} {
-      opacity: 0.8;
-      box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+    opacity: 0.8;
+    box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
         2px 2px 5px 1px rgba(0, 0, 0, 1);
-    }
   }
 `;
 

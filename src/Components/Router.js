@@ -30,7 +30,7 @@ export default () => {
       <Header />
       <Wrapper>
         <Switch>
-          <Route path="/" exact component={Shelf} />
+          <Route path="/" exact component={Home} />
           <Route path="/search" component={Search} />
           <Route path="/books" exact component={Books} />
           <Route path="/login" exact component={Login} />
