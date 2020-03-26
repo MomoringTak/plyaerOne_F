@@ -34,7 +34,7 @@ export default function AddBook() {
         item.author = item.author.replace(/(<([^>]+)>)/gi, "");
         item.description = item.description.replace(/(<([^>]+)>)/gi, "");
         item.difficulty = 1;
-        item.time = 0;
+        item.time = 1;
         item.complete = false;
         return item;
       });
@@ -92,6 +92,7 @@ export default function AddBook() {
   const selectedBook = bookItem => {
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
+
     setBook(book);
     setFinalBook(
       book.filter(x => x.complete === true && x.selected === true).length

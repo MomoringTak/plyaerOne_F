@@ -3,13 +3,16 @@ import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
 const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
-  const uuid = uuidv4();
+  const difficutlyUUID = uuidv4();
+  const timeUUID = uuidv4();
 
   const [time, setTime] = useState(bookItem.time);
   const [difficulty, setDifficulty] = useState(bookItem.difficulty);
 
   const clickEvent = () => {
     clickBook(bookItem);
+    bookItem.complete = bookItem.selected ? true : false;
+    recordBook(bookItem);
   };
 
   const handleTime = e => {
@@ -17,11 +20,12 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
       target: { value }
     } = e;
 
-    setTime(value);
-
     bookItem.complete = value !== "" ? true : false;
 
-    bookItem.time = parseInt(value);
+    let valueS = parseInt(value);
+
+    bookItem.time = parseInt(valueS);
+    setTime(valueS);
 
     recordBook(bookItem);
   };
@@ -30,6 +34,8 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
     const {
       target: { value }
     } = e;
+
+    bookItem.complete = value !== "" ? true : false;
 
     let valueS = parseInt(value);
     bookItem.difficulty = valueS;
@@ -56,11 +62,11 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
       {bookItem.selected && addBook && (
         <Box>
           <FieldSet>
-            <legend>난이도를 알려주세요</legend>
+            <legend>난이도</legend>
             <input
               type="radio"
               value="1"
-              name={uuid}
+              name={difficutlyUUID}
               checked={difficulty === 1}
               onChange={handledifficulty}
             />
@@ -69,7 +75,7 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
             <input
               type="radio"
               value="2"
-              name={uuid}
+              name={difficutlyUUID}
               checked={difficulty === 2}
               onChange={handledifficulty}
             />
@@ -77,20 +83,48 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
             <input
               type="radio"
               value="3"
-              name={uuid}
+              name={difficutlyUUID}
               checked={difficulty === 3}
               onChange={handledifficulty}
             />
             <label htmlFor="3">고급</label>
           </FieldSet>
-          <ReadInput
+          <FieldSet>
+            <legend>읽는데 걸리 소요시간</legend>
+            <input
+              type="radio"
+              value="1"
+              name={timeUUID}
+              checked={time === 1}
+              onChange={handleTime}
+            />
+            <label htmlFor="1">한주 이 내</label>
+
+            <input
+              type="radio"
+              value="2"
+              name={timeUUID}
+              checked={time === 2}
+              onChange={handleTime}
+            />
+            <label htmlFor="2">한달 이 내</label>
+            <input
+              type="radio"
+              value="3"
+              name={timeUUID}
+              checked={time === 3}
+              onChange={handleTime}
+            />
+            <label htmlFor="3">한달 이상</label>
+          </FieldSet>
+          {/* <ReadInput
             type="number"
             placeholder="총 읽은 시간"
             name="time"
             onChange={handleTime}
             value={time}
             required
-          />
+          /> */}
         </Box>
       )}
     </Container>
