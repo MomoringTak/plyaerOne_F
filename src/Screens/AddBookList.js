@@ -20,6 +20,8 @@ const AddBookList = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
 
+  const [finalBook, setFinalBook] = useState(0);
+
   const [loading, setLoading] = useState(false);
 
   const [clickedBook, setClickedBook] = useState(0);
@@ -45,6 +47,15 @@ const AddBookList = () => {
     setClickedBook(prev => prev + (bookItem.selected ? 1 : -1));
     book.filter(x => x.isbn === bookItem.isbn)[0].selected = !bookItem.selected;
     setBook(book);
+  };
+
+  const completeBook = bookItem => {
+    book.filter(x => x.isbn === bookItem.isbn)[0] = bookItem;
+    setBook(book);
+
+    setFinalBook(
+      book.filter(x => x.complete === true && x.selected === true).length
+    );
   };
 
   const pickBook = async () => {
@@ -163,6 +174,7 @@ const AddBookList = () => {
                       key={bookItem.isbn}
                       bookItem={bookItem}
                       clickBook={selectedBook}
+                      recordBook={completeBook}
                       addBook={false}
                     />
                   ))}
