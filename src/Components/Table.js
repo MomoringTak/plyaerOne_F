@@ -10,7 +10,6 @@ const Table = ({ title, children }) => (
 
 const Container = styled.div`
   :not(:last-child) {
-    margin-top: 100px;
     margin-bottom: 50px;
   }
 `;
@@ -21,8 +20,6 @@ const Title = styled.span`
 `;
 
 const Grid = styled.div`
-  margin-top: 100px;
-
   display: flex;
   flex-direction: column;
   align-items: center;

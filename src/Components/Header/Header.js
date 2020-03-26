@@ -7,6 +7,8 @@ import { useGoogleAuth, useIsValid } from "../AuthG";
 import LoginBtn from "./LoginBtn";
 import SearchBar from "../SearchBar";
 import { AuthApi } from "../../api";
+import useWindowSize from "../WindowSize";
+import useFloatBtnActive from "../FloatBtnActivate";
 
 import Icon from "@mdi/react";
 import {
@@ -210,11 +212,9 @@ export default withRouter(({ location: { pathname } }) => {
                 <Icon path={mdiBookPlus} size={0.85} />
               </Link>
             </div>
-            {isTokenExist !== null && (
-              <div className="searchbar">
-                <SearchBar text="" submitSearch={searchBook}></SearchBar>
-              </div>
-            )}
+            <div className="searchbar">
+              <SearchBar text="" submitSearch={searchBook}></SearchBar>
+            </div>
           </HeaderMenu>
         </>
       ) : (
@@ -226,9 +226,12 @@ export default withRouter(({ location: { pathname } }) => {
             <LogoLink to="/">
               <Logo src="/img/wtblogo_r.png" alt="WHAT THE BOOKS" />
             </LogoLink>
+            <div className="searchbar">
+              <SearchBar text="" submitSearch={searchBook}></SearchBar>
+            </div>
           </HeaderLogo>
           <HeaderMenu>
-            <List class="GNBMobile_container__1OTMW">
+            <List>
               <Item>
                 <MenuLink to="/" className={pathCheck() === "home" && "active"}>
                   <Icon path={mdiHome} size={1.4} />
@@ -281,61 +284,6 @@ export default withRouter(({ location: { pathname } }) => {
     </Header>
   );
 });
-
-//component화 시켜야됨
-function useWindowSize() {
-  const isClient = typeof window === "object";
-
-  function getSize() {
-    return {
-      width: isClient ? window.innerWidth : undefined,
-      height: isClient ? window.innerHeight : undefined
-    };
-  }
-
-  const [windowSize, setWindowSize] = useState(getSize);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-
-    function handleResize() {
-      setWindowSize(getSize());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return windowSize;
-}
-
-function useFloatBtnActive() {
-  const isClient = typeof window === "object";
-
-  function getVisible() {
-    if (window.screen.availHeight < window.scrollY) return true;
-    else return false;
-  }
-
-  const [visible, setVisible] = useState(getVisible);
-
-  useEffect(() => {
-    if (!isClient) {
-      return false;
-    }
-
-    function handleScroll() {
-      setVisible(getVisible);
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  return visible;
-}
 
 const MenuText = styled.span`
   display: block;
