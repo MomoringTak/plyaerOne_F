@@ -34,11 +34,11 @@ const Login = () => {
           userResult: { doc }
         }
       } = await userApi.ssoGLogin(userInfo);
-
+      console.log(doc);
       if (success) {
         AuthApi.setToken(id_token);
-        if (doc.newbie && doc.gender === null) history.push("/addtionalInfo");
-        else if (doc.gender !== null) history.push(`/addbook`);
+        if (doc.gender === undefined) history.push("/addtionalInfo");
+        else if (doc.newbie === true) history.push(`/addbook`);
         else history.push("/");
       } else {
         alert(msg);
@@ -51,16 +51,12 @@ const Login = () => {
   const onSubmit = async userInfo => {
     try {
       const {
-        data: {
-          success,
-          msg,
-          id_token,
-          userResult: { doc }
-        }
+        data: { success, msg, id_token, userResult }
       } = await userApi.wtbSignIn(userInfo);
+
       if (success) {
         AuthApi.setToken(id_token);
-        if (doc.newbie) {
+        if (userResult.newbie) {
           history.push(`/addbook`);
         } else history.push(`/`);
       } else {

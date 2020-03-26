@@ -9,13 +9,14 @@ import { userApi } from "../api";
 const AddGoogleUserInfo = () => {
   const history = useHistory();
   const { register, handleSubmit } = useForm();
-  const googleAuth = useGoogleAuth();
 
+  const googleAuth = useGoogleAuth();
   const valid = useIsValid();
 
-  let user;
+  const [user, setUser] = useState({});
 
   const onSubmit = async userInfo => {
+    console.log(user._id);
     userInfo.userId = user._id;
 
     try {
@@ -27,8 +28,9 @@ const AddGoogleUserInfo = () => {
   };
 
   const getUser = async () => {
-    user = await valid(googleAuth);
-    if (user.gender !== null) {
+    const authorized = await valid(googleAuth);
+    setUser(authorized);
+    if (authorized.gender !== undefined) {
       history.push(`/addbook`);
     }
   };
