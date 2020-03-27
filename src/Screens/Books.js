@@ -32,7 +32,7 @@ export default function Home() {
   const bookDetail = async item => {
     history.push(`/book/${item.isbn}`);
   };
-
+  const dummyFuntion = () => {};
   useEffect(() => {
     showBook();
   }, []);
@@ -46,6 +46,7 @@ export default function Home() {
               key={bookItem.isbn}
               bookItem={bookItem}
               clickBook={bookDetail}
+              recordBook={dummyFuntion}
             />
           ))
         ) : (
