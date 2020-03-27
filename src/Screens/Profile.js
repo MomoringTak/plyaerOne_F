@@ -64,6 +64,8 @@ export default function Profile() {
     history.push(`/book/${item.isbn}`);
   };
 
+  const dummyFunction = async () => {};
+
   useEffect(() => {
     getUser();
   }, []);
@@ -111,6 +113,7 @@ export default function Profile() {
                   key={item.book.isbn}
                   bookItem={item.book}
                   clickBook={bookDetail}
+                  recordBook={dummyFunction}
                 />
               ))
             ) : (
@@ -126,6 +129,7 @@ export default function Profile() {
                   key={item.book.isbn}
                   bookItem={item.book}
                   clickBook={bookDetail}
+                  recordBook={dummyFunction}
                 />
               ))
             ) : (
