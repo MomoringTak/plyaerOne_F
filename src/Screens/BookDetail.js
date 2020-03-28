@@ -389,13 +389,6 @@ export default function BookDetail({
               <input type="radio" value="3" name="time" onChange={handleTime} />
               <label htmlFor="3">한달 이상</label>
             </FieldSet>
-            {/* <ReadInput
-              type="number"
-              placeholder="총 읽은 시간"
-              name="time"
-              onChange={handleTime}
-              required
-            /> */}
             <ReadButton>Submit</ReadButton>
           </ReadForm>
         </Box>

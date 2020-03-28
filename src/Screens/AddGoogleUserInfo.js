@@ -16,7 +16,6 @@ const AddGoogleUserInfo = () => {
   const [user, setUser] = useState({});
 
   const onSubmit = async userInfo => {
-    console.log(user._id);
     userInfo.userId = user._id;
 
     try {
