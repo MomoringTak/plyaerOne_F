@@ -29,10 +29,13 @@ export default function BookDetail({
   const [doneReading, setDoneReading] = useState(false);
   const [readLogger, setReadLogger] = useState({});
 
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(1);
   const [difficulty, setDifficulty] = useState(1);
   const [wishNum, setWishNum] = useState(0);
   const [readNum, setReadNum] = useState(0);
+
+  const [averageTime, setAverageTime] = useState("읽지 않음");
+  const [averageDifficulty, setAverageDifficulty] = useState("읽지 않음");
 
   const isTokenExist = AuthApi.getToken();
 
@@ -116,11 +119,13 @@ export default function BookDetail({
       setBook(Results);
 
       const {
-        data: { wishNumber, readNumber }
+        data: { wishNumber, readNumber, maxTime, maxDifficulty }
       } = await bookApi.getBookWish(Results._id);
 
       setWishNum(wishNumber);
       setReadNum(readNumber);
+      setAverageTime(maxTime);
+      setAverageDifficulty(maxDifficulty);
 
       if (isTokenExist != null) {
         getUserBooklist(user);
@@ -263,6 +268,8 @@ export default function BookDetail({
             <span>{book.author}</span>
           </Item>
           <Item>{book.publisher}</Item>
+          <Item> 평균 읽은 시간 : {averageTime}</Item>
+          <Item> 평균 난이도 : {averageDifficulty}</Item>
           <Item>카테고리 : {book.category}</Item>
           {isTokenExist !== null ? (
             <ButtonTemplate>
