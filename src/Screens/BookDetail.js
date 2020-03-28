@@ -32,6 +32,7 @@ export default function BookDetail({
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(1);
   const [wishNum, setWishNum] = useState(0);
+  const [readNum, setReadNum] = useState(0);
 
   const isTokenExist = AuthApi.getToken();
 
@@ -115,9 +116,11 @@ export default function BookDetail({
       setBook(Results);
 
       const {
-        data: { wishNumber }
+        data: { wishNumber, readNumber }
       } = await bookApi.getBookWish(Results._id);
+
       setWishNum(wishNumber);
+      setReadNum(readNumber);
 
       if (isTokenExist != null) {
         getUserBooklist(user);
@@ -200,7 +203,9 @@ export default function BookDetail({
       e.preventDefault();
     }
     setReadClick(false);
-
+    if (doneReading === false) {
+      setReadNum(prev => prev + 1);
+    }
     const logData = {
       user: user._id,
       book: book._id,
@@ -268,12 +273,13 @@ export default function BookDetail({
                 onClick={() => {
                   if (doneReading) {
                     cancelReading();
+                    setReadNum(prev => prev - 1);
                   } else {
                     clickReadBook();
                   }
                 }}
               >
-                읽음
+                읽음 : {readNum}
               </AddBookBtn>
               <AddBookBtn
                 wish={wish}
