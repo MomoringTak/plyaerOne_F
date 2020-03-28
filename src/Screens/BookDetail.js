@@ -118,8 +118,23 @@ export default function BookDetail({
 
       setBook(Results);
 
+      /* 
+      wishNumber : 해당 책이 가지고있는 좋아요 갯수
+      readNumber : 해당 책이 읽힌 횟수 
+      maxTime : 가장 많이 선택된 읽음 소요 시간
+      maxDifficulty : 가장 많이 선택된 난이도 
+      averageTime : 시간 소요 전체 분포도 as Object Type
+      averageDiffculty : 난이도 전체 분포도 as Object Type
+      */
       const {
-        data: { wishNumber, readNumber, maxTime, maxDifficulty }
+        data: {
+          wishNumber,
+          readNumber,
+          maxTime,
+          maxDifficulty,
+          averageTime,
+          averageDifficulty
+        }
       } = await bookApi.getBookWish(Results._id);
 
       setWishNum(wishNumber);
