@@ -184,7 +184,8 @@ export default function BookDetail({
     const {
       target: { value }
     } = e;
-    setTime(value);
+    let valueS = parseInt(value);
+    setTime(valueS);
   };
 
   const handledifficulty = e => {
@@ -372,13 +373,29 @@ export default function BookDetail({
               />
               <label htmlFor="3">고급</label>
             </FieldSet>
-            <ReadInput
+            <FieldSet>
+              <legend>읽는데 걸리 소요시간</legend>
+              <input
+                type="radio"
+                value="1"
+                name="time"
+                defaultChecked
+                onChange={handleTime}
+              />
+              <label htmlFor="1">한주 이 내</label>
+
+              <input type="radio" value="2" name="time" onChange={handleTime} />
+              <label htmlFor="2">한달 이 내</label>
+              <input type="radio" value="3" name="time" onChange={handleTime} />
+              <label htmlFor="3">한달 이상</label>
+            </FieldSet>
+            {/* <ReadInput
               type="number"
               placeholder="총 읽은 시간"
               name="time"
               onChange={handleTime}
               required
-            />
+            /> */}
             <ReadButton>Submit</ReadButton>
           </ReadForm>
         </Box>
