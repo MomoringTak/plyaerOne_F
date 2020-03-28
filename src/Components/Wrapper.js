@@ -20,6 +20,7 @@ const Template = styled.div`
 
   @media only screen and (max-width: 767px) {
     width: calc(100% - 20px);
+    margin-bottom:100px;
   }
 
   @media only screen and (min-width: 768px) {
