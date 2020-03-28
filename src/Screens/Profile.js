@@ -18,6 +18,8 @@ export default function Profile() {
   const [comment, setComment] = useState([]);
   const [wishList, setWishList] = useState([]);
   const [readList, setReadList] = useState([]);
+  const [wishCount, setWishCount] = useState([]);
+  const [readCount, setReadCount] = useState([]);
 
   const googleAuth = useGoogleAuth();
   const { signOut } = useGoogleAuth();
@@ -36,12 +38,15 @@ export default function Profile() {
       setUser(authorized);
 
       const {
-        data: { userCommentResult, wishData, readData }
+        data: { userCommentResult, wishData, readData, totalRead, totalWish }
       } = await userApi.getUserMyPage(authorized._id);
 
       setComment(userCommentResult);
       setWishList(wishData);
       setReadList(readData);
+
+      setWishCount(totalWish);
+      setReadCount(totalRead);
     } catch (err) {
       history.push(`/`);
     }
@@ -108,12 +113,14 @@ export default function Profile() {
           <h1>좋아요 한 책</h1>
           <Section>
             {wishList ? (
-              wishList.map(item => (
+              wishList.map((item, index) => (
                 <Book
                   key={item.book.isbn}
                   bookItem={item.book}
                   clickBook={bookDetail}
                   recordBook={dummyFunction}
+                  totalNum={wishCount[index]}
+                  profile={true}
                 />
               ))
             ) : (
@@ -124,12 +131,14 @@ export default function Profile() {
           <h1>읽은 책</h1>
           <Section>
             {readList ? (
-              readList.map(item => (
+              readList.map((item, index) => (
                 <Book
                   key={item.book.isbn}
                   bookItem={item.book}
                   clickBook={bookDetail}
                   recordBook={dummyFunction}
+                  totalNum={readCount[index]}
+                  profile={true}
                 />
               ))
             ) : (

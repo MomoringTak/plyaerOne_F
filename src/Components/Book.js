@@ -2,7 +2,14 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
-const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
+const Book = ({
+  bookItem,
+  clickBook,
+  recordBook,
+  addBook,
+  totalNum,
+  profile
+}) => {
   const difficutlyUUID = uuidv4();
   const timeUUID = uuidv4();
 
@@ -58,6 +65,7 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
             ? `${bookItem.title.substring(0, 18)}`
             : bookItem.title}
         </Title>
+        {profile && <span>총 # : {totalNum}</span>}
         {bookItem.selected && addBook && (
           <Box>
             <FieldSet>
@@ -127,7 +135,6 @@ const Book = ({ bookItem, clickBook, recordBook, addBook }) => {
           </Box>
         )}
       </ImageContainer>
-      
     </Container>
   );
 };
@@ -162,13 +169,13 @@ const Check = styled.div`
 //   border: 1px solid black;
 //   border-radius: 4px;
 
-  // &:hover {
-  //   ${Image} {
-  //     opacity: 0.8;
-  //     box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
-  //       2px 2px 5px 1px rgba(0, 0, 0, 1);
-  //   }
-  // }
+// &:hover {
+//   ${Image} {
+//     opacity: 0.8;
+//     box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+//       2px 2px 5px 1px rgba(0, 0, 0, 1);
+//   }
+// }
 // `;
 
 const ImageContainer = styled.div`
@@ -178,7 +185,7 @@ const ImageContainer = styled.div`
   width: 188px;
   position: relative;
   padding-top: 250px;
-  float:left;
+  float: left;
 `;
 
 const Image = styled.div`
@@ -194,7 +201,7 @@ const Image = styled.div`
   &:hover {
     opacity: 0.8;
     box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
-        2px 2px 5px 1px rgba(0, 0, 0, 1);
+      2px 2px 5px 1px rgba(0, 0, 0, 1);
   }
 `;
 
