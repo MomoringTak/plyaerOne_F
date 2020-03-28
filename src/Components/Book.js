@@ -13,8 +13,10 @@ const Book = ({
   const difficutlyUUID = uuidv4();
   const timeUUID = uuidv4();
 
-  const [time, setTime] = useState(bookItem.time);
-  const [difficulty, setDifficulty] = useState(bookItem.difficulty);
+  // const [time, setTime] = useState(bookItem.time);
+  // const [difficulty, setDifficulty] = useState(bookItem.difficulty);
+  const [time, setTime] = useState(0);
+  const [difficulty, setDifficulty] = useState(0);
   const [step, setStep] = useState(0);
 
   const clickEvent = () => {
@@ -86,7 +88,6 @@ const Book = ({
                     value="1"
                     name={difficutlyUUID}
                     id={difficutlyUUID + "_1"}
-                    checked={difficulty === 1}
                     onChange={handledifficulty}
                   />
                   <label htmlFor={difficutlyUUID + "_1"}>초급</label>
@@ -97,7 +98,6 @@ const Book = ({
                     value="2"
                     name={difficutlyUUID}
                     id={difficutlyUUID + "_2"}
-                    checked={difficulty === 2}
                     onChange={handledifficulty}
                   />
                   <label htmlFor={difficutlyUUID + "_2"}>중급</label>
@@ -108,7 +108,6 @@ const Book = ({
                     value="3"
                     name={difficutlyUUID}
                     id={difficutlyUUID + "_3"}
-                    checked={difficulty === 3}
                     onChange={handledifficulty}
                   />
                   <label htmlFor={difficutlyUUID + "_3"}>고급</label>
@@ -126,7 +125,6 @@ const Book = ({
                     value="1"
                     name={timeUUID}
                     id={timeUUID + "_1"}
-                    checked={time === 1}
                     onChange={handleTime}
                   />
                   <label htmlFor={timeUUID + "_1"}>한주 이 내</label>
@@ -137,7 +135,6 @@ const Book = ({
                     value="2"
                     name={timeUUID}
                     id={timeUUID + "_2"}
-                    checked={time === 2}
                     onChange={handleTime}
                   />
                   <label htmlFor={timeUUID + "_2"}>한달 이 내</label>
@@ -148,7 +145,6 @@ const Book = ({
                     value="3"
                     name={timeUUID}
                     id={timeUUID + "_3"}
-                    checked={time === 3}
                     onChange={handleTime}
                   />
                   <label htmlFor={timeUUID + "_3"}>한달 이상</label>

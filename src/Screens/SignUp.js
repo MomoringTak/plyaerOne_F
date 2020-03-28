@@ -1,11 +1,13 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
 import Helmet from "react-helmet";
 import { useForm } from "react-hook-form";
 
-import { Link } from "react-router-dom";
 import { userApi, AuthApi } from "../api";
+
+import styled from "styled-components";
+import InputText from "../Components/Style/InputText";
+import { Box, Form, SignButton } from "../Components/Style/Sign";
 
 const SignUp = () => {
   const history = useHistory();
@@ -38,24 +40,25 @@ const SignUp = () => {
       <Helmet>
         <title>SIGN UP | WTB</title>
       </Helmet>
+      <h3 className="tit_login">회원가입</h3>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <LoginInput
+        <InputText
           type="email"
-          placeholder="이메일"
+          placeholder="이메일을 입력해주세요."
           name="email"
           ref={register}
           required
         />
-        <LoginInput
+        <InputText
           type="password"
-          placeholder="비밀번호"
+          placeholder="비밀번호를 입력해주세요."
           name="password"
           ref={register}
           required
         />
-        <LoginInput
+        <InputText
           type="text"
-          placeholder="닉네임"
+          placeholder="닉네임을 입력해주세요."
           name="nickname"
           ref={register}
           required
@@ -81,63 +84,35 @@ const SignUp = () => {
           <label htmlFor="female">여자</label>
         </Gender>
 
-        <ButtonSection>
+        <div>
           {/* <SLink to={`/singup`}> */}
-          <Button>완료</Button>
+          <SignButton className="submit">완료</SignButton>
           {/* </SLink> */}
-        </ButtonSection>
+        </div>
       </Form>
     </Box>
   );
 };
 
-const Gender = styled.fieldset``;
-
-const Box = styled.div`
+const Gender = styled.fieldset`
   width: 100%;
-  height: 60vh;
-  min-height: 540px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  width: 500px;
-  height: 500px;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LoginInput = styled.input`
-  all: unset;
-
-  width: 80%;
-
-  margin-bottom: 30px;
-  text-align: center;
-
-  border-bottom: 1px rgba(0, 0, 0, 0.3) solid;
-`;
-
-const ButtonSection = styled.div`
-  width: 50%;
-  height: 20%;
-  display: flex;
-  justify-content: space-around;
-`;
-
-const Button = styled.button`
-  all: unset;
   margin-top: 15px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-`;
+  margin-bottom: 20px;
+  text-align:center;
 
-const SLink = styled(Link)``;
+  legend {
+    display:inline-block;
+    color:#333;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom:5px;
+  }
+  label {
+    display: inline-block;
+    color: #333;
+    font-size: 16px;
+    margin-right: 10px;
+  }
+`;
 
 export default SignUp;

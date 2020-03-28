@@ -553,7 +553,7 @@ const Item = styled.li`
 
     &.all {
       > a {
-        padding-left: 4px;
+        padding-left: 0px;
       }
     }
 
@@ -567,7 +567,7 @@ const SLink = styled(Link)`
   overflow: hidden;
   float: left;
   height: 55px;
-  padding: 16px 35px 0 33px;
+  padding: 16px 31px 0 29px;
   font-size: 16px;
   color: #333;
   line-height: 20px;
