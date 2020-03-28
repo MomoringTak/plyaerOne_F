@@ -15,8 +15,14 @@ const Book = ({
 
   const [time, setTime] = useState(bookItem.time);
   const [difficulty, setDifficulty] = useState(bookItem.difficulty);
+  const [step, setStep] = useState(0);
 
   const clickEvent = () => {
+    
+    // 선택 안되있던 상태에서 선택 한 경우
+    if(!bookItem.selected) {
+      setStep(1);
+    }
     clickBook(bookItem);
     bookItem.complete = bookItem.selected ? true : false;
     recordBook(bookItem);
@@ -33,7 +39,7 @@ const Book = ({
 
     bookItem.time = parseInt(valueS);
     setTime(valueS);
-
+    setStep(3);
     recordBook(bookItem);
   };
 
@@ -47,83 +53,109 @@ const Book = ({
     let valueS = parseInt(value);
     bookItem.difficulty = valueS;
     setDifficulty(valueS);
-
+    setStep(2);
     recordBook(bookItem);
   };
   return (
     <Container>
       <ImageContainer>
-        {bookItem.selected && <Check>선택 됨</Check>}
         <Image
-          bgUrl={bookItem.image ? `${bookItem.image}` : null}
+          bgUrl={String(bookItem.image).replace("type=m1&", "type=m5&")}
           onClick={() => {
             clickEvent(time, difficulty);
           }}
-        />
-        <Title>
-          {bookItem.title.length > 18
-            ? `${bookItem.title.substring(0, 18)}`
-            : bookItem.title}
-        </Title>
+        >
+          {bookItem.selected && <Check>선택 됨</Check>}
+        </Image>
+        <BookDesc>
+          <p className="booktitle">{bookItem.title}</p>
+          <p className="desc">
+            {bookItem.author} 저 &nbsp; | &nbsp; {bookItem.publisher}
+          </p>
+        </BookDesc>
         {profile && <span>총 # : {totalNum}</span>}
         {bookItem.selected && addBook && (
           <Box>
+            {step === 1 && (
             <FieldSet>
-              <legend>난이도</legend>
-              <input
-                type="radio"
-                value="1"
-                name={difficutlyUUID}
-                checked={difficulty === 1}
-                onChange={handledifficulty}
-              />
-              <label htmlFor="1">초급</label>
-
-              <input
-                type="radio"
-                value="2"
-                name={difficutlyUUID}
-                checked={difficulty === 2}
-                onChange={handledifficulty}
-              />
-              <label htmlFor="2">중급</label>
-              <input
-                type="radio"
-                value="3"
-                name={difficutlyUUID}
-                checked={difficulty === 3}
-                onChange={handledifficulty}
-              />
-              <label htmlFor="3">고급</label>
+              <legend>Q. 이 책의 난이도는?</legend>
+              <ul className="difficulty">
+                <li>
+                  <input
+                    type="radio"
+                    value="1"
+                    name={difficutlyUUID}
+                    id={difficutlyUUID + "_1"}
+                    checked={difficulty === 1}
+                    onChange={handledifficulty}
+                  />
+                  <label htmlFor={difficutlyUUID + "_1"}>초급</label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    value="2"
+                    name={difficutlyUUID}
+                    id={difficutlyUUID + "_2"}
+                    checked={difficulty === 2}
+                    onChange={handledifficulty}
+                  />
+                  <label htmlFor={difficutlyUUID + "_2"}>중급</label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    value="3"
+                    name={difficutlyUUID}
+                    id={difficutlyUUID + "_3"}
+                    checked={difficulty === 3}
+                    onChange={handledifficulty}
+                  />
+                  <label htmlFor={difficutlyUUID + "_3"}>고급</label>
+                </li>
+              </ul>
             </FieldSet>
+            )}
+            {step === 2 && (
             <FieldSet>
-              <legend>읽는데 걸리 소요시간</legend>
-              <input
-                type="radio"
-                value="1"
-                name={timeUUID}
-                checked={time === 1}
-                onChange={handleTime}
-              />
-              <label htmlFor="1">한주 이 내</label>
-
-              <input
-                type="radio"
-                value="2"
-                name={timeUUID}
-                checked={time === 2}
-                onChange={handleTime}
-              />
-              <label htmlFor="2">한달 이 내</label>
-              <input
-                type="radio"
-                value="3"
-                name={timeUUID}
-                checked={time === 3}
-                onChange={handleTime}
-              />
-              <label htmlFor="3">한달 이상</label>
+              <legend>Q. 이책을 읽는데 소요된 시간은?</legend>
+              <ul className="time">
+                <li>
+                  <input
+                    type="radio"
+                    value="1"
+                    name={timeUUID}
+                    id={timeUUID + "_1"}
+                    checked={time === 1}
+                    onChange={handleTime}
+                  />
+                  <label htmlFor={timeUUID + "_1"}>한주 이 내</label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    value="2"
+                    name={timeUUID}
+                    id={timeUUID + "_2"}
+                    checked={time === 2}
+                    onChange={handleTime}
+                  />
+                  <label htmlFor={timeUUID + "_2"}>한달 이 내</label>
+                </li>
+                <li>
+                  <input
+                    type="radio"
+                    value="3"
+                    name={timeUUID}
+                    id={timeUUID + "_3"}
+                    checked={time === 3}
+                    onChange={handleTime}
+                  />
+                  <label htmlFor={timeUUID + "_3"}>한달 이상</label>
+                </li>
+              </ul>
             </FieldSet>
+            )}
             {/* <ReadInput
               type="number"
               placeholder="총 읽은 시간"
@@ -210,7 +242,46 @@ const Title = styled.span`
   margin-bottom: 3px;
 `;
 
-const Box = styled.div``;
+const BookDesc = styled.div`
+  width: 188px;
+  padding: 10px 15px;
+  min-height: 79px;
+
+  > .booktitle {
+    display: -webkit-box;
+    min-height: 17px;
+    max-height: 34px;
+    line-height: 17px;
+    word-break: break-all;
+    overflow: hidden;
+    font-size: 13px;
+    color: #333;
+    font-weight: 600;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  > .desc {
+    margin-top: 10px;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    line-height: 15px;
+    min-height: 15px;
+    max-height: 15px;
+    font-size: 11px;
+    color: #777;
+    font-weight: 500;
+  }
+`;
+
+const Box = styled.div`
+  position:absolute;
+  left:15px;
+  top:40px;
+  width:156px;
+`;
 
 const ReadForm = styled.form`
   display: flex;
@@ -233,6 +304,46 @@ const ReadButton = styled.button`
   text-align: center;
 `;
 
-const FieldSet = styled.fieldset``;
+const FieldSet = styled.fieldset`
+  text-align:center;
+  legend {
+    display:inline-block;
+    padding: 5px 10px;
+    background:RGBA(0, 0, 0, 0.7);
+    color:#FFF;
+    font-weight:600;
+    font-size: 15px;
+    border-radius:10px;
+    margin-bottom:10px;
+  }
+  ul {
+    li {
+      margin-bottom:5px;
+      label {
+        display:inline-block;
+        padding: 5px 10px;
+        background:RGBA(0, 0, 0, 0.7);
+        color:#FFF;
+        font-weight:600;
+        font-size:14px;
+        border-radius:10px;
+        cursor:pointer;
+        &:hover {
+          background: RGBA(255,30,60,0.9);
+        }
+      }
+      input[type=radio] {
+        visibility:hidden;
+        position:absolute;
+      }
+      input[type=radio]:checked ~ label{
+        background: RGBA(226, 1, 54, 0.7);
+        &:hover {
+          background: RGBA(255,30,60,0.9);
+        }
+      }
+    }
+  }
+`;
 
 export default Book;
