@@ -1,11 +1,9 @@
-## Nomathon Player One F-Repo
+### To Be Done
 
---- 
 
-React 
+### To Be Fixed
 
-Screens
 
-Api Verbs
+### To Be Improved
 
-Features
+
