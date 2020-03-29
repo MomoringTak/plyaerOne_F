@@ -38,7 +38,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://lucid-fermat-cfdde0.netlify.com/",
+  "homepage": "https://goofy-mahavira-adaf76.netlify.com/",
   "browserslist": {
     "production": [
       ">0.2%",
