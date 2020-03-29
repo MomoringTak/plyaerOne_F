@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const clientID =
-  "563473472310-ih69dhvqsbl37b20ic312v96nqlvfjr9.apps.googleusercontent.com";
+  "563473472310-jj2viegmm12t7ch9p2shgqfit779qtvk.apps.googleusercontent.com";
 
 // const clientID = process.env.GOOGLE_CLIENT_ID;
 
