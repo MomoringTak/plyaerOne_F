@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:8008"
+  baseURL: "https://floating-earth-10094.herokuapp.com/"
 });
 
 export const searchApi = {

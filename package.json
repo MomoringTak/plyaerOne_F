@@ -1,5 +1,5 @@
 {
-  "name": "nomathon",
+  "name": "WHAT_THE_BOOK",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.18.0",
     "dotenv": "^8.2.0",
+    "gh-pages": "^2.2.0",
     "node-sass": "^4.13.1",
     "passport-google-oauth20": "^2.0.0",
     "query-string": "^6.11.1",
@@ -30,11 +31,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build",
+    "predeploy": "yarn run build"
   },
   "eslintConfig": {
     "extends": "react-app"
   },
+  "homepage": "https://bochipachibuchi.github.io/WHAT_THE_BOOK",
   "browserslist": {
     "production": [
       ">0.2%",
