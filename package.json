@@ -1,5 +1,5 @@
 {
-  "name": "WHAT_THE_BOOK",
+  "name": "nomathon",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -38,7 +38,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "homepage": "https://bochipachibuchi.github.io/WHAT_THE_BOOK",
+  "homepage": "https://lucid-fermat-cfdde0.netlify.com/",
   "browserslist": {
     "production": [
       ">0.2%",
