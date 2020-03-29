@@ -4,10 +4,16 @@ import { AuthApi } from "../api";
 import styled from "styled-components";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import Loader from "react-loader-spinner";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const clientID =
   "563473472310-ih69dhvqsbl37b20ic312v96nqlvfjr9.apps.googleusercontent.com";
 
+// const clientID = process.env.GOOGLE_CLIENT_ID;
+
+console.log(process.env.GOOGLE_CLIENT_ID);
 const GoogleAuthContext = React.createContext(); // Not necessary, but recommended.
 
 const GoogleAuthProvider = ({ children }) => {
