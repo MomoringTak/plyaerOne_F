@@ -142,9 +142,9 @@ export default function Profile() {
           )}
 
           <Dividers />
-          <h1>좋아요 한 책</h1>
           <Section>
-            {wishList ? (
+            {wishList.length >= 1 && <h1>좋아요 한 책</h1>}
+            {wishList.length >= 1 ? (
               wishList.map((item, index) => (
                 <Book
                   key={item.book.isbn}
@@ -156,13 +156,13 @@ export default function Profile() {
                 />
               ))
             ) : (
-              <h1>해당 되는 책이 없습니다.</h1>
+              <h1>좋아요 한 책이 없습니다.</h1>
             )}
           </Section>
           <Dividers />
-          <h1>읽은 책</h1>
           <Section>
-            {readList ? (
+            {readList.length >= 1 && <h1>읽은 책</h1>}
+            {readList.length >= 1 ? (
               readList.map((item, index) => (
                 <Book
                   key={item.book.isbn}
@@ -174,7 +174,7 @@ export default function Profile() {
                 />
               ))
             ) : (
-              <h1>해당 되는 책이 없습니다.</h1>
+              <h1>읽은 책이 없습니다.</h1>
             )}
           </Section>
 
