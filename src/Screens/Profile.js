@@ -107,6 +107,15 @@ export default function Profile() {
           <h3>{user.nickname}</h3>
           <SLink to={`/${user.email}/editprofile`}>edit</SLink>
           <Spacer />
+          <span>나이</span>
+          <Spacer />
+          <h3>{user.age}</h3>
+          <Spacer />
+          <span>성별</span>
+          <Spacer />
+          <h3>{user.gender}</h3>
+          <Spacer />
+          <Spacer />
           <span>이메일</span>
           <Spacer />
           <h3>{user.email}</h3>
