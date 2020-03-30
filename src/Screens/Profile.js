@@ -7,7 +7,7 @@ import Book from "../Components/Book";
 import Section from "../Components/Section";
 import { v4 as uuidv4 } from "uuid";
 
-import { userApi } from "../api";
+import { userApi, AuthApi } from "../api";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
@@ -25,6 +25,9 @@ export default function Profile() {
   const { signOut } = useGoogleAuth();
   const valid = useIsValid();
 
+  const LogOut = () => {
+    AuthApi.clearToken(signOut);
+  };
   //Attempt to assing a new uuid value as a unique key to each of the book in the list
   /* 
   const assignUniqueKey = booklist => {
@@ -92,6 +95,10 @@ export default function Profile() {
           <span>이메일</span>
           <Spacer />
           <h3>{user.email}</h3>
+          <Spacer />
+          <SLink to="#" onClick={LogOut}>
+            로그아웃
+          </SLink>
           <Spacer />
           {/* <Button onClick={deleteUser}>Delete Profile</Button> */}
           <Spacer />
