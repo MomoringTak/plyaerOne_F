@@ -9,19 +9,16 @@ const Comment = ({ comment, user, deleteComment, book }) => {
     deleteComment(comment.uuid);
   };
 
-  const convertDate = (date) => {
+  const convertDate = date => {
     let year = date.getFullYear();
-    let month = date.getMonth()+1;
+    let month = date.getMonth() + 1;
     let day = date.getDate();
 
-    month = month < 10 ? "0"+month : month;
-    day = day < 10 ? "0"+day : day;
+    month = month < 10 ? "0" + month : month;
+    day = day < 10 ? "0" + day : day;
 
     return year + "." + month + "." + day;
-  }
-
-  console.log(comment.createdAt);
-
+  };
   return (
     <Container>
       <div>
@@ -30,13 +27,15 @@ const Comment = ({ comment, user, deleteComment, book }) => {
 
         <h5>작성자 이름: {user.nickname}</h5>
         <h5>댓글 내용 : {comment.description}</h5> */}
-        
+
         <div className="content">{comment.description}</div>
         <div className="writer">
           <span>{user.nickname}</span>
-          <span>{ convertDate(new Date(comment.createdAt))}</span>
+          <span>{convertDate(new Date(comment.createdAt))}</span>
           {googleUser.googleId === user.googleId ? (
-            <span className="remove" onClick={clickDelete}>삭제</span>
+            <span className="remove" onClick={clickDelete}>
+              삭제
+            </span>
           ) : null}
         </div>
       </div>
@@ -48,7 +47,7 @@ const Container = styled.li`
   color: black;
   margin-top: 10px;
 
-  &:first-child{
+  &:first-child {
     border-top: 0 none;
   }
   padding: 10px 10px 8px;
@@ -65,7 +64,7 @@ const Container = styled.li`
       white-space: nowrap;
       text-overflow: ellipsis;
     }
-    .writer{
+    .writer {
       position: relative;
       height: 26px;
       padding-top: 8px;
@@ -79,9 +78,7 @@ const Container = styled.li`
         }
       }
     }
-
   }
-
 `;
 
 export default Comment;

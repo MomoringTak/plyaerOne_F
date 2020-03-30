@@ -22,7 +22,6 @@ import {
 } from "@mdi/js";
 
 export default withRouter(({ location: { pathname } }) => {
-  
   const history = useHistory();
 
   const [menuHover, setMenuHover] = useState(false);
@@ -43,13 +42,11 @@ export default withRouter(({ location: { pathname } }) => {
   };
 
   const searchBook = searchText => {
-    console.log("in searchBook" + searchText);
-    history.push(
-      {
-        pathname: `/search`,
-        search: `?keyword=${searchText}`
-      }
-    );
+    // console.log("in searchBook" + searchText);
+    history.push({
+      pathname: `/search`,
+      search: `?keyword=${searchText}`
+    });
   };
 
   const enterMenu = () => {
@@ -143,20 +140,20 @@ export default withRouter(({ location: { pathname } }) => {
                 onMouseLeave={leaveSubMenu}
               >
                 <SubMenuLi>
-                  <SubLink to="#">
+                  <SubLink to={`/addbook`}>
                     <span className="txt">오늘의 책</span>
                   </SubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SSubLink to="#">
+                  <SSubLink to={`/`}>
                     <span className="txt">새로운 책</span>
                   </SSubLink>
                 </SubMenuLi>
-                <SubMenuLi>
+                {/* <SubMenuLi>
                   <SSubLink to="#">
                     <span className="txt">추천 책</span>
                   </SSubLink>
-                </SubMenuLi>
+                </SubMenuLi> */}
                 <SubMenuLi>
                   {isTokenExist !== null ? (
                     <SSubLink to={`/${user.nickname}/addbook`}>
@@ -165,11 +162,11 @@ export default withRouter(({ location: { pathname } }) => {
                   ) : null}
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SubLink to="#">
+                  <SubLink to={`/shelf`}>
                     <span className="txt">테마가 있는 책장</span>
                   </SubLink>
                 </SubMenuLi>
-                <SubMenuLi>
+                {/* <SubMenuLi>
                   <SSubLink to="#">
                     <span className="txt">장르별..?</span>
                   </SSubLink>
@@ -183,27 +180,27 @@ export default withRouter(({ location: { pathname } }) => {
                   <SSubLink to="#">
                     <span className="txt">성별..?</span>
                   </SSubLink>
-                </SubMenuLi>
-                <SubMenuLi>
+                </SubMenuLi> */}
+                {/* <SubMenuLi>
                   <SubLink to="#">
                     <span className="txt">나만의 메뉴</span>
                   </SubLink>
-                </SubMenuLi>
+                </SubMenuLi> */}
                 <SubMenuLi>
-                  <SSubLink to="#">
+                  <SSubLink to={`/${user.email}/shelf`}>
                     <span className="txt">내 책장</span>
                   </SSubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SSubLink to="#">
+                  <SSubLink to={`/${user.email}/profile`}>
                     <span className="txt">프로필</span>
                   </SSubLink>
                 </SubMenuLi>
-                <SubMenuLi>
+                {/* <SubMenuLi>
                   <SSubLink to="#">
                     <span className="txt">나의 활동</span>
                   </SSubLink>
-                </SubMenuLi>
+                </SubMenuLi> */}
               </SubMenuUl>
             )}
             {/* 검색창 */}
@@ -257,13 +254,23 @@ export default withRouter(({ location: { pathname } }) => {
                 </MenuLink>
               </Item>
               <Item>
-                <MenuLink
-                  to="/profile"
-                  className={pathCheck() === "my" && "active"}
-                >
-                  <Icon path={mdiAccount} size={1.4} />
-                  <MenuText>My</MenuText>
-                </MenuLink>
+                {isTokenExist != null ? (
+                  <MenuLink
+                    to={`/${user.email}/profile`}
+                    className={pathCheck() === "my" && "active"}
+                  >
+                    <Icon path={mdiAccount} size={1.4} />
+                    <MenuText>My</MenuText>
+                  </MenuLink>
+                ) : (
+                  <MenuLink
+                    to={`/login`}
+                    className={pathCheck() === "my" && "active"}
+                  >
+                    <Icon path={mdiAccount} size={1.4} />
+                    <MenuText>My</MenuText>
+                  </MenuLink>
+                )}
               </Item>
             </List>
           </HeaderMenu>
@@ -275,7 +282,12 @@ export default withRouter(({ location: { pathname } }) => {
                 </Link>
               </button>
             )}
-            <button className="button-float button-top">
+            <button
+              className="button-float button-top"
+              onClick={() => {
+                window.scrollTo(0, 0);
+              }}
+            >
               <span>to the Top</span>
             </button>
           </div>

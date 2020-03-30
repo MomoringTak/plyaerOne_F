@@ -8,12 +8,17 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+//Netlify google OAuth ClientID
 const clientID =
   "563473472310-jj2viegmm12t7ch9p2shgqfit779qtvk.apps.googleusercontent.com";
 
+//localhost google OAuth ClientID
+// const clientID =
+//   "563473472310-ih69dhvqsbl37b20ic312v96nqlvfjr9.apps.googleusercontent.com";
+
 // const clientID = process.env.GOOGLE_CLIENT_ID;
 
-console.log(process.env.GOOGLE_CLIENT_ID);
+// console.log(process.env.GOOGLE_CLIENT_ID);
 const GoogleAuthContext = React.createContext(); // Not necessary, but recommended.
 
 const GoogleAuthProvider = ({ children }) => {

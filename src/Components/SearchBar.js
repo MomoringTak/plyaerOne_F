@@ -9,13 +9,13 @@ const SearchBar = ({ text, submitSearch }) => {
   const inputTextRef = React.createRef();
 
   const focusInputText = () => {
-    if(size.width < 768){
-      if(visible) {
+    if (size.width < 768) {
+      if (visible) {
         inputTextRef.current.focus();
-        console.log(inputTextRef);
+        // console.log(inputTextRef);
       }
     }
-  }
+  };
 
   const clickEvent = e => {
     submitSearch(searchText);
@@ -43,7 +43,7 @@ const SearchBar = ({ text, submitSearch }) => {
 
   return (
     <>
-      { size.width >= 768 ? (
+      {size.width >= 768 ? (
         <>
           <InputText
             type="text"
@@ -122,7 +122,6 @@ const InputText = styled.input`
     outline: none;
     letter-spacing: -0.05em;
   }
-  
 `;
 
 const InputImage = styled.input`
@@ -141,11 +140,11 @@ const InputImage = styled.input`
     top: 15px;
     width: 30px;
     height: 30px;
-    &.invisible{
-      display:none;
+    &.invisible {
+      display: none;
     }
-    &.submit{
-      top:10px;
+    &.submit {
+      top: 10px;
     }
   }
 `;
@@ -157,13 +156,13 @@ const Overlay = styled.div`
   z-index: 1000;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,.8);
-  &.invisible{
-    display:none;
+  background-color: rgba(0, 0, 0, 0.8);
+  &.invisible {
+    display: none;
   }
-  .overlay-close{
-    width:100%;
-    height:100%;
+  .overlay-close {
+    width: 100%;
+    height: 100%;
   }
 `;
 
