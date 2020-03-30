@@ -204,11 +204,13 @@ export default withRouter(({ location: { pathname } }) => {
               </SubMenuUl>
             )}
             {/* 검색창 */}
-            <div className="iconAddBook">
-              <Link to={`/addbook`}>
-                <Icon path={mdiBookPlus} size={0.85} />
-              </Link>
-            </div>
+            {isTokenExist !== null && (
+              <div className="iconAddBook">
+                <Link to={`/addbook`}>
+                  <Icon path={mdiBookPlus} size={0.85} />
+                </Link>
+              </div>
+            )}
             <div className="searchbar">
               <SearchBar text="" submitSearch={searchBook}></SearchBar>
             </div>
