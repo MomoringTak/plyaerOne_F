@@ -75,6 +75,7 @@ const Container = styled.li`
         padding-right: 9px;
         &.remove {
           float: right;
+          cursor: pointer;
         }
       }
     }

@@ -7,7 +7,7 @@ import Book from "../Components/Book";
 import Section from "../Components/Section";
 import { v4 as uuidv4 } from "uuid";
 
-import { userApi, AuthApi } from "../api";
+import { userApi, AuthApi, commentApi } from "../api";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
@@ -74,6 +74,21 @@ export default function Profile() {
 
   const dummyFunction = async () => {};
 
+  const deleteComments = async commentId => {
+    try {
+      const commentInfo = {
+        commentId,
+        userId: user._id
+      };
+      const {
+        data: { userCommentResult }
+      } = await commentApi.deleteCommentProfile(commentInfo);
+      setComment(userCommentResult);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
     getUser();
   }, []);
@@ -110,6 +125,7 @@ export default function Profile() {
                 comment={comment}
                 user={comment.user}
                 book={comment.book}
+                deleteComment={deleteComments}
               />
             ))
           ) : (
