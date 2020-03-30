@@ -8,7 +8,12 @@ import { booklistApi, AuthApi } from "../api";
 import Table from "../Components/Table";
 import List from "../Components/List";
 
-const UserShelf = () => {
+const UserShelf = ({
+  location: { pathname },
+  match: {
+    params: { userNickname }
+  }
+}) => {
   const history = useHistory();
   const googleAuth = useGoogleAuth();
 
@@ -72,6 +77,9 @@ const UserShelf = () => {
   };
 
   const getUser = async () => {
+    //주소 닉네임 아이디 출력
+    //아이디출력에 따라서 해당 유저 책장이 달라보여야됨. 2020.03.31
+    console.log(userNickname);
     const authorized = await valid(googleAuth);
     setUser(authorized);
     showBookList(authorized);
@@ -84,11 +92,12 @@ const UserShelf = () => {
   return (
     <Container>
       <h1>{user.nickname}</h1>
+
       <SLink to={`/${user.email}/addbooklist`}>
         <AddBook>책장 생성하기</AddBook>
       </SLink>
       <Table>
-        {booklist ? (
+        {booklist.length >= 1 ? (
           booklist.map(item => (
             <List
               key={item._id}

@@ -37,7 +37,7 @@ export default () => {
           <Route path={`/login`} exact component={Login} />
           <Route path={`/singup`} exact component={SignUp} />
           <Route path={`/shelf`} component={Shelf} />
-          <Route path={`/:userEmail/shelf`} component={UserShelf} />
+          <Route path={`/:userNickname/shelf`} component={UserShelf} />
           <Route path={`/booklist/:id`} component={BooklistDetail} />
           <Route path={`/:userEmail/addbooklist`} component={AddBookList} />
           <Route path={`/:userEmail/profile`} component={Profile} />

@@ -13,10 +13,10 @@ import useWindowSize from "../Components/WindowSize";
 
 import Icon from "@mdi/react";
 import {
-  mdiBookPlusMultiple,    // 책장에 추가
-  mdiRead,       // 읽음
+  mdiBookPlusMultiple, // 책장에 추가
+  mdiRead, // 읽음
   mdiAlphaRCircle,
-  mdiHeart,                // 좋아요
+  mdiHeart, // 좋아요
   mdiHeartOutline
 } from "@mdi/js";
 
@@ -49,8 +49,8 @@ export default function BookDetail({
 
   const [maxNumTime, setMaxNumTime] = useState(0);
   const [maxNumDifficulty, setMaxNumDifficulty] = useState(0);
-  const [arrTime, setArrTime] = useState([0,0,0]);
-  const [arrDifficulty, setArrDifficulty] = useState([0,0,0]);
+  const [arrTime, setArrTime] = useState([0, 0, 0]);
+  const [arrDifficulty, setArrDifficulty] = useState([0, 0, 0]);
   const [statisticLocation, setStatisticLocation] = useState(0);
 
   const isTokenExist = AuthApi.getToken();
@@ -161,19 +161,18 @@ export default function BookDetail({
 
       let arrTmpTime = [];
       let maxTmpTime = 0;
-      for(const item in averageTime){
+      for (const item in averageTime) {
         arrTmpTime.push(averageTime[item]);
-        if(averageTime[item] > maxTmpTime)
-          maxTmpTime = averageTime[item];
+        if (averageTime[item] > maxTmpTime) maxTmpTime = averageTime[item];
       }
       setArrTime(arrTmpTime);
       setMaxNumTime(maxTmpTime);
-      
+
       let arrTmpDiff = [];
       let maxTmpDiff = 0;
-      for(const item in averageDifficulty){
+      for (const item in averageDifficulty) {
         arrTmpDiff.push(averageDifficulty[item]);
-        if(averageDifficulty[item] > maxTmpDiff)
+        if (averageDifficulty[item] > maxTmpDiff)
           maxTmpDiff = averageDifficulty[item];
       }
       setArrDifficulty(arrTmpDiff);
@@ -196,9 +195,9 @@ export default function BookDetail({
   };
 
   const statisticLocationChange = () => {
-    if(statisticLocation === 0) setStatisticLocation(1);
+    if (statisticLocation === 0) setStatisticLocation(1);
     else setStatisticLocation(0);
-  }
+  };
 
   const deleteComments = async commentId => {
     try {
@@ -298,34 +297,51 @@ export default function BookDetail({
     showBook(authorized);
   };
 
-  const actionButtons = isTokenExist !== null ? (
-    <ButtonTemplate>
-      <AddBookBtn
-        doneReading={doneReading}
-        onClick={() => {
-          if (doneReading) {
-            cancelReading();
-            setReadNum(prev => prev - 1);
-          } else {
-            clickReadBook();
-          }
-        }}
-      >
-        <Icon path={doneReading ? mdiAlphaRCircle : mdiRead } size={size.width >= 768 ? `14px` : `16px`} color={`#666`}></Icon>
-        <span>{readNum}</span>
-      </AddBookBtn>
-      <AddBookBtn
-        wish={wish}
-        onClick={() => {
-          clickWishlist(wish);
-        }}
-      >
-        <Icon path={wish ? mdiHeart : mdiHeartOutline} size={size.width >= 768 ? `14px` : `16px`} color={`red`}></Icon>
-        <span>{wishNum}</span>
-      </AddBookBtn>
-      <AddBookBtn onClick={clickAddBook}> <Icon path={mdiBookPlusMultiple} size={size.width >= 768 ? `14px` : `16px`} color={`#666`}></Icon><span>책장에 추가</span></AddBookBtn>
-    </ButtonTemplate>
-  ) : null;
+  const actionButtons =
+    isTokenExist !== null ? (
+      <ButtonTemplate>
+        <AddBookBtn
+          doneReading={doneReading}
+          onClick={() => {
+            if (doneReading) {
+              cancelReading();
+              setReadNum(prev => prev - 1);
+            } else {
+              clickReadBook();
+            }
+          }}
+        >
+          <Icon
+            path={doneReading ? mdiAlphaRCircle : mdiRead}
+            size={size.width >= 768 ? `14px` : `16px`}
+            color={`#666`}
+          ></Icon>
+          <span>{readNum}</span>
+        </AddBookBtn>
+        <AddBookBtn
+          wish={wish}
+          onClick={() => {
+            clickWishlist(wish);
+          }}
+        >
+          <Icon
+            path={wish ? mdiHeart : mdiHeartOutline}
+            size={size.width >= 768 ? `14px` : `16px`}
+            color={`red`}
+          ></Icon>
+          <span>{wishNum}</span>
+        </AddBookBtn>
+        <AddBookBtn onClick={clickAddBook}>
+          {" "}
+          <Icon
+            path={mdiBookPlusMultiple}
+            size={size.width >= 768 ? `14px` : `16px`}
+            color={`#666`}
+          ></Icon>
+          <span>책장에 추가</span>
+        </AddBookBtn>
+      </ButtonTemplate>
+    ) : null;
 
   useEffect(() => {
     getUser();
@@ -339,7 +355,7 @@ export default function BookDetail({
   return (
     <>
       <Container>
-        <LeftContainer image={String(book.image).replace("type=m1&", "")} >
+        <LeftContainer image={String(book.image).replace("type=m1&", "")}>
           <img
             className="bookImage"
             src={String(book.image).replace("type=m1&", "")}
@@ -367,9 +383,14 @@ export default function BookDetail({
               <TableRight>{book.category}</TableRight>
             </Table>
             <StatisticWrap>
-              <Statistic max={maxNumTime} arr={arrTime} location={statisticLocation} className={statisticLocation === 0 ? `` : `hidden`}>
+              <Statistic
+                max={maxNumTime}
+                arr={arrTime}
+                location={statisticLocation}
+                className={statisticLocation === 0 ? `` : `hidden`}
+              >
                 <div className="title">이 책을 읽은 사람의 소요 시간</div>
-                <Divider className="sub"/>
+                <Divider className="sub" />
                 <ul>
                   <li>
                     <span className="type">1주 이내</span>
@@ -394,9 +415,14 @@ export default function BookDetail({
                   </li>
                 </ul>
               </Statistic>
-              <Statistic max={maxNumDifficulty} arr={arrDifficulty} location={statisticLocation} className={statisticLocation === 0 ? `hidden` : ``} >
+              <Statistic
+                max={maxNumDifficulty}
+                arr={arrDifficulty}
+                location={statisticLocation}
+                className={statisticLocation === 0 ? `hidden` : ``}
+              >
                 <div className="title">이 책을 읽은 사람이 느끼는 난이도</div>
-                <Divider className="sub"/>
+                <Divider className="sub" />
                 <ul>
                   <li>
                     <span className="type">쉬움</span>
@@ -424,7 +450,6 @@ export default function BookDetail({
             </StatisticWrap>
             {size.width < 768 && actionButtons}
           </TableWrap>
-          
         </RightContainer>
         <ContentContainer>
           <CommentCotainer>
@@ -437,8 +462,12 @@ export default function BookDetail({
               />
               <CommentSubmit type="submit">등록</CommentSubmit>
             </CommentForm>
-            <br/><br/><br/>
-            <CommentTitle>댓글 <span>{allComment.length}개</span></CommentTitle>
+            <br />
+            <br />
+            <br />
+            <CommentTitle>
+              댓글 <span>{allComment.length}개</span>
+            </CommentTitle>
             <Divider></Divider>
             <CommentList>
               {allComment.map(comment => (
@@ -540,31 +569,31 @@ const ButtonTemplate = styled.div`
   display: flex;
   justify-content: center;
   @media only screen and (max-width: 767px) {
-    margin-top:15px;
+    margin-top: 15px;
   }
   @media only screen and (min-width: 768px) {
-    position:absolute;
-    bottom:-5px;
-    right:0;
+    position: absolute;
+    bottom: -5px;
+    right: 0;
   }
 `;
 
 const AddBookBtn = styled.button`
-  display:flex;
-  border: 1px solid #CCC;
+  display: flex;
+  border: 1px solid #ccc;
   border-radius: 15px;
-  
+
   text-align: center;
-  margin-right:5px;
+  margin-right: 5px;
   background-color: ${props =>
     props.wish ? "#EEE" : props.doneReading ? "#EEE" : "#FFF"};
-  &:hover{
-    background-color:#DDD;
+  &:hover {
+    background-color: #ddd;
   }
   > span {
     margin-left: 5px;
-    color:#666;
-    font-weight:500;
+    color: #666;
+    font-weight: 500;
   }
 
   @media only screen and (max-width: 767px) {
@@ -615,40 +644,40 @@ const LeftContainer = styled.div`
     position: absolute;
     width: calc(100% + 20px);
     height: 300px;
-    top:0;
-    left:-10px;
-    right:-10px;
-    overflow:hidden;
+    top: 0;
+    left: -10px;
+    right: -10px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 
     > img.bookImage {
-      display:block;
+      display: block;
       width: 100%;
       max-width: 200px;
       margin: 0 auto;
-      border-top: solid 1px rgba(255,255,255,0.05);
-      border-left: solid 1px rgba(255,255,255,0.05);
-      box-shadow: 5px 5px 5px rgba(0,0,0,0.2);
+      border-top: solid 1px rgba(255, 255, 255, 0.05);
+      border-left: solid 1px rgba(255, 255, 255, 0.05);
+      box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
       max-height: 280px;
       z-index: 10;
-      margin-bottom:5px;
+      margin-bottom: 5px;
     }
 
     &:before {
-      background: Url(${props => (props.image)}) center;
+      background: Url(${props => props.image}) center;
       background-size: calc(100% + 20px);
       content: "";
-      position:absolute;
-      left:-10px;
-      right:-10px;
-      top:-10px;
-      bottom:-10px;
-      width:calc(100% + 20px);
-      height:320px;
+      position: absolute;
+      left: -10px;
+      right: -10px;
+      top: -10px;
+      bottom: -10px;
+      width: calc(100% + 20px);
+      height: 320px;
       filter: blur(0.3rem);
-      opacity:0.5;
+      opacity: 0.5;
     }
   }
 
@@ -659,7 +688,6 @@ const LeftContainer = styled.div`
     > img.bookImage {
       width: 100%;
     }
-
   }
 `;
 
@@ -681,13 +709,13 @@ const RightContainer = styled.div`
 `;
 
 const TableWrap = styled.div`
-  position:relative;
-  overflow:hidden;
+  position: relative;
+  overflow: hidden;
 `;
 
 const Table = styled.div`
   width: 100%;
-  display:table;
+  display: table;
 `;
 
 const TableLeft = styled.div`
@@ -715,7 +743,7 @@ const TableRight = styled.div`
 const Item = styled.div`
   margin-bottom: 10px;
   color: #333;
-  position:relative;
+  position: relative;
 
   @media only screen and (max-width: 767px) {
     h1 {
@@ -744,99 +772,98 @@ const Divider = styled.div`
   height: 1px;
   width: 100%;
   background: #ccc;
-  
+
   @media only screen and (max-width: 767px) {
     margin: 10px 0;
   }
   @media only screen and (min-width: 768px) {
     margin: 15px 0;
   }
-  
-  &.sub{
-    margin-top:3px;
-    margin-bottom:5px;
+
+  &.sub {
+    margin-top: 3px;
+    margin-bottom: 5px;
   }
-  
 `;
 
 const StatisticWrap = styled.div`
   @media only screen and (max-width: 767px) {
-    margin-top:15px;
-    width:200%;
-    height:78px;
-    overflow:hidden;
+    margin-top: 15px;
+    width: 200%;
+    height: 78px;
+    overflow: hidden;
   }
 
   @media only screen and (min-width: 768px) {
-    position:absolute;
-    right:0;
-    bottom:0;
-    width:260px;
-    height:69px;
-    overflow:hidden;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 260px;
+    height: 69px;
+    overflow: hidden;
   }
 `;
 
 const Statistic = styled.div`
   @media only screen and (max-width: 767px) {
-    display:inline-block;
-    width:50%;
-    margin:0 auto;
-    transform: translateX(-${props => props.location === 0 ? "0" : "100"}%);
+    display: inline-block;
+    width: 50%;
+    margin: 0 auto;
+    transform: translateX(-${props => (props.location === 0 ? "0" : "100")}%);
     //transition: opacity 2s;
     transition: 1s;
-    opacity:1;
-    &.hidden{
-      opacity:0;
+    opacity: 1;
+    &.hidden {
+      opacity: 0;
     }
 
     .title {
-      display:inline-block;
-      color:#333;
+      display: inline-block;
+      color: #333;
       //background:#da3e58;
       font-size: 14px;
       font-weight: 600;
-      padding-left:10px;
+      padding-left: 10px;
     }
     ul {
       margin-top: 5px;
       width: 300px;
-      li{
-        display:flex;
-        margin-botton:3px;
-        .type{
-          display:inline-block;
-          width:100px;
-          color:#666;
+      li {
+        display: flex;
+        margin-botton: 3px;
+        .type {
+          display: inline-block;
+          width: 100px;
+          color: #666;
           font-size: 12px;
-          font-weight:400;
-          padding-left:10px;
+          font-weight: 400;
+          padding-left: 10px;
         }
-        .value-wrap{
-          display:inline-block;
-          color:#666;
+        .value-wrap {
+          display: inline-block;
+          color: #666;
           font-size: 10px;
           font-weight: 400;
           height: 17px;
           width: 200px;
-          .value{
-            display:inline-block;
+          .value {
+            display: inline-block;
             height: 8px;
-            padding-right:5px;
-            margin-right:5px;
+            padding-right: 5px;
+            margin-right: 5px;
             border-radius: 0 5px 5px 0;
-            margin-top:2px;
+            margin-top: 2px;
             &.type0 {
-              width: ${props => (props.arr[0]/props.max)*160}px;
-              background:#3b94c7;
+              width: ${props => (props.arr[0] / props.max) * 160}px;
+              background: #3b94c7;
             }
             &.type1 {
-              width: ${props => (props.arr[1]/props.max)*160}px;
-              background:#a70b9b;
+              width: ${props => (props.arr[1] / props.max) * 160}px;
+              background: #a70b9b;
             }
             &.type2 {
-              width: ${props => (props.arr[2]/props.max)*160}px;
-              background:#1ab907;
+              width: ${props => (props.arr[2] / props.max) * 160}px;
+              background: #1ab907;
             }
           }
         }
@@ -844,18 +871,18 @@ const Statistic = styled.div`
     }
   }
   @media only screen and (min-width: 768px) {
-    display:inline-block;
-    transform: translateY(-${props => props.location === 0 ? "0" : "69"}px);
+    display: inline-block;
+    transform: translateY(-${props => (props.location === 0 ? "0" : "69")}px);
     //transition: opacity 2s;
     transition: 1s;
-    opacity:1;
-    &.hidden{
-      opacity:0;
+    opacity: 1;
+    &.hidden {
+      opacity: 0;
     }
 
     .title {
-      display:inline-block;
-      color:#333;
+      display: inline-block;
+      color: #333;
       //background:#da3e58;
       font-size: 12px;
       font-weight: 600;
@@ -863,54 +890,51 @@ const Statistic = styled.div`
     ul {
       margin-top: 5px;
       width: 260px;
-      li{
-        display:flex;
-        margin-botton:3px;
-        .type{
-          display:inline-block;
-          width:60px;
-          color:#666;
+      li {
+        display: flex;
+        margin-botton: 3px;
+        .type {
+          display: inline-block;
+          width: 60px;
+          color: #666;
           font-size: 11px;
-          font-weight:400;
+          font-weight: 400;
         }
-        .value-wrap{
-          display:inline-block;
-          color:#666;
+        .value-wrap {
+          display: inline-block;
+          color: #666;
           font-size: 10px;
           font-weight: 400;
           height: 14px;
           width: 200px;
-          .value{
-            display:inline-block;
+          .value {
+            display: inline-block;
             height: 8px;
-            padding-right:5px;
-            margin-right:5px;
+            padding-right: 5px;
+            margin-right: 5px;
             border-radius: 0 5px 5px 0;
             &.type0 {
-              width: ${props => (props.arr[0]/props.max)*160}px;
-              background:#3b94c7;
+              width: ${props => (props.arr[0] / props.max) * 160}px;
+              background: #3b94c7;
             }
             &.type1 {
-              width: ${props => (props.arr[1]/props.max)*160}px;
-              background:#a70b9b;
+              width: ${props => (props.arr[1] / props.max) * 160}px;
+              background: #a70b9b;
             }
             &.type2 {
-              width: ${props => (props.arr[2]/props.max)*160}px;
-              background:#1ab907;
+              width: ${props => (props.arr[2] / props.max) * 160}px;
+              background: #1ab907;
             }
           }
         }
       }
     }
   }
-  
 `;
 
 const ContentContainer = styled.div`
-  
-
   @media only screen and (max-width: 767px) {
-    margin-top:15px;
+    margin-top: 15px;
     width: 100%;
   }
 
@@ -919,7 +943,6 @@ const ContentContainer = styled.div`
     width: 100%;
     float: left;
   }
-
 `;
 
 const CommentCotainer = styled.div`
@@ -929,45 +952,45 @@ const CommentCotainer = styled.div`
 
 const CommentForm = styled.form`
   width: 100%;
-  &:after{
+  &:after {
     content: "";
-    clear:both;
-    display:block;
+    clear: both;
+    display: block;
   }
 `;
 
 const ComentTitle = styled.span`
   display: block;
-  height:40px;
+  height: 40px;
   width: 60px;
-  line-height:40px;
-  color:#333;
-  font-size:14px;
+  line-height: 40px;
+  color: #333;
+  font-size: 14px;
   font-weight: 600;
-  text-align:center;
+  text-align: center;
 `;
 
 const CommentSection = styled.textarea`
   display: block;
-  padding:10px;
+  padding: 10px;
   width: 100%;
-  border:1px solid #DDD;
-  height:100px;
+  border: 1px solid #ddd;
+  height: 100px;
 `;
 
 const CommentSubmit = styled.button`
-  margin-top:5px;
-  padding:8px 20px;
-  text-align:center;
-  color:#FFF;
-  float:right;
-  font-size:13px;
-  font-weight:600;
-  background:#da3e58;
-  &:hover{
-    opacity:0.8;
+  margin-top: 5px;
+  padding: 8px 20px;
+  text-align: center;
+  color: #fff;
+  float: right;
+  font-size: 13px;
+  font-weight: 600;
+  background: #da3e58;
+  &:hover {
+    opacity: 0.8;
   }
-  border-radius:15px;
+  border-radius: 15px;
 `;
 
 const CommentList = styled.ul`
