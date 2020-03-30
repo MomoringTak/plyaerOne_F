@@ -63,6 +63,13 @@ const SignUp = () => {
           ref={register}
           required
         />
+        <InputText
+          type="number"
+          placeholder="나이"
+          name="age"
+          ref={register}
+          required
+        />
         <Gender>
           <legend>성별을 골라주세요</legend>
           <input
@@ -85,9 +92,7 @@ const SignUp = () => {
         </Gender>
 
         <div>
-          {/* <SLink to={`/singup`}> */}
           <SignButton className="submit">완료</SignButton>
-          {/* </SLink> */}
         </div>
       </Form>
     </Box>
@@ -98,14 +103,14 @@ const Gender = styled.fieldset`
   width: 100%;
   margin-top: 15px;
   margin-bottom: 20px;
-  text-align:center;
+  text-align: center;
 
   legend {
-    display:inline-block;
-    color:#333;
+    display: inline-block;
+    color: #333;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom:5px;
+    margin-bottom: 5px;
   }
   label {
     display: inline-block;

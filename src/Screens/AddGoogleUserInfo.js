@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 
+import InputText from "../Components/Style/InputText";
+import { Box, Form, SignButton } from "../Components/Style/Sign";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { userApi } from "../api";
 
@@ -41,7 +43,7 @@ const AddGoogleUserInfo = () => {
   return (
     <Box>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <LoginInput
+        <InputText
           type="number"
           placeholder="나이"
           name="age"
@@ -69,11 +71,9 @@ const AddGoogleUserInfo = () => {
           <label htmlFor="female">여자</label>
         </Gender>
 
-        <ButtonSection>
-          {/* <SLink to={`/singup`}> */}
-          <Button>Submit</Button>
-          {/* </SLink> */}
-        </ButtonSection>
+        <div>
+          <SignButton className="submit">완료</SignButton>
+        </div>
       </Form>
     </Box>
   );
@@ -81,36 +81,25 @@ const AddGoogleUserInfo = () => {
 
 export default AddGoogleUserInfo;
 
-const Gender = styled.fieldset``;
-
-const Box = styled.div`
+const Gender = styled.fieldset`
   width: 100%;
-  height: 60vh;
-  min-height: 540px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Form = styled.form`
-  display: flex;
-  width: 500px;
-  height: 500px;
-  flex-flow: column wrap;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LoginInput = styled.input`
-  all: unset;
-
-  width: 80%;
-
-  margin-bottom: 30px;
+  margin-top: 15px;
+  margin-bottom: 20px;
   text-align: center;
 
-  border-bottom: 1px rgba(0, 0, 0, 0.3) solid;
+  legend {
+    display: inline-block;
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  label {
+    display: inline-block;
+    color: #333;
+    font-size: 16px;
+    margin-right: 10px;
+  }
 `;
 
 const ButtonSection = styled.div`
