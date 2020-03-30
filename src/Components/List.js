@@ -62,8 +62,8 @@ const List = ({
       <BookListHeader>
         <Title onClick={clickEvent}>책장 제목 : {booklist.title} </Title>
         {userInfo && (
-          <Title onClick={navigateUser}> 주인장 : {userInfo.nickname}</Title>
-          // <span> 주인장 : {userInfo.nickname} </span>
+          // <Title onClick={navigateUser}> 주인장 : {userInfo.nickname}</Title>
+          <span> 주인장 : {userInfo.nickname} </span>
         )}
         {user && (
           <Title>

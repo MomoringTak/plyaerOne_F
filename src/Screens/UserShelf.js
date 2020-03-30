@@ -79,7 +79,7 @@ const UserShelf = ({
   const getUser = async () => {
     //주소 닉네임 아이디 출력
     //아이디출력에 따라서 해당 유저 책장이 달라보여야됨. 2020.03.31
-    console.log(userNickname);
+    // console.log(userNickname);
     const authorized = await valid(googleAuth);
     setUser(authorized);
     showBookList(authorized);
