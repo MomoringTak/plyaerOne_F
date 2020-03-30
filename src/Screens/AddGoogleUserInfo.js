@@ -101,18 +101,3 @@ const Gender = styled.fieldset`
     margin-right: 10px;
   }
 `;
-
-const ButtonSection = styled.div`
-  width: 50%;
-  height: 20%;
-  display: flex;
-  justify-content: space-around;
-`;
-
-const Button = styled.button`
-  all: unset;
-  margin-top: 15px;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-`;
