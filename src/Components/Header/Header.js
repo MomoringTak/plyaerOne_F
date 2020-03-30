@@ -186,16 +186,20 @@ export default withRouter(({ location: { pathname } }) => {
                     <span className="txt">나만의 메뉴</span>
                   </SubLink>
                 </SubMenuLi> */}
-                <SubMenuLi>
-                  <SSubLink to={`/${user.email}/shelf`}>
-                    <span className="txt">내 책장</span>
-                  </SSubLink>
-                </SubMenuLi>
-                <SubMenuLi>
-                  <SSubLink to={`/${user.email}/profile`}>
-                    <span className="txt">프로필</span>
-                  </SSubLink>
-                </SubMenuLi>
+                {isTokenExist !== null ? (
+                  <>
+                    <SubMenuLi>
+                      <SSubLink to={`/${user.email}/shelf`}>
+                        <span className="txt">내 책장</span>
+                      </SSubLink>
+                    </SubMenuLi>
+                    <SubMenuLi>
+                      <SSubLink to={`/${user.email}/profile`}>
+                        <span className="txt">프로필</span>
+                      </SSubLink>
+                    </SubMenuLi>
+                  </>
+                ) : null}
                 {/* <SubMenuLi>
                   <SSubLink to="#">
                     <span className="txt">나의 활동</span>
