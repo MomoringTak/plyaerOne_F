@@ -91,10 +91,11 @@ export default function BookDetail({
     if (e) {
       e.preventDefault();
     }
-    if (isTokenExist !== null) saveComment();
-    else {
+    if (isTokenExist === null) {
       alert("댓글을 등록하시려면 로그인 해주세요");
-    }
+    } else if (commentText === "") {
+      alert("댓글 내용이 비어져 있습니다.");
+    } else if (isTokenExist !== null) saveComment();
     setCommentText("");
   };
 
