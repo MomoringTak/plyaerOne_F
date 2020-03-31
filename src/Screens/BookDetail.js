@@ -39,6 +39,8 @@ export default function BookDetail({
   const [doneReading, setDoneReading] = useState(false);
   const [readLogger, setReadLogger] = useState({});
 
+  const [placeholder, setPlaceholder] = useState("댓글을 입력해주세요");
+
   const [time, setTime] = useState(1);
   const [difficulty, setDifficulty] = useState(1);
   const [wishNum, setWishNum] = useState(0);
@@ -89,8 +91,10 @@ export default function BookDetail({
     if (e) {
       e.preventDefault();
     }
-    saveComment();
-
+    if (isTokenExist !== null) saveComment();
+    else {
+      alert("댓글을 등록하시려면 로그인 해주세요");
+    }
     setCommentText("");
   };
 
@@ -456,7 +460,11 @@ export default function BookDetail({
             <CommentForm onSubmit={onSubmit}>
               <ComentTitle>댓글쓰기</ComentTitle>
               <CommentSection
-                placeholder="댓글을 입력해주세요"
+                placeholder={
+                  isTokenExist !== null
+                    ? "댓글을 입력해주세요"
+                    : "댓글을 등록 하실려면 로그인 해주세요"
+                }
                 value={commentText}
                 onChange={onChange}
               />

@@ -16,7 +16,9 @@ export default function AddBook() {
   const [book, setBook] = useState([]);
 
   const [user, setUser] = useState({});
-  const [placeholder, setPlaceholder] = useState("제목을 입력 해주세요");
+  const [placeholder, setPlaceholder] = useState(
+    "읽었던 책 제목을 입력 해주세요"
+  );
 
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
