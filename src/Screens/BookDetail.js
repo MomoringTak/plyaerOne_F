@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-
+import { Link } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
@@ -372,7 +372,15 @@ export default function BookDetail({
             {size.width >= 768 && actionButtons}
           </Item>
           <Divider></Divider>
-          <Item className="description">{book.description}</Item>
+          <Item className="description">
+            {book.description}
+            <span>
+              <SLink href={`${book.link}`} target="blank">
+                자세히 더 보기
+              </SLink>
+            </span>
+          </Item>
+
           <TableWrap>
             <Table>
               <TableLeft>작가/저자</TableLeft>
@@ -1040,3 +1048,7 @@ const ReadButton = styled.button`
   text-align: center;
 `;
 const FieldSet = styled.fieldset``;
+
+const SLink = styled.a`
+  color: #4a6ee0;
+`;
