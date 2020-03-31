@@ -20,9 +20,8 @@ const Book = ({
   const [step, setStep] = useState(0);
 
   const clickEvent = () => {
-    
     // 선택 안되있던 상태에서 선택 한 경우
-    if(!bookItem.selected) {
+    if (!bookItem.selected) {
       setStep(1);
     }
     clickBook(bookItem);
@@ -79,78 +78,80 @@ const Book = ({
         {bookItem.selected && addBook && (
           <Box>
             {step === 1 && (
-            <FieldSet>
-              <legend>Q. 이 책의 난이도는?</legend>
-              <ul className="difficulty">
-                <li>
-                  <input
-                    type="radio"
-                    value="1"
-                    name={difficutlyUUID}
-                    id={difficutlyUUID + "_1"}
-                    onChange={handledifficulty}
-                  />
-                  <label htmlFor={difficutlyUUID + "_1"}>초급</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    value="2"
-                    name={difficutlyUUID}
-                    id={difficutlyUUID + "_2"}
-                    onChange={handledifficulty}
-                  />
-                  <label htmlFor={difficutlyUUID + "_2"}>중급</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    value="3"
-                    name={difficutlyUUID}
-                    id={difficutlyUUID + "_3"}
-                    onChange={handledifficulty}
-                  />
-                  <label htmlFor={difficutlyUUID + "_3"}>고급</label>
-                </li>
-              </ul>
-            </FieldSet>
+              <FieldSet>
+                <Legend>Q.읽기 어려우셨나요?</Legend>
+                <ul className="difficulty">
+                  <li>
+                    <input
+                      type="radio"
+                      value="1"
+                      name={difficutlyUUID}
+                      id={difficutlyUUID + "_1"}
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={difficutlyUUID + "_1"}>쉬웠어요</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      value="2"
+                      name={difficutlyUUID}
+                      id={difficutlyUUID + "_2"}
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={difficutlyUUID + "_2"}>
+                      읽을 만 했어요
+                    </label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      value="3"
+                      name={difficutlyUUID}
+                      id={difficutlyUUID + "_3"}
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={difficutlyUUID + "_3"}>어려웠어요</label>
+                  </li>
+                </ul>
+              </FieldSet>
             )}
             {step === 2 && (
-            <FieldSet>
-              <legend>Q. 이책을 읽는데 소요된 시간은?</legend>
-              <ul className="time">
-                <li>
-                  <input
-                    type="radio"
-                    value="1"
-                    name={timeUUID}
-                    id={timeUUID + "_1"}
-                    onChange={handleTime}
-                  />
-                  <label htmlFor={timeUUID + "_1"}>한주 이 내</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    value="2"
-                    name={timeUUID}
-                    id={timeUUID + "_2"}
-                    onChange={handleTime}
-                  />
-                  <label htmlFor={timeUUID + "_2"}>한달 이 내</label>
-                </li>
-                <li>
-                  <input
-                    type="radio"
-                    value="3"
-                    name={timeUUID}
-                    id={timeUUID + "_3"}
-                    onChange={handleTime}
-                  />
-                  <label htmlFor={timeUUID + "_3"}>한달 이상</label>
-                </li>
-              </ul>
-            </FieldSet>
+              <FieldSet>
+                <Legend>Q. 읽는데 걸린 시간?</Legend>
+                <ul className="time">
+                  <li>
+                    <input
+                      type="radio"
+                      value="1"
+                      name={timeUUID}
+                      id={timeUUID + "_1"}
+                      onChange={handleTime}
+                    />
+                    <label htmlFor={timeUUID + "_1"}>한주 이 내</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      value="2"
+                      name={timeUUID}
+                      id={timeUUID + "_2"}
+                      onChange={handleTime}
+                    />
+                    <label htmlFor={timeUUID + "_2"}>한달 이 내</label>
+                  </li>
+                  <li>
+                    <input
+                      type="radio"
+                      value="3"
+                      name={timeUUID}
+                      id={timeUUID + "_3"}
+                      onChange={handleTime}
+                    />
+                    <label htmlFor={timeUUID + "_3"}>한달 이상</label>
+                  </li>
+                </ul>
+              </FieldSet>
             )}
             {/* <ReadInput
               type="number"
@@ -273,10 +274,10 @@ const BookDesc = styled.div`
 `;
 
 const Box = styled.div`
-  position:absolute;
-  left:15px;
-  top:40px;
-  width:156px;
+  position: absolute;
+  left: 15px;
+  top: 40px;
+  width: 156px;
 `;
 
 const ReadForm = styled.form`
@@ -301,45 +302,49 @@ const ReadButton = styled.button`
 `;
 
 const FieldSet = styled.fieldset`
-  text-align:center;
+  text-align: center;
   legend {
-    display:inline-block;
+    display: inline-block;
     padding: 5px 10px;
-    background:RGBA(0, 0, 0, 0.7);
-    color:#FFF;
-    font-weight:600;
-    font-size: 15px;
-    border-radius:10px;
-    margin-bottom:10px;
+    background: RGBA(0, 0, 0, 0.7);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.8rem;
+    border-radius: 10px;
+    margin-bottom: 10px;
   }
   ul {
     li {
-      margin-bottom:5px;
+      margin-bottom: 5px;
       label {
-        display:inline-block;
+        display: inline-block;
         padding: 5px 10px;
-        background:RGBA(0, 0, 0, 0.7);
-        color:#FFF;
-        font-weight:600;
-        font-size:14px;
-        border-radius:10px;
-        cursor:pointer;
+        background: RGBA(0, 0, 0, 0.7);
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px;
+        border-radius: 10px;
+        cursor: pointer;
         &:hover {
-          background: RGBA(255,30,60,0.9);
+          background: RGBA(255, 30, 60, 0.9);
         }
       }
-      input[type=radio] {
-        visibility:hidden;
-        position:absolute;
+      input[type="radio"] {
+        visibility: hidden;
+        position: absolute;
       }
-      input[type=radio]:checked ~ label{
+      input[type="radio"]:checked ~ label {
         background: RGBA(226, 1, 54, 0.7);
         &:hover {
-          background: RGBA(255,30,60,0.9);
+          background: RGBA(255, 30, 60, 0.9);
         }
       }
     }
   }
+`;
+
+const Legend = styled.legend`
+  font-size: 13px;
 `;
 
 export default Book;
