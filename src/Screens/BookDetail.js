@@ -95,7 +95,9 @@ export default function BookDetail({
       alert("댓글을 등록하시려면 로그인 해주세요");
     } else if (commentText === "") {
       alert("댓글 내용이 비어져 있습니다.");
-    } else if (isTokenExist !== null) saveComment();
+    } else if (isTokenExist !== null) {
+      saveComment();
+    }
     setCommentText("");
   };
 
@@ -466,8 +468,13 @@ export default function BookDetail({
         </RightContainer>
         <ContentContainer>
           <CommentCotainer>
+            <CommentTitle>
+              의견쓰기{" "}
+              <span> {allComment.length + comment.comments.length}개</span>
+            </CommentTitle>
+            <br />
+
             <CommentForm onSubmit={onSubmit}>
-              <ComentTitle>댓글쓰기</ComentTitle>
               <CommentSection
                 placeholder={
                   isTokenExist !== null
@@ -480,11 +487,7 @@ export default function BookDetail({
               <CommentSubmit type="submit">등록</CommentSubmit>
             </CommentForm>
             <br />
-            <br />
-            <br />
-            <CommentTitle>
-              댓글 <span>{allComment.length}개</span>
-            </CommentTitle>
+
             <Divider></Divider>
             <CommentList>
               {allComment.map(comment => (
