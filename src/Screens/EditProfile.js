@@ -32,7 +32,13 @@ export default function EditProfile() {
         email: user.email,
         nickname: name
       };
-      await userApi.updateUser(userInfo);
+
+      const {
+        data: { success }
+      } = await userApi.updateUser(userInfo);
+      if (!success) {
+        history.push(`/404`);
+      }
     }
   };
 

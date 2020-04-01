@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
@@ -57,6 +57,7 @@ export default function BookDetail({
   const [arrDifficulty, setArrDifficulty] = useState([0, 0, 0]);
   const [statisticLocation, setStatisticLocation] = useState(0);
 
+  const history = useHistory();
   const [step, setStep] = useState(0);
 
   const isTokenExist = AuthApi.getToken();
@@ -115,10 +116,14 @@ export default function BookDetail({
   const getUserBooklist = async user => {
     const {
       data: {
+        success,
         booklist: { booklists }
       }
     } = await booklistApi.getBookList(user.email);
-    setBooklist(booklists);
+    if (success) setBooklist(booklists);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const getReadLogger = async (userId, bookId) => {
@@ -128,32 +133,41 @@ export default function BookDetail({
     };
 
     const {
-      data: { logResult }
+      data: { success, logResult }
     } = await userApi.getReadLogger(logData);
-    if (logResult !== null) {
-      setWish(logResult.wish);
-      setDoneReading(logResult.doneReading);
+    if (success) {
+      if (logResult !== null) {
+        setWish(logResult.wish);
+        setDoneReading(logResult.doneReading);
+      }
+      setReadLogger(logResult);
+    } else {
+      history.push(`/404`);
     }
-    setReadLogger(logResult);
   };
 
   const showBook = async user => {
     //get all info about the book.
     try {
       const {
-        data: { book: Results }
+        data: { success, book: Results }
       } = await bookApi.getBookDetail(id);
-
-      setBook(Results);
+      if (success) {
+        setBook(Results);
+      } else {
+        history.push(`/404`);
+      }
 
       /* 
-      wishNumber : 해당 책이 가지고있는 좋아요 갯수
-      readNumber : 해당 책이 읽힌 횟수 
-      maxTime : 가장 많이 선택된 읽음 소요 시간
-      maxDifficulty : 가장 많이 선택된 난이도 
-      averageTime : 시간 소요 전체 분포도 as Object Type
+        wishNumber : 해당 책이 가지고있는 좋아요 갯수
+        readNumber : 해당 책이 읽힌 횟수 
+        maxTime : 가장 많이 선택된 읽음 소요 시간
+        maxDifficulty : 가장 많이 선택된 난이도 
+        averageTime : 시간 소요 전체 분포도 as Object Type
       averageDiffculty : 난이도 전체 분포도 as Object Type
       */
+
+      //success 명을 다르게 받아야됨. 아하 그래서 success도 명칭이 백에서 다다르게 명칭해야되는구나.
       const {
         data: {
           wishNumber,
@@ -213,9 +227,12 @@ export default function BookDetail({
   const deleteComments = async commentId => {
     try {
       const {
-        data: { commentResult }
+        data: { success, commentResult }
       } = await commentApi.deleteComment(commentId, book._id);
-      setAllComment(commentResult);
+      if (success) setAllComment(commentResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -223,9 +240,12 @@ export default function BookDetail({
 
   const deleteNow = async commentId => {
     const {
-      data: { commentResult }
+      data: { success, commentResult }
     } = await commentApi.deleteComment(commentId, book._id);
-    dispatch({ type: DEL, payload: commentId });
+    if (success) dispatch({ type: DEL, payload: commentId });
+    else {
+      history.push(`/404`);
+    }
   };
 
   const clickAddBook = () => {
@@ -250,12 +270,17 @@ export default function BookDetail({
 
     //Need Error Handling in the future.
     if (!doneReading) {
-      await userApi.handleWish(logData);
-      setWish(!wish);
+      const {
+        data: { success }
+      } = await userApi.handleWish(logData);
+      if (success) setWish(!wish);
+      else {
+        history.push(`/404`);
+      }
     }
   };
 
-  //하아 시바 인풋 핸들링. 꼭 따로 펑셔널하게 만든다. 시부엉 넘나 Redudunt && Inefficient
+  //하아 시바 인풋 핸들링. 꼭 따로 펑셔널하게 만든다. 시부엉 넘나 Redudunt, duplicate && Inefficient
   const handleTime = e => {
     const {
       target: { value }
@@ -288,8 +313,13 @@ export default function BookDetail({
       doneReading: !doneReading
     };
 
-    await userApi.handleRead(logData);
-    setDoneReading(!doneReading);
+    const {
+      data: { success }
+    } = await userApi.handleRead(logData);
+    if (success) setDoneReading(!doneReading);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const cancelReading = async () => {
@@ -299,8 +329,13 @@ export default function BookDetail({
       doneReading: !doneReading
     };
 
-    await userApi.handleRead(logData);
-    setDoneReading(!doneReading);
+    const {
+      data: { success }
+    } = await userApi.handleRead(logData);
+    if (success) setDoneReading(!doneReading);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const getUser = async () => {
@@ -330,9 +365,14 @@ export default function BookDetail({
           ></Icon>
           <span>{readNum}</span>
         </AddBookBtn>
-        { step > 0 && (
-          <Box top="45px" left={size.width >= 768 ? "-35px" : "calc(50% - 150px)"} width="" textAlign="left">
-            { step === 1 && (
+        {step > 0 && (
+          <Box
+            top="45px"
+            left={size.width >= 768 ? "-35px" : "calc(50% - 150px)"}
+            width=""
+            textAlign="left"
+          >
+            {step === 1 && (
               <>
                 <legend>Q. 이 책의 난이도는?</legend>
                 <ul className="difficulty">
@@ -369,7 +409,7 @@ export default function BookDetail({
                 </ul>
               </>
             )}
-            { step === 2 && (
+            {step === 2 && (
               <>
                 <legend>Q. 이 책을 읽는데 소요된 시간은?</legend>
                 <ul className="difficulty">
@@ -384,11 +424,23 @@ export default function BookDetail({
                     <label htmlFor={"time_1"}>한주 이 내</label>
                   </li>
                   <li>
-                    <input id="time_2" type="radio" value="2" name="time" onChange={handleTime} />
+                    <input
+                      id="time_2"
+                      type="radio"
+                      value="2"
+                      name="time"
+                      onChange={handleTime}
+                    />
                     <label htmlFor={"time_2"}>한달 이 내</label>
                   </li>
                   <li>
-                    <input id="time_3" type="radio" value="3" name="time" onChange={handleTime} />
+                    <input
+                      id="time_3"
+                      type="radio"
+                      value="3"
+                      name="time"
+                      onChange={handleTime}
+                    />
                     <label htmlFor={"time_3"}>한달 이상</label>
                   </li>
                 </ul>
@@ -418,27 +470,30 @@ export default function BookDetail({
           ></Icon>
           <span>책장에 추가</span>
         </AddBookBtn>
-        { click && (
-          <Box top={"45px"} left={size.width >= 768 ? "70px" : "calc(50% - 20px)"} width="180" textAlign="center">
+        {click && (
+          <Box
+            top={"45px"}
+            left={size.width >= 768 ? "70px" : "calc(50% - 20px)"}
+            width="180"
+            textAlign="center"
+          >
             <div>
               {booklist.length >= 1 ? (
                 <>
                   <legend>내 책장 목록</legend>
-                  
-                  {
-                    booklist.map(item => (
-                      <div
-                        className="myshelf"
-                        onClick={async () => {
-                          await bookApi.addToBooklist(book._id, item._id);
-                          setClick(false);
-                        }}
-                        key={item._id}
-                      >
-                        {item.title}
-                      </div>
-                    ))
-                  }
+
+                  {booklist.map(item => (
+                    <div
+                      className="myshelf"
+                      onClick={async () => {
+                        await bookApi.addToBooklist(book._id, item._id);
+                        setClick(false);
+                      }}
+                      key={item._id}
+                    >
+                      {item.title}
+                    </div>
+                  ))}
                 </>
               ) : (
                 <legend>내 책장이 없습니다.</legend>
@@ -459,19 +514,17 @@ export default function BookDetail({
   }, [statisticLocation]);
 
   useEffect(() => {
-    if(readClick){
+    if (readClick) {
       setStep(1);
     }
-  }, [readClick] )
+  }, [readClick]);
 
   useEffect(() => {
-    console.log(step);
-    console.log("in step")
-    if(step === 3) {
+    if (step === 3) {
       clickDoneReading();
       setStep(0);
     }
-  }, [step])
+  }, [step]);
 
   return (
     <>
@@ -633,7 +686,7 @@ export default function BookDetail({
 const ButtonTemplate = styled.div`
   display: flex;
   justify-content: center;
-  z-index:1;
+  z-index: 1;
   @media only screen and (max-width: 767px) {
     position: relative;
     margin-top: 15px;
@@ -646,7 +699,7 @@ const ButtonTemplate = styled.div`
 `;
 
 const AddBookBtn = styled.button`
-  position:relative;
+  position: relative;
   display: flex;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -834,18 +887,20 @@ const Item = styled.div`
     }
   }
 `;
+const StatisticOuter = styled.div`
+   {
+    @media only screen and (max-width: 767px) {
+      margin-top: 15px;
+      width: 100%;
+      height: 78px;
+      overflow: hidden;
+    }
 
-const StatisticOuter = styled.div`{
-  @media only screen and (max-width: 767px) {
-    margin-top: 15px;
-    width: 100%;
-    height: 78px;
-    overflow: hidden;
+    @media only screen and (min-width: 768px) {
+    }
   }
+`;
 
-  @media only screen and (min-width: 768px) {
-  }
-}`;
 const StatisticWrap = styled.div`
   @media only screen and (max-width: 767px) {
     width: 200%;
@@ -1069,28 +1124,28 @@ const CommentTitle = styled.span`
 `;
 
 const Box = styled.div`
-  position:absolute;
-  top:${props => props.top};
-  left:${props => props.left};
-  text-align:${props => props.textAlign};
-  width:${props => props.width}px;
-  background:RGBA(255,255,255,0.8);
-  font-size:13px;
-  padding:9px;
+  position: absolute;
+  top: ${props => props.top};
+  left: ${props => props.left};
+  text-align: ${props => props.textAlign};
+  width: ${props => props.width}px;
+  background: RGBA(255, 255, 255, 0.8);
+  font-size: 13px;
+  padding: 9px;
   border: 3px solid #777;
-  letter-spacing:-0.1px;
-  &:after{
-    content: ' ';
+  letter-spacing: -0.1px;
+  &:after {
+    content: " ";
     width: 0;
     height: 0;
     position: absolute;
     left: 28px;
     top: -22px;
     border: 12px solid;
-    border-color: transparent #FFF #FFF transparent;
+    border-color: transparent #fff #fff transparent;
   }
-  &:before{
-    content: ' ';
+  &:before {
+    content: " ";
     width: 0;
     height: 0;
     position: absolute;
@@ -1101,83 +1156,61 @@ const Box = styled.div`
   }
 
   legend {
-    display:inline-block;
+    display: inline-block;
     padding: 3px 5px;
-    color:#333;
-    font-weight:600;
+    color: #333;
+    font-weight: 600;
     font-size: 14px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
   }
 
   .myshelf {
-    display:inline-block;
+    display: inline-block;
     padding: 5px 9px;
-    background:RGBA(0, 0, 0, 0.7);
-    color:#FFF;
-    font-weight:600;
-    font-size:12px;
-    border-radius:10px;
-    cursor:pointer;
+    background: RGBA(0, 0, 0, 0.7);
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 10px;
+    cursor: pointer;
     margin-right: 5px;
     margin-bottom: 5px;
     &:hover {
-      background: RGBA(255,30,60,0.9);
+      background: RGBA(255, 30, 60, 0.9);
     }
   }
 
   ul {
-    display:flex;
+    display: flex;
     letter-spacing: -0.1px;
     li {
       margin-right: 5px;
       label {
-        display:inline-block;
+        display: inline-block;
         padding: 5px 9px;
-        background:RGBA(0, 0, 0, 0.7);
-        color:#FFF;
-        font-weight:600;
-        font-size:12px;
-        border-radius:10px;
-        cursor:pointer;
+        background: RGBA(0, 0, 0, 0.7);
+        color: #fff;
+        font-weight: 600;
+        font-size: 12px;
+        border-radius: 10px;
+        cursor: pointer;
         &:hover {
-          background: RGBA(255,30,60,0.9);
+          background: RGBA(255, 30, 60, 0.9);
         }
       }
-      input[type=radio] {
-        visibility:hidden;
-        position:absolute;
+      input[type="radio"] {
+        visibility: hidden;
+        position: absolute;
       }
-      input[type=radio]:checked ~ label{
+      input[type="radio"]:checked ~ label {
         background: RGBA(226, 1, 54, 0.7);
         &:hover {
-          background: RGBA(255,30,60,0.9);
+          background: RGBA(255, 30, 60, 0.9);
         }
       }
     }
   }
 `;
-
-const ReadForm = styled.form`
-  display: flex;
-  flex-direction: column;
-`;
-
-const ReadInput = styled.input`
-  all: unset;
-  margin-top: 30px;
-  margin-bottom: 30px;
-  text-align: center;
-
-  border-bottom: 1px rgba(0, 0, 0, 0.3) solid;
-`;
-
-const ReadButton = styled.button`
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 5px;
-  text-align: center;
-`;
-const FieldSet = styled.fieldset``;
 
 const SLink = styled.a`
   color: #4a6ee0;

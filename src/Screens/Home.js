@@ -29,9 +29,12 @@ export default function Home() {
   const showBook = async () => {
     try {
       const {
-        data: { books }
+        data: { success, books }
       } = await bookApi.getAllBook();
-      setBook(books);
+      if (success) setBook(books);
+      else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -44,10 +47,12 @@ export default function Home() {
   const showAllBooklist = async () => {
     try {
       const {
-        data: { BooklistResult }
+        data: { success, BooklistResult }
       } = await booklistApi.getAllBooklist();
-
-      setBooklist(BooklistResult);
+      if (success) setBooklist(BooklistResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (err) {
       console.log(err);
     }

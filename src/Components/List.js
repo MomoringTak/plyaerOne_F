@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import { useHistory } from "react-router-dom";
 import { booklistApi } from "../api";
 
 const List = ({
@@ -12,6 +12,7 @@ const List = ({
   clickUser
 }) => {
   const [score, setScore] = useState({});
+  const history = useHistory();
   const clickEvent = e => {
     clickBooklist(booklist._id);
   };
@@ -30,12 +31,15 @@ const List = ({
     });
 
     const {
-      data: { Scores }
+      data: { success, Scores }
     } = await booklistApi.getAllReadLog(logger);
+    if (success) {
+      Scores.progress = Scores.doneReading / booklist.books.length;
 
-    Scores.progress = Scores.doneReading / booklist.books.length;
-
-    setScore(Scores);
+      setScore(Scores);
+    } else {
+      history.push(`/404`);
+    }
   };
 
   const clickDelete = e => {

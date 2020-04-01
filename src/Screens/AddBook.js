@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { Link, useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, AuthApi } from "../api";
 
@@ -20,6 +21,8 @@ export default function AddBook() {
     "읽었던 책 제목을 입력 해주세요"
   );
 
+  const history = useHistory();
+
   const googleAuth = useGoogleAuth();
   const valid = useIsValid();
 
@@ -28,20 +31,25 @@ export default function AddBook() {
 
     let display = 10;
     try {
-      const { data: bookResults } = await bookApi.getBook(term, display);
+      const {
+        data: { success, bookResults }
+      } = await bookApi.getBook(term, display);
+      if (success) {
+        const newBook = bookResults.map(item => {
+          item.selected = false;
+          item.title = item.title.replace(/(<([^>]+)>)/gi, "");
+          item.author = item.author.replace(/(<([^>]+)>)/gi, "");
+          item.description = item.description.replace(/(<([^>]+)>)/gi, "");
+          item.difficulty = 1;
+          item.time = 1;
+          item.complete = false;
+          return item;
+        });
 
-      const newBook = bookResults.map(item => {
-        item.selected = false;
-        item.title = item.title.replace(/(<([^>]+)>)/gi, "");
-        item.author = item.author.replace(/(<([^>]+)>)/gi, "");
-        item.description = item.description.replace(/(<([^>]+)>)/gi, "");
-        item.difficulty = 1;
-        item.time = 1;
-        item.complete = false;
-        return item;
-      });
-
-      setBook(newBook);
+        setBook(newBook);
+      } else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -82,13 +90,19 @@ export default function AddBook() {
       user: user._id
     };
 
-    await bookApi.addBook(newBookData);
-    reset();
-    setTerm("");
-    setFinalBook(0);
-    setPlaceholder(
-      "책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요."
-    );
+    const {
+      data: { success }
+    } = await bookApi.addBook(newBookData);
+    if (success) {
+      reset();
+      setTerm("");
+      setFinalBook(0);
+      setPlaceholder(
+        "책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요."
+      );
+    } else {
+      history.push(`/404`);
+    }
   };
 
   const selectedBook = bookItem => {

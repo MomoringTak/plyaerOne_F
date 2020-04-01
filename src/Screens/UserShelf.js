@@ -52,8 +52,11 @@ const UserShelf = ({
     });
 
     const {
-      data: { logDataResult }
+      data: { success, logDataResult }
     } = await booklistApi.getAllReadLog(logger);
+    if (!success) {
+      history.push(`/404`);
+    }
   };
 
   const showBookList = async user => {
@@ -61,15 +64,19 @@ const UserShelf = ({
       if (user.length !== 0) {
         const {
           data: {
-            booklist: { booklists }
+            booklist: { booklists },
+            success
           }
         } = await booklistApi.getBookList(user.email);
-
-        const NEW_BL = booklists.map(item => {
-          item.userBL = true;
-          return item;
-        });
-        setBooklist(NEW_BL);
+        if (success) {
+          const NEW_BL = booklists.map(item => {
+            item.userBL = true;
+            return item;
+          });
+          setBooklist(NEW_BL);
+        } else {
+          history.push(`/404`);
+        }
       }
     } catch (err) {
       if (err.response !== undefined) AuthApi.checkAuth(err.response.data);

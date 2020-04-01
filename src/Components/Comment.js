@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 import { useGoogleAuth } from "../Components/AuthG";
 
-const Comment = ({ comment, user, deleteComment, book }) => {
+const Comment = ({ comment, user, deleteComment, book, profile }) => {
   const { googleUser } = useGoogleAuth();
 
   const clickDelete = e => {
@@ -22,12 +23,11 @@ const Comment = ({ comment, user, deleteComment, book }) => {
   return (
     <Container>
       <div>
-        {/* {book !== undefined ? <span>{book.title}</span> : null}
-        <h5>작성 시간 : {new Date(comment.createdAt).toString()}</h5>
-
-        <h5>작성자 이름: {user.nickname}</h5>
-        <h5>댓글 내용 : {comment.description}</h5> */}
-
+        {profile && (
+          <Link to={`/book/${book.isbn}`}>
+            {book.title.substring(0, 30)}...
+          </Link>
+        )}
         <div className="content">{comment.description}</div>
         <div className="writer">
           <span>{user.nickname}</span>
@@ -44,6 +44,7 @@ const Comment = ({ comment, user, deleteComment, book }) => {
 };
 
 const Container = styled.li`
+  all: unset;
   color: black;
   margin-top: 10px;
 

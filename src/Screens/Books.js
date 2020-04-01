@@ -19,7 +19,7 @@ export default function Home() {
       } = await bookApi.getAllBook().catch(function(err) {
         if (err.response) {
           if (err.response.msg !== `success`) {
-            return <Redirect to="/" />;
+            history.push(`/`);
           }
         }
       });

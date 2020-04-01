@@ -17,7 +17,7 @@ const Search = ({ match, location }) => {
   const showResult = async () => {
     try {
       const {
-        data: { books, booklist }
+        data: { success, books, booklist }
       } = await searchApi.searchBook(keyword).catch(function(err) {
         if (err.response) {
           // if (err.response.msg !== `success`) {
@@ -25,8 +25,12 @@ const Search = ({ match, location }) => {
           // }
         }
       });
-      setBooks(books);
-      setBookList(booklist);
+      if (success) {
+        setBooks(books);
+        setBookList(booklist);
+      } else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }

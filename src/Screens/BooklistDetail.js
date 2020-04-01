@@ -20,10 +20,14 @@ const BooklistDetail = ({
   const showBooklist = async () => {
     try {
       const {
-        data: { data: booklists }
+        data: { success, data: booklists }
       } = await booklistApi.getBooks(id);
-      setBooklist(booklists);
-      setBook(booklists.books);
+      if (success) {
+        setBooklist(booklists);
+        setBook(booklists.books);
+      } else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }

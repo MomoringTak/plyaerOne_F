@@ -15,10 +15,10 @@ const Container = styled.div`
     :not(:last-child) {
       margin-bottom: 50px;
     }
-    &:after{
-      content:""; 
-      display:block;
-      clear:both;
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
     }
   }
 
@@ -26,16 +26,15 @@ const Container = styled.div`
     :not(:last-child) {
       margin-bottom: 50px;
     }
-    &:after{
-      content:""; 
-      display:block;
-      clear:both;
+    &:after {
+      content: "";
+      display: block;
+      clear: both;
     }
   }
 `;
 
 const Title = styled.span`
-  
   @media only screen and (max-width: 767px) {
     font-size: 16px;
     font-weight: 600;
@@ -45,7 +44,7 @@ const Title = styled.span`
     font-size: 18px;
     font-weight: 600;
     padding: 15px 15px 0px;
-    display:block;
+    display: block;
   }
 `;
 
