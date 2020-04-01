@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-
+import { Link } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
@@ -40,6 +40,8 @@ export default function BookDetail({
   const [wish, setWish] = useState(false);
   const [doneReading, setDoneReading] = useState(false);
   const [readLogger, setReadLogger] = useState({});
+
+  const [placeholder, setPlaceholder] = useState("댓글을 입력해주세요");
 
   const [time, setTime] = useState(1);
   const [difficulty, setDifficulty] = useState(1);
@@ -93,8 +95,13 @@ export default function BookDetail({
     if (e) {
       e.preventDefault();
     }
-    saveComment();
-
+    if (isTokenExist === null) {
+      alert("댓글을 등록하시려면 로그인 해주세요");
+    } else if (commentText === "") {
+      alert("댓글 내용이 비어져 있습니다.");
+    } else if (isTokenExist !== null) {
+      saveComment();
+    }
     setCommentText("");
   };
 
@@ -482,7 +489,15 @@ export default function BookDetail({
             {size.width >= 768 && actionButtons}
           </Item>
           <Divider></Divider>
-          <Item className="description">{book.description}</Item>
+          <Item className="description">
+            {book.description}
+            <span>
+              <SLink href={`${book.link}`} target="blank">
+                자세히 더 보기
+              </SLink>
+            </span>
+          </Item>
+
           <TableWrap>
             <Table>
               <TableLeft>작가/저자</TableLeft>
@@ -569,21 +584,26 @@ export default function BookDetail({
         </RightContainer>
         <ContentContainer>
           <CommentCotainer>
+            <CommentTitle>
+              의견쓰기{" "}
+              <span> {allComment.length + comment.comments.length}개</span>
+            </CommentTitle>
+            <br />
+
             <CommentForm onSubmit={onSubmit}>
-              <ComentTitle>댓글쓰기</ComentTitle>
               <CommentSection
-                placeholder="댓글을 입력해주세요"
+                placeholder={
+                  isTokenExist !== null
+                    ? "댓글을 입력해주세요"
+                    : "댓글을 등록 하실려면 로그인 해주세요"
+                }
                 value={commentText}
                 onChange={onChange}
               />
               <CommentSubmit type="submit">등록</CommentSubmit>
             </CommentForm>
             <br />
-            <br />
-            <br />
-            <CommentTitle>
-              댓글 <span>{allComment.length}개</span>
-            </CommentTitle>
+
             <Divider></Divider>
             <CommentList>
               {allComment.map(comment => (
@@ -1158,3 +1178,7 @@ const ReadButton = styled.button`
   text-align: center;
 `;
 const FieldSet = styled.fieldset``;
+
+const SLink = styled.a`
+  color: #4a6ee0;
+`;

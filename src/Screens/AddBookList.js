@@ -150,7 +150,7 @@ const AddBookList = () => {
             value={term}
             onChange={updateTerm}
           >
-            <Search placeholder="추가할 책을 검색 해주세요." />
+            <Search placeholder="책장에 추가할 책을 검색 해주세요." />
           </AddBookForm>
           {loading ? (
             <Loader />
