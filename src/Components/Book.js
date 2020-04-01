@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
+import Icon from "@mdi/react";
+import {
+  mdiBookPlusMultiple, // 책장에 추가
+  mdiRead, // 읽음
+  mdiAlphaRCircle,
+  mdiHeart, // 좋아요
+  mdiHeartOutline
+} from "@mdi/js";
+
+import useWindowSize from "./WindowSize";
 
 const Book = ({
   bookItem,
@@ -8,11 +18,12 @@ const Book = ({
   recordBook,
   addBook,
   totalNum,
-  profile
+  profile,
+  wish
 }) => {
   const difficutlyUUID = uuidv4();
   const timeUUID = uuidv4();
-
+  const size = useWindowSize();
   // const [time, setTime] = useState(bookItem.time);
   // const [difficulty, setDifficulty] = useState(bookItem.difficulty);
   const [time, setTime] = useState(0);
@@ -74,7 +85,18 @@ const Book = ({
             {bookItem.author} 저 &nbsp; | &nbsp; {bookItem.publisher}
           </p>
         </BookDesc>
-        {profile && <span>총 # : {totalNum}</span>}
+        {profile && (
+          <div>
+            <Heart>
+              <Icon
+                path={wish ? mdiHeart : mdiAlphaRCircle}
+                size={size.width >= 768 ? `14px` : `16px`}
+                color={wish ? `red` : `#666`}
+              ></Icon>
+              <span>{totalNum}</span>
+            </Heart>
+          </div>
+        )}
         {bookItem.selected && addBook && (
           <Box>
             {step === 1 && (
@@ -181,31 +203,6 @@ const Check = styled.div`
   align-items: center;
   justify-content: center;
 `;
-
-// const Image = styled.div`
-//   background-image: url(${props => props.bgUrl});
-//   height: 180px;
-//   background-size: cover;
-//   border-radius: 4px;
-//   background-position: center center;
-//   transition: opacity 0.2s linear;
-// `;
-
-// const ImageContainer = styled.div`
-//   margin-bottom: 5px;
-//   position: relative;
-
-//   border: 1px solid black;
-//   border-radius: 4px;
-
-// &:hover {
-//   ${Image} {
-//     opacity: 0.8;
-//     box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
-//       2px 2px 5px 1px rgba(0, 0, 0, 1);
-//   }
-// }
-// `;
 
 const ImageContainer = styled.div`
   display: block;
@@ -345,6 +342,34 @@ const FieldSet = styled.fieldset`
 
 const Legend = styled.legend`
   font-size: 13px;
+`;
+
+const Heart = styled.button`
+  all: unset;
+  display: flex;
+
+  text-align: center;
+  margin-right: 5px;
+  background-color: "#FFF";
+
+  > span {
+    margin-left: 5px;
+    color: #666;
+    font-weight: 500;
+  }
+
+  @media only screen and (max-width: 767px) {
+    padding: 8px 16px;
+    > span {
+      font-size: 12px;
+    }
+  }
+  @media only screen and (min-width: 768px) {
+    padding: 5px 10px;
+    > span {
+      font-size: 11px;
+    }
+  }
 `;
 
 export default Book;

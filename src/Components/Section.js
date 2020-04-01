@@ -13,10 +13,10 @@ const Container = styled.div`
   :not(:last-child) {
     margin-bottom: 50px;
   }
-  &:after{
-    content:""; 
-    display:block;
-    clear:both;
+  &:after {
+    content: "";
+    display: block;
+    clear: both;
   }
 `;
 

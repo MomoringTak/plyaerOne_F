@@ -36,7 +36,7 @@ export default function Profile({
 
   const initialize = authorized => {
     setContent(() => {
-      return <Info user={authorized} />;
+      return <Info user={authorized} LogOut={LogOut} />;
     });
   };
 
@@ -58,7 +58,6 @@ export default function Profile({
 
       if (success) {
         initialize(authorized);
-
         setComment(userCommentResult);
         setWishList(wishData);
         setReadList(readData);
@@ -106,7 +105,7 @@ export default function Profile({
     setContent(() => {
       switch (tab) {
         case "info":
-          return <Info user={user} />;
+          return <Info user={user} LogOut={LogOut} />;
         case "comment":
           return <Comments comment={comment} deleteComments={deleteComments} />;
         case "like":
@@ -176,38 +175,41 @@ export default function Profile({
   );
 }
 
-const Info = ({ user }) => {
+const Info = ({ user, LogOut }) => {
   return (
-    <div>
-      <span>이름</span>
-      <Spacer />
-      <h3>{user.nickname}</h3>
-      <SLink to={`/${user.email}/editprofile`}>edit</SLink>
-      <Spacer />
-      <span>나이</span>
-      <Spacer />
-      <h3>{user.age}</h3>
-      <Spacer />
-      <span>성별</span>
-      <Spacer />
-      <h3>{user.gender}</h3>
-      <Spacer />
-      <Spacer />
-      <span>이메일</span>
-      <Spacer />
-      <h3>{user.email}</h3>
-      <Spacer />
+    <Section>
+      <UserContainer>
+        <span>이름</span>
+        <Spacer />
+        <h3>{user.nickname}</h3>
+        <SLink to={`/${user.email}/editprofile`}>edit</SLink>
+        <Spacer />
+        <span>나이</span>
+        <Spacer />
+        <h3>{user.age}</h3>
+        <Spacer />
+        <span>성별</span>
+        <Spacer />
+        <h3>{user.gender}</h3>
+        <Spacer />
+        <Spacer />
+        <span>이메일</span>
+        <Spacer />
+        <h3>{user.email}</h3>
+        <Spacer />
 
-      <Spacer />
-      {/* <Button onClick={deleteUser}>Delete Profile</Button> */}
-      <Spacer />
-    </div>
+        <LogOutLink to="#" onClick={LogOut}>
+          로그아웃
+        </LogOutLink>
+        {/* <Button onClick={deleteUser}>Delete Profile</Button> */}
+      </UserContainer>
+    </Section>
   );
 };
 
 const Comments = ({ comment, deleteComments }) => {
   return (
-    <div>
+    <Section>
       {comment.length >= 1 ? (
         comment.map(comment => (
           <Comment
@@ -216,12 +218,14 @@ const Comments = ({ comment, deleteComments }) => {
             user={comment.user}
             book={comment.book}
             deleteComment={deleteComments}
+            profile={true}
+            wish={true}
           />
         ))
       ) : (
         <h1>작성 된 댓글이 없습니다.</h1>
       )}
-    </div>
+    </Section>
   );
 };
 
@@ -237,6 +241,7 @@ const Like = ({ wishList, bookDetail, dummyFunction, wishCount }) => {
             recordBook={dummyFunction}
             totalNum={wishCount[index]}
             profile={true}
+            wish={true}
           />
         ))
       ) : (
@@ -271,23 +276,8 @@ const Container = styled.div`
   position: relative;
 `;
 
-const Head = styled.div`
-  margin: 20px 20px;
-`;
-
-const Title = styled.span`
-  display: block;
-  font-weight: 600;
-  font-size: 2rem;
-`;
-
 const Spacer = styled.div`
   height: 15px;
-`;
-
-const Wrapper = styled.div`
-  font-weight: 500;
-  color: #8189a9;
 `;
 
 const SLink = styled(Link)`
@@ -295,16 +285,14 @@ const SLink = styled(Link)`
 `;
 
 const LogOutLink = styled(Link)`
-  color: #4a6ee0;
-  position: absolute;
-  right: 0;
-`;
+  display: none;
 
-const Dividers = styled.div`
-  width: 100%;
-  border: 0.8px solid black;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  @media only screen and (max-width: 767px) {
+    color: #4a6ee0;
+    min-widight: 30px;
+    font-size: 12px;
+    display: inline;
+  }
 `;
 
 const TabSection = styled.ul`
@@ -315,7 +303,13 @@ const Tab = styled.li`
   all: unset;
   margin-right: 20px;
   font-weight: 600;
+
+  cursor: pointer;
   border-bottom: ${props =>
     props.active ? " 2px solid #DA3E58" : "transparent"};
   padding: 10px;
+`;
+
+const UserContainer = styled.div`
+  margin-top: 20px;
 `;
