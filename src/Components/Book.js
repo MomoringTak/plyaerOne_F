@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
 
+import useWindowSize from "../Components/WindowSize";
+
 const Book = ({
   bookItem,
   clickBook,
@@ -18,6 +20,8 @@ const Book = ({
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(0);
   const [step, setStep] = useState(0);
+
+  const size = useWindowSize();
 
   const clickEvent = () => {
     // 선택 안되있던 상태에서 선택 한 경우
@@ -70,9 +74,21 @@ const Book = ({
         </Image>
         <BookDesc>
           <p className="booktitle">{bookItem.title}</p>
-          <p className="desc">
-            {bookItem.author} 저 &nbsp; | &nbsp; {bookItem.publisher}
-          </p>
+          {size.width >= 768 ? (
+            <p className="desc">
+              {bookItem.author} 저 &nbsp; | &nbsp; {bookItem.publisher}
+            </p>
+          ) : (
+            <>
+              <p className="desc">
+                {bookItem.author} 저
+              </p>
+              <p className="desc pub">
+                {bookItem.publisher}
+              </p>
+            </>
+          )}
+          
         </BookDesc>
         {profile && <span>총 # : {totalNum}</span>}
         {bookItem.selected && addBook && (
@@ -200,29 +216,63 @@ const Check = styled.div`
 // `;
 
 const ImageContainer = styled.div`
-  display: block;
-  box-sizing: border-box;
-  margin: 0 5px;
-  width: 188px;
-  position: relative;
-  padding-top: 250px;
-  float: left;
+
+  @media only screen and (max-width: 767px) {
+    display: block;
+    box-sizing: border-box;
+    margin: 0;
+    margin-top:5px;
+    margin-right:15px;
+    width: 134px;
+    position: relative;
+    padding-top: 200px;
+    float: left;
+  }
+
+  @media only screen and (min-width: 768px) {
+    display: block;
+    box-sizing: border-box;
+    margin: 0 5px;
+    width: 188px;
+    position: relative;
+    padding-top: 250px;
+    float: left;
+  }
 `;
 
 const Image = styled.div`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  width: 168px;
-  height: 240px;
-  background: url(${props => props.bgUrl}) no-repeat top;
-  background-size: cover;
-  //border: 1px solid black;
-  border-radius: 0px;
-  &:hover {
-    opacity: 0.8;
-    box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
-      2px 2px 5px 1px rgba(0, 0, 0, 1);
+  @media only screen and (max-width: 767px) {
+    position: absolute;
+    top: 0;
+    left: 0px;
+    width: 134px;
+    height: 192px;
+    background: url(${props => props.bgUrl}) no-repeat top;
+    background-size: cover;
+    //border: 1px solid black;
+    border-radius: 0px;
+    &:hover {
+      opacity: 0.8;
+      box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+        2px 2px 5px 1px rgba(0, 0, 0, 1);
+    }
+  }
+
+  @media only screen and (min-width: 768px) {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 168px;
+    height: 240px;
+    background: url(${props => props.bgUrl}) no-repeat top;
+    background-size: cover;
+    //border: 1px solid black;
+    border-radius: 0px;
+    &:hover {
+      opacity: 0.8;
+      box-shadow: -2px -2px 5px 1px rgba(0, 0, 0, 1),
+        2px 2px 5px 1px rgba(0, 0, 0, 1);
+    }
   }
 `;
 
@@ -232,37 +282,79 @@ const Title = styled.span`
 `;
 
 const BookDesc = styled.div`
-  width: 188px;
-  padding: 10px 15px;
-  min-height: 79px;
 
-  > .booktitle {
-    display: -webkit-box;
-    min-height: 17px;
-    max-height: 34px;
-    line-height: 17px;
-    word-break: break-all;
-    overflow: hidden;
-    font-size: 13px;
-    color: #333;
-    font-weight: 600;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+  @media only screen and (max-width: 767px) {
+    width: 134px;
+    padding: 5px;
+    min-height: 72px;
+
+    > .booktitle {
+      display: -webkit-box;
+      min-height: 15px;
+      max-height: 30px;
+      line-height: 15px;
+      word-break: break-all;
+      overflow: hidden;
+      font-size: 12px;
+      color: #333;
+      font-weight: 600;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    > .desc {
+      margin-top: 5px;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 12px;
+      min-height: 12px;
+      max-height: 12px;
+      font-size: 10px;
+      color: #777;
+      font-weight: 500;
+      &.pub {
+        margin-top:3px;
+      }
+    }
   }
 
-  > .desc {
-    margin-top: 10px;
-    display: block;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    line-height: 15px;
-    min-height: 15px;
-    max-height: 15px;
-    font-size: 11px;
-    color: #777;
-    font-weight: 500;
+  @media only screen and (min-width: 768px) {
+    width: 188px;
+    padding: 10px 15px;
+    min-height: 79px;
+
+    > .booktitle {
+      display: -webkit-box;
+      min-height: 17px;
+      max-height: 34px;
+      line-height: 17px;
+      word-break: break-all;
+      overflow: hidden;
+      font-size: 13px;
+      color: #333;
+      font-weight: 600;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    > .desc {
+      margin-top: 10px;
+      display: block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 15px;
+      min-height: 15px;
+      max-height: 15px;
+      font-size: 11px;
+      color: #777;
+      font-weight: 500;
+    }
   }
+
+  
 `;
 
 const Box = styled.div`

@@ -24,6 +24,7 @@ const MobileList = styled.div`
         width: 100%;
         overflow: hidden;
         overflow-x: auto;
+        scroll-behavior: smooth;
     }
     @media only screen and (min-width: 768px) {
     }
