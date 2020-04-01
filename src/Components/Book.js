@@ -12,8 +12,6 @@ import {
 
 import useWindowSize from "./WindowSize";
 
-import useWindowSize from "../Components/WindowSize";
-
 const Book = ({
   bookItem,
   clickBook,
@@ -31,8 +29,6 @@ const Book = ({
   const [time, setTime] = useState(0);
   const [difficulty, setDifficulty] = useState(0);
   const [step, setStep] = useState(0);
-
-  const size = useWindowSize();
 
   const clickEvent = () => {
     // 선택 안되있던 상태에서 선택 한 경우
