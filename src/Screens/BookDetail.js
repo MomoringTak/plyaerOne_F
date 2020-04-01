@@ -11,6 +11,8 @@ import Comment from "../Components/Comment";
 import Modal from "../Components/Modal";
 import useWindowSize from "../Components/WindowSize";
 
+import { Divider } from "../Components/Style/Common";
+
 import Icon from "@mdi/react";
 import {
   mdiBookPlusMultiple, // 책장에 추가
@@ -52,6 +54,8 @@ export default function BookDetail({
   const [arrTime, setArrTime] = useState([0, 0, 0]);
   const [arrDifficulty, setArrDifficulty] = useState([0, 0, 0]);
   const [statisticLocation, setStatisticLocation] = useState(0);
+
+  const [step, setStep] = useState(0);
 
   const isTokenExist = AuthApi.getToken();
 
@@ -176,7 +180,7 @@ export default function BookDetail({
           maxTmpDiff = averageDifficulty[item];
       }
       setArrDifficulty(arrTmpDiff);
-      setMaxNumDifficulty(maxTmpTime);
+      setMaxNumDifficulty(maxTmpDiff);
       setTimeout(statisticLocationChange, 5000);
 
       if (isTokenExist != null) {
@@ -250,6 +254,7 @@ export default function BookDetail({
       target: { value }
     } = e;
     let valueS = parseInt(value);
+    setStep(3);
     setTime(valueS);
   };
 
@@ -257,13 +262,13 @@ export default function BookDetail({
     const {
       target: { value }
     } = e;
+    console.log(e);
+    console.log(value);
+    setStep(2);
     setDifficulty(value);
   };
 
-  const clickDoneReading = async e => {
-    if (e) {
-      e.preventDefault();
-    }
+  const clickDoneReading = async () => {
     setReadClick(false);
     if (doneReading === false) {
       setReadNum(prev => prev + 1);
@@ -318,6 +323,72 @@ export default function BookDetail({
           ></Icon>
           <span>{readNum}</span>
         </AddBookBtn>
+        { step > 0 && (
+          <Box top="45px" left={size.width >= 768 ? "-35px" : "calc(50% - 150px)"} width="" textAlign="left">
+            { step === 1 && (
+              <>
+                <legend>Q. 이 책의 난이도는?</legend>
+                <ul className="difficulty">
+                  <li>
+                    <input
+                      id="difficulty_1"
+                      type="radio"
+                      value="1"
+                      name="difficulty"
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={"difficulty_1"}>초급</label>
+                  </li>
+                  <li>
+                    <input
+                      id="difficulty_2"
+                      type="radio"
+                      value="2"
+                      name="difficulty"
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={"difficulty_2"}>중급</label>
+                  </li>
+                  <li>
+                    <input
+                      id="difficulty_3"
+                      type="radio"
+                      value="3"
+                      name="difficulty"
+                      onChange={handledifficulty}
+                    />
+                    <label htmlFor={"difficulty_3"}>고급</label>
+                  </li>
+                </ul>
+              </>
+            )}
+            { step === 2 && (
+              <>
+                <legend>Q. 이 책을 읽는데 소요된 시간은?</legend>
+                <ul className="difficulty">
+                  <li>
+                    <input
+                      type="radio"
+                      value="1"
+                      name="time"
+                      id="time_1"
+                      onChange={handleTime}
+                    />
+                    <label htmlFor={"time_1"}>한주 이 내</label>
+                  </li>
+                  <li>
+                    <input id="time_2" type="radio" value="2" name="time" onChange={handleTime} />
+                    <label htmlFor={"time_2"}>한달 이 내</label>
+                  </li>
+                  <li>
+                    <input id="time_3" type="radio" value="3" name="time" onChange={handleTime} />
+                    <label htmlFor={"time_3"}>한달 이상</label>
+                  </li>
+                </ul>
+              </>
+            )}
+          </Box>
+        )}
         <AddBookBtn
           wish={wish}
           onClick={() => {
@@ -340,6 +411,34 @@ export default function BookDetail({
           ></Icon>
           <span>책장에 추가</span>
         </AddBookBtn>
+        { click && (
+          <Box top={"45px"} left={size.width >= 768 ? "70px" : "calc(50% - 20px)"} width="180" textAlign="center">
+            <div>
+              {booklist.length >= 1 ? (
+                <>
+                  <legend>내 책장 목록</legend>
+                  
+                  {
+                    booklist.map(item => (
+                      <div
+                        className="myshelf"
+                        onClick={async () => {
+                          await bookApi.addToBooklist(book._id, item._id);
+                          setClick(false);
+                        }}
+                        key={item._id}
+                      >
+                        {item.title}
+                      </div>
+                    ))
+                  }
+                </>
+              ) : (
+                <legend>내 책장이 없습니다.</legend>
+              )}
+            </div>
+          </Box>
+        )}
       </ButtonTemplate>
     ) : null;
 
@@ -351,6 +450,21 @@ export default function BookDetail({
   useEffect(() => {
     setTimeout(statisticLocationChange, 5000);
   }, [statisticLocation]);
+
+  useEffect(() => {
+    if(readClick){
+      setStep(1);
+    }
+  }, [readClick] )
+
+  useEffect(() => {
+    console.log(step);
+    console.log("in step")
+    if(step === 3) {
+      clickDoneReading();
+      setStep(0);
+    }
+  }, [step])
 
   return (
     <>
@@ -382,72 +496,74 @@ export default function BookDetail({
               <TableLeft>카테고리</TableLeft>
               <TableRight>{book.category}</TableRight>
             </Table>
-            <StatisticWrap>
-              <Statistic
-                max={maxNumTime}
-                arr={arrTime}
-                location={statisticLocation}
-                className={statisticLocation === 0 ? `` : `hidden`}
-              >
-                <div className="title">이 책을 읽은 사람의 소요 시간</div>
-                <Divider className="sub" />
-                <ul>
-                  <li>
-                    <span className="type">1주 이내</span>
-                    <span className="value-wrap">
-                      <span className="value type0"></span>
-                      {arrTime[0]}명
-                    </span>
-                  </li>
-                  <li>
-                    <span className="type">1개월 이내</span>
-                    <span className="value-wrap">
-                      <span className="value type1"></span>
-                      {arrTime[1]}명
-                    </span>
-                  </li>
-                  <li>
-                    <span className="type">1개월 이상</span>
-                    <span className="value-wrap">
-                      <span className="value type2"></span>
-                      {arrTime[2]}명
-                    </span>
-                  </li>
-                </ul>
-              </Statistic>
-              <Statistic
-                max={maxNumDifficulty}
-                arr={arrDifficulty}
-                location={statisticLocation}
-                className={statisticLocation === 0 ? `hidden` : ``}
-              >
-                <div className="title">이 책을 읽은 사람이 느끼는 난이도</div>
-                <Divider className="sub" />
-                <ul>
-                  <li>
-                    <span className="type">쉬움</span>
-                    <span className="value-wrap">
-                      <span className="value type0"></span>
-                      {arrDifficulty[0]}명
-                    </span>
-                  </li>
-                  <li>
-                    <span className="type">보통</span>
-                    <span className="value-wrap">
-                      <span className="value type1"></span>
-                      {arrDifficulty[1]}명
-                    </span>
-                  </li>
-                  <li>
-                    <span className="type">어려움</span>
-                    <span className="value-wrap">
-                      <span className="value type2"></span>
-                      {arrDifficulty[2]}명
-                    </span>
-                  </li>
-                </ul>
-              </Statistic>
-            </StatisticWrap>
+            <StatisticOuter>
+              <StatisticWrap>
+                <Statistic
+                  max={maxNumTime}
+                  arr={arrTime}
+                  location={statisticLocation}
+                  className={statisticLocation === 0 ? `` : `hidden`}
+                >
+                  <div className="title">이 책을 읽은 사람의 소요 시간</div>
+                  <Divider className="sub" />
+                  <ul>
+                    <li>
+                      <span className="type">1주 이내</span>
+                      <span className="value-wrap">
+                        <span className="value type0"></span>
+                        {arrTime[0]}명
+                      </span>
+                    </li>
+                    <li>
+                      <span className="type">1개월 이내</span>
+                      <span className="value-wrap">
+                        <span className="value type1"></span>
+                        {arrTime[1]}명
+                      </span>
+                    </li>
+                    <li>
+                      <span className="type">1개월 이상</span>
+                      <span className="value-wrap">
+                        <span className="value type2"></span>
+                        {arrTime[2]}명
+                      </span>
+                    </li>
+                  </ul>
+                </Statistic>
+                <Statistic
+                  max={maxNumDifficulty}
+                  arr={arrDifficulty}
+                  location={statisticLocation}
+                  className={statisticLocation === 0 ? `hidden` : ``}
+                >
+                  <div className="title">이 책을 읽은 사람이 느끼는 난이도</div>
+                  <Divider className="sub" />
+                  <ul>
+                    <li>
+                      <span className="type">쉬움</span>
+                      <span className="value-wrap">
+                        <span className="value type0"></span>
+                        {arrDifficulty[0]}명
+                      </span>
+                    </li>
+                    <li>
+                      <span className="type">보통</span>
+                      <span className="value-wrap">
+                        <span className="value type1"></span>
+                        {arrDifficulty[1]}명
+                      </span>
+                    </li>
+                    <li>
+                      <span className="type">어려움</span>
+                      <span className="value-wrap">
+                        <span className="value type2"></span>
+                        {arrDifficulty[2]}명
+                      </span>
+                    </li>
+                  </ul>
+                </Statistic>
+              </StatisticWrap>
+            </StatisticOuter>
             {size.width < 768 && actionButtons}
           </TableWrap>
         </RightContainer>
@@ -490,77 +606,6 @@ export default function BookDetail({
           </CommentCotainer>
         </ContentContainer>
       </Container>
-      <Modal clickBtn={clickAddBook} click={click}>
-        <div>
-          {booklist.length >= 1 ? (
-            booklist.map(item => (
-              <h1
-                onClick={async () => {
-                  await bookApi.addToBooklist(book._id, item._id);
-                  setClick(false);
-                }}
-                key={item._id}
-              >
-                {item.title}
-              </h1>
-            ))
-          ) : (
-            <span>책묶음이 없습니다.</span>
-          )}
-        </div>
-      </Modal>
-      <Modal clickBtn={clickReadBook} click={readClick}>
-        <Box>
-          <ReadForm onSubmit={clickDoneReading}>
-            <FieldSet>
-              <legend>난이도를 알려주세요</legend>
-              <input
-                id="1"
-                type="radio"
-                value="1"
-                name="difficulty"
-                defaultChecked
-                onChange={handledifficulty}
-              />
-              <label htmlFor="1">초급</label>
-
-              <input
-                id="2"
-                type="radio"
-                value="2"
-                name="difficulty"
-                onChange={handledifficulty}
-              />
-              <label htmlFor="2">중급</label>
-              <input
-                id="3"
-                type="radio"
-                value="3"
-                name="difficulty"
-                onChange={handledifficulty}
-              />
-              <label htmlFor="3">고급</label>
-            </FieldSet>
-            <FieldSet>
-              <legend>읽는데 걸리 소요시간</legend>
-              <input
-                type="radio"
-                value="1"
-                name="time"
-                defaultChecked
-                onChange={handleTime}
-              />
-              <label htmlFor="1">한주 이 내</label>
-
-              <input type="radio" value="2" name="time" onChange={handleTime} />
-              <label htmlFor="2">한달 이 내</label>
-              <input type="radio" value="3" name="time" onChange={handleTime} />
-              <label htmlFor="3">한달 이상</label>
-            </FieldSet>
-            <ReadButton>Submit</ReadButton>
-          </ReadForm>
-        </Box>
-      </Modal>
     </>
   );
 }
@@ -568,7 +613,9 @@ export default function BookDetail({
 const ButtonTemplate = styled.div`
   display: flex;
   justify-content: center;
+  z-index:1;
   @media only screen and (max-width: 767px) {
+    position: relative;
     margin-top: 15px;
   }
   @media only screen and (min-width: 768px) {
@@ -579,6 +626,7 @@ const ButtonTemplate = styled.div`
 `;
 
 const AddBookBtn = styled.button`
+  position:relative;
   display: flex;
   border: 1px solid #ccc;
   border-radius: 15px;
@@ -710,7 +758,6 @@ const RightContainer = styled.div`
 
 const TableWrap = styled.div`
   position: relative;
-  overflow: hidden;
 `;
 
 const Table = styled.div`
@@ -768,27 +815,19 @@ const Item = styled.div`
   }
 `;
 
-const Divider = styled.div`
-  height: 1px;
-  width: 100%;
-  background: #ccc;
-
-  @media only screen and (max-width: 767px) {
-    margin: 10px 0;
-  }
-  @media only screen and (min-width: 768px) {
-    margin: 15px 0;
-  }
-
-  &.sub {
-    margin-top: 3px;
-    margin-bottom: 5px;
-  }
-`;
-
-const StatisticWrap = styled.div`
+const StatisticOuter = styled.div`{
   @media only screen and (max-width: 767px) {
     margin-top: 15px;
+    width: 100%;
+    height: 78px;
+    overflow: hidden;
+  }
+
+  @media only screen and (min-width: 768px) {
+  }
+}`;
+const StatisticWrap = styled.div`
+  @media only screen and (max-width: 767px) {
     width: 200%;
     height: 78px;
     overflow: hidden;
@@ -1009,7 +1048,94 @@ const CommentTitle = styled.span`
   }
 `;
 
-const Box = styled.div``;
+const Box = styled.div`
+  position:absolute;
+  top:${props => props.top};
+  left:${props => props.left};
+  text-align:${props => props.textAlign};
+  width:${props => props.width}px;
+  background:RGBA(255,255,255,0.8);
+  font-size:13px;
+  padding:9px;
+  border: 3px solid #777;
+  letter-spacing:-0.1px;
+  &:after{
+    content: ' ';
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 28px;
+    top: -22px;
+    border: 12px solid;
+    border-color: transparent #FFF #FFF transparent;
+  }
+  &:before{
+    content: ' ';
+    width: 0;
+    height: 0;
+    position: absolute;
+    left: 25px;
+    top: -30px;
+    border: 15px solid;
+    border-color: transparent #777 #777 transparent;
+  }
+
+  legend {
+    display:inline-block;
+    padding: 3px 5px;
+    color:#333;
+    font-weight:600;
+    font-size: 14px;
+    margin-bottom:5px;
+  }
+
+  .myshelf {
+    display:inline-block;
+    padding: 5px 9px;
+    background:RGBA(0, 0, 0, 0.7);
+    color:#FFF;
+    font-weight:600;
+    font-size:12px;
+    border-radius:10px;
+    cursor:pointer;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    &:hover {
+      background: RGBA(255,30,60,0.9);
+    }
+  }
+
+  ul {
+    display:flex;
+    letter-spacing: -0.1px;
+    li {
+      margin-right: 5px;
+      label {
+        display:inline-block;
+        padding: 5px 9px;
+        background:RGBA(0, 0, 0, 0.7);
+        color:#FFF;
+        font-weight:600;
+        font-size:12px;
+        border-radius:10px;
+        cursor:pointer;
+        &:hover {
+          background: RGBA(255,30,60,0.9);
+        }
+      }
+      input[type=radio] {
+        visibility:hidden;
+        position:absolute;
+      }
+      input[type=radio]:checked ~ label{
+        background: RGBA(226, 1, 54, 0.7);
+        &:hover {
+          background: RGBA(255,30,60,0.9);
+        }
+      }
+    }
+  }
+`;
 
 const ReadForm = styled.form`
   display: flex;

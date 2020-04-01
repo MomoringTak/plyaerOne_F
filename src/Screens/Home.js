@@ -10,6 +10,8 @@ import Section from "../Components/Section";
 import Table from "../Components/Table";
 import List from "../Components/List";
 
+import { MobileList } from "../Components/Style/Common";
+
 export default function Home() {
   const [book, setBook] = useState([]);
   const [booklist, setBooklist] = useState([]);
@@ -62,6 +64,26 @@ export default function Home() {
         <title>HOME | WTB</title>
       </Helmet>
       <Section title="새로 등록된 책">
+        <MobileList>
+        {book ? (
+          book.map((bookItem, index) => {
+            return (
+              index < 8 && (
+                <Book
+                  key={bookItem.isbn}
+                  bookItem={bookItem}
+                  clickBook={bookDetail}
+                  recordBook={dummyFuntion}
+                />
+              )
+            );
+          })
+        ) : (
+          <h1>표시 할 책이 없습니다.</h1>
+        )}
+        </MobileList>
+      </Section>
+      <Section title="많은 사람이 읽은 책">
         {book ? (
           book.map((bookItem, index) => {
             return (

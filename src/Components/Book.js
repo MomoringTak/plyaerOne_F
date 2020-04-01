@@ -152,14 +152,6 @@ const Book = ({
               </ul>
             </FieldSet>
             )}
-            {/* <ReadInput
-              type="number"
-              placeholder="총 읽은 시간"
-              name="time"
-              onChange={handleTime}
-              value={time}
-              required
-            /> */}
           </Box>
         )}
       </ImageContainer>
