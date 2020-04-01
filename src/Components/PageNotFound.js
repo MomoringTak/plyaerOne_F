@@ -4,36 +4,23 @@ import { Link } from "react-router-dom";
 
 const PageNotFound = () => {
   return (
-    <Container>
-      <Card>
-        <Message>404</Message>
-        <Message>Page Not Found</Message>
-        <Link to={`/`}>홈으로</Link>
-      </Card>
-    </Container>
+    <div>
+      <Message>Something went wrong...</Message>
+      <Message>
+        <SLink to={`/`}>Go back to Home</SLink>
+      </Message>
+    </div>
   );
 };
 
 export default PageNotFound;
 
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  margin-left: 200px;
-  height: 100vh;
-`;
-
-const Card = styled.div`
-  width: 500px;
-  height: 500px;
-  background-color: white;
-  box-shadow: 5px 5px 20px 0px rgba(0, 0, 0, 0.4);
-`;
-
-const Message = styled.span`
-  font-size: 4rem;
-  font-weight: 800;
+const Message = styled.h2`
   text-align: center;
+`;
+
+const SLink = styled(Link)`
+  display: block;
+  margin-top: 10px;
+  color: #4a6ee0;
 `;

@@ -33,6 +33,7 @@ export default () => {
       <Wrapper>
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route paht={`/404`} component={PageNotFound} />
           <Route path={`/search`} component={Search} />
           <Route path={`/books`} exact component={Books} />
           <Route path={`/login`} exact component={Login} />
@@ -46,7 +47,6 @@ export default () => {
           <Route path={`/addbook`} component={AddBook} />
           <Route path={`/book/:id`} component={BookDetail} />
           <Route paht={`/addtionalInfo`} component={AddGoogleUserInfo} />
-          <Route paht={`/404`} component={PageNotFound} />
 
           {/* <Route path={`${baseURL}/search`} component={Search} />
           <Route path={`${baseURL}/books`} exact component={Books} />
