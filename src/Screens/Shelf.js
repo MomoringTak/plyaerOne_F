@@ -22,10 +22,12 @@ const Shelf = () => {
   const showAllBooklist = async () => {
     try {
       const {
-        data: { BooklistResult }
+        data: { success, BooklistResult }
       } = await booklistApi.getAllBooklist();
-
-      setBooklist(BooklistResult);
+      if (success) setBooklist(BooklistResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (err) {
       console.log(err);
     }

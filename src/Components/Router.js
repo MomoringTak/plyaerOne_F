@@ -23,6 +23,7 @@ import Search from "../Screens/Search";
 
 import Header from "./Header";
 import Wrapper from "./Wrapper";
+import PageNotFound from "./PageNotFound";
 
 export default () => {
   const baseURL = "https://goofy-mahavira-adaf76.netlify.com";
@@ -45,6 +46,8 @@ export default () => {
           <Route path={`/addbook`} component={AddBook} />
           <Route path={`/book/:id`} component={BookDetail} />
           <Route paht={`/addtionalInfo`} component={AddGoogleUserInfo} />
+          <Route paht={`/404`} component={PageNotFound} />
+
           {/* <Route path={`${baseURL}/search`} component={Search} />
           <Route path={`${baseURL}/books`} exact component={Books} />
           <Route path={`${baseURL}/login`} exact component={Login} />

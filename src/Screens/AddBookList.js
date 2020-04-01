@@ -33,9 +33,12 @@ const AddBookList = () => {
   const showBook = async () => {
     try {
       const {
-        data: { books: bookResult }
+        data: { success, books: bookResult }
       } = await booklistApi.serachBook(term);
-      setBook(bookResult);
+      if (success) setBook(bookResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (e) {
       history.push(`/`);
       console.log(e);

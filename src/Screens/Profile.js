@@ -41,15 +41,25 @@ export default function Profile() {
       setUser(authorized);
 
       const {
-        data: { userCommentResult, wishData, readData, totalRead, totalWish }
+        data: {
+          success,
+          userCommentResult,
+          wishData,
+          readData,
+          totalRead,
+          totalWish
+        }
       } = await userApi.getUserMyPage(authorized._id);
+      if (success) {
+        setComment(userCommentResult);
+        setWishList(wishData);
+        setReadList(readData);
 
-      setComment(userCommentResult);
-      setWishList(wishData);
-      setReadList(readData);
-
-      setWishCount(totalWish);
-      setReadCount(totalRead);
+        setWishCount(totalWish);
+        setReadCount(totalRead);
+      } else {
+        history.push(`/404`);
+      }
     } catch (err) {
       history.push(`/`);
     }
@@ -81,9 +91,12 @@ export default function Profile() {
         userId: user._id
       };
       const {
-        data: { userCommentResult }
+        data: { success, userCommentResult }
       } = await commentApi.deleteCommentProfile(commentInfo);
-      setComment(userCommentResult);
+      if (success) setComment(userCommentResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }

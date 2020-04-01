@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
@@ -55,6 +55,7 @@ export default function BookDetail({
   const [arrDifficulty, setArrDifficulty] = useState([0, 0, 0]);
   const [statisticLocation, setStatisticLocation] = useState(0);
 
+  const history = useHistory();
   const isTokenExist = AuthApi.getToken();
 
   const googleAuth = useGoogleAuth();
@@ -111,10 +112,14 @@ export default function BookDetail({
   const getUserBooklist = async user => {
     const {
       data: {
+        success,
         booklist: { booklists }
       }
     } = await booklistApi.getBookList(user.email);
-    setBooklist(booklists);
+    if (success) setBooklist(booklists);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const getReadLogger = async (userId, bookId) => {
@@ -124,32 +129,41 @@ export default function BookDetail({
     };
 
     const {
-      data: { logResult }
+      data: { success, logResult }
     } = await userApi.getReadLogger(logData);
-    if (logResult !== null) {
-      setWish(logResult.wish);
-      setDoneReading(logResult.doneReading);
+    if (success) {
+      if (logResult !== null) {
+        setWish(logResult.wish);
+        setDoneReading(logResult.doneReading);
+      }
+      setReadLogger(logResult);
+    } else {
+      history.push(`/404`);
     }
-    setReadLogger(logResult);
   };
 
   const showBook = async user => {
     //get all info about the book.
     try {
       const {
-        data: { book: Results }
+        data: { success, book: Results }
       } = await bookApi.getBookDetail(id);
-
-      setBook(Results);
+      if (success) {
+        setBook(Results);
+      } else {
+        history.push(`/404`);
+      }
 
       /* 
-      wishNumber : 해당 책이 가지고있는 좋아요 갯수
-      readNumber : 해당 책이 읽힌 횟수 
-      maxTime : 가장 많이 선택된 읽음 소요 시간
-      maxDifficulty : 가장 많이 선택된 난이도 
-      averageTime : 시간 소요 전체 분포도 as Object Type
+        wishNumber : 해당 책이 가지고있는 좋아요 갯수
+        readNumber : 해당 책이 읽힌 횟수 
+        maxTime : 가장 많이 선택된 읽음 소요 시간
+        maxDifficulty : 가장 많이 선택된 난이도 
+        averageTime : 시간 소요 전체 분포도 as Object Type
       averageDiffculty : 난이도 전체 분포도 as Object Type
       */
+
+      //success 명을 다르게 받아야됨. 아하 그래서 success도 명칭이 백에서 다다르게 명칭해야되는구나.
       const {
         data: {
           wishNumber,
@@ -209,9 +223,12 @@ export default function BookDetail({
   const deleteComments = async commentId => {
     try {
       const {
-        data: { commentResult }
+        data: { success, commentResult }
       } = await commentApi.deleteComment(commentId, book._id);
-      setAllComment(commentResult);
+      if (success) setAllComment(commentResult);
+      else {
+        history.push(`/404`);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -219,9 +236,12 @@ export default function BookDetail({
 
   const deleteNow = async commentId => {
     const {
-      data: { commentResult }
+      data: { success, commentResult }
     } = await commentApi.deleteComment(commentId, book._id);
-    dispatch({ type: DEL, payload: commentId });
+    if (success) dispatch({ type: DEL, payload: commentId });
+    else {
+      history.push(`/404`);
+    }
   };
 
   const clickAddBook = () => {
@@ -246,12 +266,17 @@ export default function BookDetail({
 
     //Need Error Handling in the future.
     if (!doneReading) {
-      await userApi.handleWish(logData);
-      setWish(!wish);
+      const {
+        data: { success }
+      } = await userApi.handleWish(logData);
+      if (success) setWish(!wish);
+      else {
+        history.push(`/404`);
+      }
     }
   };
 
-  //하아 시바 인풋 핸들링. 꼭 따로 펑셔널하게 만든다. 시부엉 넘나 Redudunt && Inefficient
+  //하아 시바 인풋 핸들링. 꼭 따로 펑셔널하게 만든다. 시부엉 넘나 Redudunt, duplicate && Inefficient
   const handleTime = e => {
     const {
       target: { value }
@@ -283,8 +308,13 @@ export default function BookDetail({
       doneReading: !doneReading
     };
 
-    await userApi.handleRead(logData);
-    setDoneReading(!doneReading);
+    const {
+      data: { success }
+    } = await userApi.handleRead(logData);
+    if (success) setDoneReading(!doneReading);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const cancelReading = async () => {
@@ -294,8 +324,13 @@ export default function BookDetail({
       doneReading: !doneReading
     };
 
-    await userApi.handleRead(logData);
-    setDoneReading(!doneReading);
+    const {
+      data: { success }
+    } = await userApi.handleRead(logData);
+    if (success) setDoneReading(!doneReading);
+    else {
+      history.push(`/404`);
+    }
   };
 
   const getUser = async () => {

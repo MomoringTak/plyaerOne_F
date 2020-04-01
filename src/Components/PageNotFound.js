@@ -1,17 +1,20 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
-const Error = () => {
+const PageNotFound = () => {
   return (
     <Container>
       <Card>
-        <Message>Error</Message>
+        <Message>404</Message>
+        <Message>Page Not Found</Message>
+        <Link to={`/`}>홈으로</Link>
       </Card>
     </Container>
   );
 };
 
-export default Error;
+export default PageNotFound;
 
 const Container = styled.div`
   display: flex;
@@ -32,4 +35,5 @@ const Card = styled.div`
 const Message = styled.span`
   font-size: 4rem;
   font-weight: 800;
+  text-align: center;
 `;
