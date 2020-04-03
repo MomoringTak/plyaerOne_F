@@ -25,6 +25,7 @@ export const bookApi = {
   getAllBook: () => api.get(`/books/`),
   getBookDetail: id => api.get(`/books/${id}`),
   getBookWish: id => api.get(`/books/wish/user/${id}`),
+  getRecentBook: () => api.get(`books/getRecentBook`),
   getCuration: () => api.get(`/books/getCuration/`),
   getAgeRecommendation: id => api.get(`/books/getAgeRecommendation/${id}`)
 };
