@@ -63,22 +63,14 @@ const List = ({
   }, []);
   return (
     <Container>
-      <BookListHeader>
-        <Title onClick={clickEvent}>책장 제목 : {booklist.title} </Title>
+      <div>
+        <div className="shelf-title" onClick={clickEvent}><span className="main-title">{booklist.title}</span><span className="sub-title">({booklist.description})</span> </div>
         {userInfo && (
-          // <Title onClick={navigateUser}> 주인장 : {userInfo.nickname}</Title>
           <span> 주인장 : {userInfo.nickname} </span>
         )}
-        {user && (
-          <Title>
-            전체 책 # : {booklist.books.length} | 일읅 책 # :{" "}
-            {score.doneReading} | 진행률 :{score.progress}
-          </Title>
-        )}
-
         <DetailView onClick={clickEvent}>상세보기 ></DetailView>
-      </BookListHeader>
-      <Divider></Divider>
+      </div>
+      <Divider color={"#EFEFEF"} size={`2`}></Divider>
       <BookListUl>
         {booklist.books.map((item, index) => (
           <BookListLi key={index}>
@@ -96,8 +88,14 @@ const List = ({
         ))}
         {empty}
       </BookListUl>
+      <Divider color={"#EFEFEF"} size={`0.5`}></Divider>
+      {user && (
+        <div className="bottom-desc">
+          <span className="bold">{score.doneReading}</span>&nbsp;권 읽음 / 총&nbsp;<span className="bold">{booklist.books.length}</span>&nbsp;권  ({parseInt(score.progress * 1000)/10.0}%)
+        </div>
+      )}
       {booklist.userBL
-        ? user && <DeleteBtn onClick={clickDelete}>삭제</DeleteBtn>
+        ? user && <DeleteBtn onClick={clickDelete}>책장 삭제하기</DeleteBtn>
         : null}
     </Container>
   );
@@ -108,23 +106,45 @@ const Container = styled.div`
   width: 100%;
   margin-bottom: 30px;
   position: relative;
+
+  .shelf-title{
+    margin-left: 5px;
+    color: #555;
+    letter-spacing: -0.2;
+    cursor: pointer;
+    display:inline-flex;
+    line-height:20px;
+    .main-title{
+      font-size: 18px;
+      font-weight: 600;
+      margin-right:5px;
+    }
+    .sub-title{
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+
+  .bottom-desc {
+    margin-left: 5px;
+    color: #555;
+    letter-spacing: -0.2;
+    cursor: pointer;
+    display:inline-flex;
+    line-height:16px;
+    font-size:13px;
+    font-weight:400;
+    .bold{
+      font-weight: 600;
+    }
+  }
 `;
 
-const BookListHeader = styled.div``;
-
-const Title = styled.span`
-  margin-left: 5px;
-  color: #333;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0.2;
-  cursor: pointer;
-`;
 
 const DetailView = styled.span`
   float: right;
   font-size: 12px;
-  margin-top: 8px;
+  margin-top: 3px;
   margin-right: 5px;
   font-weight: 600;
   color: #777;
@@ -136,15 +156,20 @@ const DetailView = styled.span`
 const DeleteBtn = styled.button`
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  bottom: 3px;
+  color:#999;
   font-size: 12px;
+  font-weight:300;
+  &:hover{
+    color:#555;
+  }
 `;
 
 const Divider = styled.div`
-  height: 1px;
+  height: ${props => props.size}px;
   width: 100%;
-  background: #ccc;
-  margin: 8px 0 15px;
+  background: ${props => props.color};
+  margin: 5px 0 5px;
 `;
 
 const BookListUl = styled.ul`
@@ -166,7 +191,7 @@ const BookListLi = styled.li`
   margin-right: 15px;
   width: 188px;
   position: relative;
-  padding-top: 250px;
+  padding-top: 245px;
 `;
 
 const BookListEmptyLi = styled.li`
@@ -199,7 +224,7 @@ const BookListEmptyLi = styled.li`
 
 const BookImage = styled.div`
   position: absolute;
-  top: 10px;
+  top: 5px;
   left: 10px;
   width: 168px;
   height: 240px;

@@ -7,6 +7,10 @@ import { booklistApi, AuthApi } from "../api";
 
 import Table from "../Components/Table";
 import List from "../Components/List";
+import Icon from "@mdi/react";
+import {
+  mdiBookshelf
+} from "@mdi/js";
 
 const UserShelf = ({
   location: { pathname },
@@ -98,11 +102,9 @@ const UserShelf = ({
 
   return (
     <Container>
-      <h1>{user.nickname}</h1>
+      <div className="title">여기는 <span className="nick">{user.nickname}</span>님의 책장 입니다.</div>
 
-      <SLink to={`/${user.email}/addbooklist`}>
-        <AddBook>책장 생성하기</AddBook>
-      </SLink>
+      <SLink to={`/${user.email}/addbooklist`}><Icon path={mdiBookshelf} size={`15px`} color={`#c71a37`}></Icon><span>책장 생성하기</span></SLink>
       <Table>
         {booklist.length >= 1 ? (
           booklist.map(item => (
@@ -122,21 +124,44 @@ const UserShelf = ({
   );
 };
 
-const Container = styled.div``;
-
-const SLink = styled(Link)`
-  margin-top: 10px;
-  color: #4a6ee0;
+const Container = styled.div`
+  .title{
+    color: #3074B5;
+    font-size: 21px;
+    letter-spacing: -2px;
+    padding-bottom: 25px;
+    .nick {
+      font-weight:500;
+      margin-left:3px;
+      margin-right:3px;
+    }
+  }
 `;
 
-const AddBook = styled.button`
+const SLink = styled(Link)`
+  color: #c71a37;
   position: absolute;
-  padding: 5px;
-  height: 20px;
-  border: 1px solid black;
-  border-radius: 5px;
-  top: 10px;
-  left: 10px;
+  display: flex;
+  padding: 0 10px;
+  height: 27px;
+  line-height: 25px;
+  border: 0.5px solid #da3e58;
+  background:#ffdce2;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  top: 30px;
+  right: 0px;
+  svg {
+    margin:5px 3px 5px 0px;
+  }
+  &:hover{
+    path {
+      fill:#FFF!important;
+    }
+    background:#ef5d76;
+    color:#FFF;
+  }
 `;
 
 export default UserShelf;
