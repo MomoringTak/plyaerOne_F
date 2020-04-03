@@ -49,6 +49,8 @@ const Search = ({ match, location }) => {
     history.push(`/${nickname}/shelf`);
   };
 
+  const dummyFunction = () => {};
+
   useEffect(() => {
     showResult();
   }, [keyword]);
@@ -64,6 +66,7 @@ const Search = ({ match, location }) => {
               key={bookItem.isbn}
               bookItem={bookItem}
               clickBook={bookDetail}
+              recordBook={dummyFunction}
             />
           ))
         ) : (
