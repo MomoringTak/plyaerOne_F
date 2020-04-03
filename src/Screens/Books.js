@@ -1,29 +1,49 @@
 import React, { useState, useEffect } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
-
-import { bookApi } from "../api";
+import { useGoogleAuth, useIsValid } from "../Components/AuthG";
+import { bookApi, AuthApi, userApi } from "../api";
 import Book from "../Components/Book";
 import Section from "../Components/Section";
 
 export default function Home() {
   const [book, setBook] = useState([]);
 
+  const isTokenExist = AuthApi.getToken();
+
+  const googleAuth = useGoogleAuth();
+  const valid = useIsValid();
+
   //Redirecting via history neither Link or Redirect
   const history = useHistory();
 
-  const showBook = async () => {
+  const getCustomized = async authorized => {
+    try {
+      const {
+        data: { ageTopLikeBook, ageTopReadBook }
+      } = await bookApi.getAgeRecommendation(authorized._id);
+
+      console.log(ageTopLikeBook, ageTopReadBook);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const showBook = async authorized => {
     try {
       const {
         data: { books }
-      } = await bookApi.getAllBook().catch(function(err) {
-        if (err.response) {
-          if (err.response.msg !== `success`) {
-            history.push(`/`);
-          }
-        }
-      });
+      } = await bookApi.getAllBook();
       setBook(books);
+
+      const {
+        data: { wishTop, readTop, commentTop }
+      } = await bookApi.getCuration();
+
+      console.log(wishTop, readTop, commentTop);
+      if (isTokenExist !== null) {
+        getCustomized(authorized);
+      }
     } catch (e) {
       console.log(e);
     }
@@ -33,8 +53,14 @@ export default function Home() {
     history.push(`/book/${item.isbn}`);
   };
   const dummyFuntion = () => {};
+
+  const getUser = async () => {
+    const authorized = await valid(googleAuth);
+    showBook(authorized);
+  };
+
   useEffect(() => {
-    showBook();
+    getUser();
   }, []);
 
   return (

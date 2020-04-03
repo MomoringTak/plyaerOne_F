@@ -31,6 +31,7 @@ export default function Home() {
       const {
         data: { success, books }
       } = await bookApi.getAllBook();
+
       if (success) setBook(books);
       else {
         history.push(`/404`);
@@ -58,6 +59,7 @@ export default function Home() {
     }
   };
   const dummyFuntion = () => {};
+
   useEffect(() => {
     showAllBooklist();
     showBook();
@@ -70,22 +72,22 @@ export default function Home() {
       </Helmet>
       <Section title="새로 등록된 책">
         <MobileList>
-        {book ? (
-          book.map((bookItem, index) => {
-            return (
-              index < 8 && (
-                <Book
-                  key={bookItem.isbn}
-                  bookItem={bookItem}
-                  clickBook={bookDetail}
-                  recordBook={dummyFuntion}
-                />
-              )
-            );
-          })
-        ) : (
-          <h1>표시 할 책이 없습니다.</h1>
-        )}
+          {book ? (
+            book.map((bookItem, index) => {
+              return (
+                index < 8 && (
+                  <Book
+                    key={bookItem.isbn}
+                    bookItem={bookItem}
+                    clickBook={bookDetail}
+                    recordBook={dummyFuntion}
+                  />
+                )
+              );
+            })
+          ) : (
+            <h1>표시 할 책이 없습니다.</h1>
+          )}
         </MobileList>
       </Section>
       <Section title="많은 사람이 읽은 책">

@@ -24,7 +24,9 @@ export const bookApi = {
   addBook: book => api.post(`/books/upload`, book),
   getAllBook: () => api.get(`/books/`),
   getBookDetail: id => api.get(`/books/${id}`),
-  getBookWish: id => api.get(`/books/wish/user/${id}`)
+  getBookWish: id => api.get(`/books/wish/user/${id}`),
+  getCuration: () => api.get(`/books/getCuration/`),
+  getAgeRecommendation: id => api.get(`/books/getAgeRecommendation/${id}`)
 };
 
 //User API
