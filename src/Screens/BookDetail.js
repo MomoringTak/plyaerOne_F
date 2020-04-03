@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useReducer } from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from "uuid";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 import { bookApi, booklistApi, commentApi, AuthApi, userApi } from "../api";
 
 import reducer, { initialState, ADD, DEL } from "../Components/Reducer/reducer";
 import Comment from "../Components/Comment";
 
-import Modal from "../Components/Modal";
 import useWindowSize from "../Components/WindowSize";
 
 import { Divider } from "../Components/Style/Common";
