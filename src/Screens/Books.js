@@ -62,7 +62,7 @@ export default function Home() {
 
   return (
     <Container>
-      <Section>
+      <Section title="등록 된 책">
         {book ? (
           book.map(bookItem => (
             <Book
