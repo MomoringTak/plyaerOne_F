@@ -140,12 +140,12 @@ export default withRouter(({ location: { pathname } }) => {
                 onMouseLeave={leaveSubMenu}
               >
                 <SubMenuLi>
-                  <SubLink to={`/addbook`}>
+                  <SubLink to={`/`}>
                     <span className="txt">오늘의 책</span>
                   </SubLink>
                 </SubMenuLi>
                 <SubMenuLi>
-                  <SSubLink to={`/`}>
+                  <SSubLink to={`/books`}>
                     <span className="txt">새로운 책</span>
                   </SSubLink>
                 </SubMenuLi>
@@ -163,7 +163,7 @@ export default withRouter(({ location: { pathname } }) => {
                 </SubMenuLi>
                 <SubMenuLi>
                   <SubLink to={`/shelf`}>
-                    <span className="txt">테마가 있는 책장</span>
+                    <span className="txt">오늘의 책장</span>
                   </SubLink>
                 </SubMenuLi>
                 {/* <SubMenuLi>
@@ -194,9 +194,9 @@ export default withRouter(({ location: { pathname } }) => {
                       </SSubLink>
                     </SubMenuLi>
                     <SubMenuLi>
-                      <SSubLink to={`/${user.email}/profile`}>
-                        <span className="txt">프로필</span>
-                      </SSubLink>
+                      <SubLink to={`/${user.email}/profile`}>
+                        <span className="txt">마이 페이지</span>
+                      </SubLink>
                     </SubMenuLi>
                   </>
                 ) : null}
