@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import styled from "styled-components";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
-import { bookApi, AuthApi, userApi } from "../api";
+import { bookApi, AuthApi } from "../api";
 import Book from "../Components/Book";
 import Section from "../Components/Section";
 
@@ -22,8 +22,6 @@ export default function Home() {
       const {
         data: { ageTopLikeBook, ageTopReadBook }
       } = await bookApi.getAgeRecommendation(authorized._id);
-
-      console.log(ageTopLikeBook, ageTopReadBook);
     } catch (err) {
       console.log(err);
     }
@@ -40,7 +38,6 @@ export default function Home() {
         data: { wishTop, readTop, commentTop }
       } = await bookApi.getCuration();
 
-      console.log(wishTop, readTop, commentTop);
       if (isTokenExist !== null) {
         getCustomized(authorized);
       }

@@ -45,8 +45,12 @@ const BooklistDetail = ({
 
   return (
     <Container>
-      <h1>제목 : {booklist.title}</h1>
-      <h1>설명 : {booklist.description}</h1>
+      <div className="shelf-title">
+        <span className="main-title">{booklist.title}</span>
+      </div>
+      <Section></Section>
+      <Item className="description"></Item>
+      <Item className="description">{booklist.description}</Item>
       <Section>
         {book ? (
           book.map(bookItem => (
@@ -65,6 +69,59 @@ const BooklistDetail = ({
   );
 };
 
-const Container = styled.div``;
+const Container = styled.div`
+  .title {
+    color: #3074b5;
+    font-size: 21px;
+    letter-spacing: -2px;
+    padding-bottom: 25px;
+  }
+
+  .shelf-title {
+    color: #555;
+    letter-spacing: -0.2;
+    display: inline-flex;
+    line-height: 20px;
+    .main-title {
+      font-size: 2rem;
+      font-weight: 600;
+      margin-right: 5px;
+    }
+    .sub-title {
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
+`;
+
+const Item = styled.div`
+  margin-bottom: 10px;
+  color: #333;
+  position: relative;
+
+
+  @media only screen and (max-width: 767px) {
+    h1 {
+      font-size: 22px;
+    }
+    &.description {
+      color: #555;
+      font-weight: 300;
+      line-height: 20px;
+      margin-bottom: 30px;
+    }
+    
+
+  @media only screen and (min-width: 768px) {
+    &.description {
+      color: #555;
+      font-weight: 300;
+      line-height: 20px;
+      padding-right: 30px;
+      margin-bottom: 30px;
+    }
+   
+  }
+`;
 
 export default BooklistDetail;
