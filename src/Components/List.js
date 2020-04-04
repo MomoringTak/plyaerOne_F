@@ -64,10 +64,12 @@ const List = ({
   return (
     <Container>
       <div>
-        <div className="shelf-title" onClick={clickEvent}><span className="main-title">{booklist.title}</span><span className="sub-title">({booklist.description})</span> </div>
-        {userInfo && (
-          <span> 주인장 : {userInfo.nickname} </span>
-        )}
+        <div className="shelf-title" onClick={clickEvent}>
+          <span className="main-title">{booklist.title}</span>
+          {userInfo && (
+            <span className="sub-title"> 주인장 : {userInfo.nickname} </span>
+          )}
+        </div>
         <DetailView onClick={clickEvent}>상세보기 ></DetailView>
       </div>
       <Divider color={"#EFEFEF"} size={`2`}></Divider>
@@ -91,7 +93,9 @@ const List = ({
       <Divider color={"#EFEFEF"} size={`0.5`}></Divider>
       {user && (
         <div className="bottom-desc">
-          <span className="bold">{score.doneReading}</span>&nbsp;권 읽음 / 총&nbsp;<span className="bold">{booklist.books.length}</span>&nbsp;권  ({parseInt(score.progress * 1000)/10.0}%)
+          <span className="bold">{score.doneReading}</span>&nbsp;권 읽음 /
+          총&nbsp;<span className="bold">{booklist.books.length}</span>&nbsp;권
+          ({parseInt(score.progress * 1000) / 10.0}%)
         </div>
       )}
       {booklist.userBL
@@ -107,19 +111,19 @@ const Container = styled.div`
   margin-bottom: 30px;
   position: relative;
 
-  .shelf-title{
+  .shelf-title {
     margin-left: 5px;
     color: #555;
     letter-spacing: -0.2;
     cursor: pointer;
-    display:inline-flex;
-    line-height:20px;
-    .main-title{
+    display: inline-flex;
+    line-height: 20px;
+    .main-title {
       font-size: 18px;
       font-weight: 600;
-      margin-right:5px;
+      margin-right: 5px;
     }
-    .sub-title{
+    .sub-title {
       font-size: 16px;
       font-weight: 400;
     }
@@ -130,16 +134,15 @@ const Container = styled.div`
     color: #555;
     letter-spacing: -0.2;
     cursor: pointer;
-    display:inline-flex;
-    line-height:16px;
-    font-size:13px;
-    font-weight:400;
-    .bold{
+    display: inline-flex;
+    line-height: 16px;
+    font-size: 13px;
+    font-weight: 400;
+    .bold {
       font-weight: 600;
     }
   }
 `;
-
 
 const DetailView = styled.span`
   float: right;
@@ -157,11 +160,11 @@ const DeleteBtn = styled.button`
   position: absolute;
   right: 0px;
   bottom: 3px;
-  color:#999;
+  color: #999;
   font-size: 12px;
-  font-weight:300;
-  &:hover{
-    color:#555;
+  font-weight: 300;
+  &:hover {
+    color: #555;
   }
 `;
 
