@@ -10,6 +10,9 @@ import { userApi, AuthApi, commentApi } from "../api";
 
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
 
+import Icon from "@mdi/react";
+import { mdiBookshelf } from "@mdi/js";
+
 export default function Profile({
   location: { pathname },
   match: {
@@ -137,9 +140,7 @@ export default function Profile({
       <Helmet>
         <title>My Page | WTB</title>
       </Helmet>
-      <LogOutLink to="#" onClick={LogOut}>
-        로그아웃
-      </LogOutLink>
+
       <TabSection>
         <Tab
           onClick={() => {
@@ -197,7 +198,10 @@ const Info = ({ user, LogOut }) => {
         <Spacer />
         <h3>{user.email}</h3>
         <Spacer />
-
+        <ShelfLink to={`/${user.nickname}/shelf`}>
+          <Icon path={mdiBookshelf} size={`15px`} color={`#c71a37`}></Icon>
+          <span>나의 책장</span>
+        </ShelfLink>
         <LogOutLink to="#" onClick={LogOut}>
           로그아웃
         </LogOutLink>
@@ -223,7 +227,7 @@ const Comments = ({ comment, deleteComments }) => {
           />
         ))
       ) : (
-        <h1>작성 된 댓글이 없습니다.</h1>
+        <span>작성 된 댓글이 없습니다.</span>
       )}
     </Section>
   );
@@ -245,7 +249,7 @@ const Like = ({ wishList, bookDetail, dummyFunction, wishCount }) => {
           />
         ))
       ) : (
-        <h1>좋아요 한 책이 없습니다.</h1>
+        <span>좋아요 한 책이 없습니다.</span>
       )}
     </Section>
   );
@@ -266,7 +270,7 @@ const Read = ({ readList, bookDetail, dummyFunction, readCount }) => {
           />
         ))
       ) : (
-        <h1>읽은 책이 없습니다.</h1>
+        <span>읽은 책이 없습니다.</span>
       )}
     </Section>
   );
@@ -312,4 +316,34 @@ const Tab = styled.li`
 
 const UserContainer = styled.div`
   margin-top: 20px;
+`;
+
+const ShelfLink = styled(Link)`
+  display: none;
+  @media only screen and (max-width: 767px) {
+    position: absolute;
+    color: #c71a37;
+    display: flex;
+    padding: 0 10px;
+    width: 100px;
+    height: 27px;
+    line-height: 25px;
+    border: 0.5px solid #da3e58;
+    background: inherit;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    top: 45px;
+    right: 0;
+    svg {
+      margin: 5px 3px 5px 0px;
+    }
+    &:hover {
+      path {
+        fill: #fff !important;
+      }
+      background: #ef5d76;
+      color: #fff;
+    }
+  }
 `;

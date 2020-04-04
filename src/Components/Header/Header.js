@@ -117,19 +117,19 @@ export default withRouter(({ location: { pathname } }) => {
                 </SLink>
               </Item>
               <Item>
-                <SLink to="/books">
+                <SLink to="/">
                   <span className="txt">오늘의 책</span>
                 </SLink>
               </Item>
               <Item>
-                <SLink to="/">
-                  <span className="txt">테마가 있는 책장</span>
+                <SLink to="/shelf">
+                  <span className="txt">오늘의 책장</span>
                 </SLink>
               </Item>
               {isTokenExist !== null && (
                 <Item>
                   <SLink to={`/${user.nickname}/shelf`}>
-                    <span className="txt">나의책장</span>
+                    <span className="txt">나의 책장</span>
                   </SLink>
                 </Item>
               )}
