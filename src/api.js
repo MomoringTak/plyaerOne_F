@@ -3,15 +3,15 @@ import axios from "axios";
 //baseURL : HEROKU - PRODUCTION
 //QA끝나시면 로컬 baseURL 커멘트 처리하시고 아래 커멘트 푸시면 됩니다... ㅎㅎㅎ
 //production development 동시에 처리하는 방법 알아보다가.. 실패....
-// const api = axios.create({
-//   baseURL: "https://floating-earth-10094.herokuapp.com/"
-// });
+const api = axios.create({
+  baseURL: "https://floating-earth-10094.herokuapp.com/"
+});
 
 //baseURL : Local - DEVELOPMENT
 //dev 모드일떄는 여기 주석 푸시고.... prod 할떄는 주석 ㄱㄱ
-const api = axios.create({
-  baseURL: "http://localhost:8008"
-});
+// const api = axios.create({
+//   baseURL: "http://localhost:8008"
+// });
 export const searchApi = {
   searchBook: keyword => api.get(`search/?keyword=${keyword}`)
 };
