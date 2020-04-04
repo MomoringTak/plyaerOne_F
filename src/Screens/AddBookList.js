@@ -5,6 +5,8 @@ import { Link, useHistory } from "react-router-dom";
 
 import { bookApi, booklistApi } from "../api";
 import { useGoogleAuth, useIsValid } from "../Components/AuthG";
+import InputText from "../Components/Style/InputText";
+import { Box, Form, SignButton } from "../Components/Style/Sign";
 
 import Loader from "../Components/Loader";
 import Section from "../Components/Section";
@@ -131,21 +133,23 @@ const AddBookList = () => {
         <title>ADD BOOKLIST | WTB</title>
       </Helmet>
       {next ? (
-        <Form onSubmit={handleBooklistInfo}>
-          <Template>
-            <Input
-              placeholder="생성 할 북리스트 이름을 작성해주세요."
-              value={title}
-              onChange={updateTitle}
-            />
-            <Input
-              placeholder="생성 할 북리스트의 설명을 작성해주세요."
-              value={description}
-              onChange={updateDescription}
-            />
-            <NextBtn type="submit">Next </NextBtn>
-          </Template>
-        </Form>
+        <Box>
+          <Form onSubmit={handleBooklistInfo}>
+            <Template>
+              <InputText
+                placeholder="생성 할 북리스트 이름을 작성해주세요."
+                value={title}
+                onChange={updateTitle}
+              />
+              <CommentSection
+                placeholder="생성 할 북리스트의 설명을 작성해주세요."
+                value={description}
+                onChange={updateDescription}
+              />
+              <SignButton type="submit">Next </SignButton>
+            </Template>
+          </Form>
+        </Box>
       ) : (
         <>
           <AddBookForm
@@ -153,7 +157,7 @@ const AddBookList = () => {
             value={term}
             onChange={updateTerm}
           >
-            <Search placeholder="책장에 추가할 책을 검색 해주세요." />
+            <Search placeholder="등록된 책을 검색 해주세요." />
           </AddBookForm>
           {loading ? (
             <Loader />
@@ -161,14 +165,14 @@ const AddBookList = () => {
             <>
               {bookCollection.length > 0 ? (
                 <>
-                  <BookNum>북 리스트에 추가 할 책 갯수 : {clickedBook}</BookNum>
+                  <BookNum>선택한 책 # : {clickedBook}</BookNum>
                   <Add onClick={() => pickBook(bookCollection)}>
                     책장 선정 완료
                   </Add>
                 </>
               ) : null}
               {book && book.length > 0 && (
-                <Section title="Book Results">
+                <Section title="책 검색이 완료되었습니다">
                   {book.map(bookItem => (
                     <Book
                       key={bookItem.isbn}
@@ -189,14 +193,6 @@ const AddBookList = () => {
 };
 
 const Container = styled.div``;
-
-const Form = styled.form`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const AddBookForm = styled.form`
   margin-bottom: 50px;
@@ -231,17 +227,28 @@ const Search = styled.input`
 `;
 
 const BookNum = styled.span`
-  font-size: 1rem;
-  left: 100px;
+  display: block;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  > span {
+    font-weight: 400;
+  }
 `;
 
 const Add = styled.button`
-  height: 50px;
-  border: 1px solid blue;
+  padding: 8px 20px;
   text-align: center;
-  font-size: 1rem;
-  margin-left: 50px;
-  padding: 10px;
+  color: #fff;
+  float: right;
+  font-size: 13px;
+  font-weight: 600;
+  background: #da3e58;
+  margin-top: -20px;
+  &:hover {
+    opacity: 0.8;
+  }
+  border-radius: 15px;
 `;
 
 const SLink = styled(Link)`
@@ -265,4 +272,12 @@ const NextBtn = styled.button`
   margin-top: 20px;
 `;
 
+const CommentSection = styled.textarea`
+  margin-top: 10px;
+  display: block;
+  padding: 10px;
+  width: 100%;
+  border: 1px solid #ddd;
+  height: 100px;
+`;
 export default AddBookList;

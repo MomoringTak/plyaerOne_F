@@ -571,7 +571,7 @@ export default function BookDetail({
                   location={statisticLocation}
                   className={statisticLocation === 0 ? `` : `hidden`}
                 >
-                  <div className="title">이 책을 읽은 사람의 소요 시간</div>
+                  <div className="title">이 책을 읽는데 걸린 시간은?</div>
                   <Divider className="sub" />
                   <ul>
                     <li>
@@ -603,7 +603,9 @@ export default function BookDetail({
                   location={statisticLocation}
                   className={statisticLocation === 0 ? `hidden` : ``}
                 >
-                  <div className="title">이 책을 읽은 사람이 느끼는 난이도</div>
+                  <div className="title">
+                    이 책을 읽기 쉬웠나요? 어려웠나요?
+                  </div>
                   <Divider className="sub" />
                   <ul>
                     <li>

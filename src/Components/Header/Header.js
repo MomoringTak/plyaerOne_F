@@ -146,7 +146,7 @@ export default withRouter(({ location: { pathname } }) => {
                 </SubMenuLi>
                 <SubMenuLi>
                   <SSubLink to={`/books`}>
-                    <span className="txt">새로운 책</span>
+                    <span className="txt">등록된 책</span>
                   </SSubLink>
                 </SubMenuLi>
                 {/* <SubMenuLi>

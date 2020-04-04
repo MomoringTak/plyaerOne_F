@@ -18,7 +18,7 @@ export default function AddBook() {
 
   const [user, setUser] = useState({});
   const [placeholder, setPlaceholder] = useState(
-    "읽었던 책 제목을 입력 해주세요"
+    "정말 읽었었던 책 제목을 입력 해주세요"
   );
 
   const history = useHistory();
@@ -97,9 +97,7 @@ export default function AddBook() {
       reset();
       setTerm("");
       setFinalBook(0);
-      setPlaceholder(
-        "책 추가가 완료 되었습니다. 추가 희망 시 다시 검색해주세요."
-      );
+      setPlaceholder("추가 희망 시 다시 검색해주세요.");
     } else {
       history.push(`/404`);
     }
@@ -147,7 +145,7 @@ export default function AddBook() {
         <>
           {finalBook > 0 ? (
             <>
-              <BookNum>추가 할 책 갯수 : {finalBook}</BookNum>
+              <BookNum>선택한 책 # : {finalBook}</BookNum>
               <Add
                 onClick={() => {
                   pickBook(user);
@@ -158,7 +156,7 @@ export default function AddBook() {
             </>
           ) : null}
           {book && book.length > 0 && (
-            <Section title="Book Results">
+            <Section title="책 검색이 완료되었습니다">
               {book.map(bookItem => (
                 <Book
                   key={bookItem.isbn}
@@ -194,15 +192,26 @@ const Input = styled.input`
 `;
 
 const BookNum = styled.span`
-  font-size: 1rem;
-  left: 100px;
+  display: block;
+  color: #333;
+  font-size: 14px;
+  font-weight: 600;
+  > span {
+    font-weight: 400;
+  }
 `;
 
 const Add = styled.button`
-  width: 100px;
-  height: 50px;
-  border: 1px solid blue;
+  padding: 8px 20px;
   text-align: center;
-  font-size: 1rem;
-  margin-left: 50px;
+  color: #fff;
+  float: right;
+  font-size: 13px;
+  font-weight: 600;
+  background: #da3e58;
+  margin-top: -20px;
+  &:hover {
+    opacity: 0.8;
+  }
+  border-radius: 15px;
 `;
